@@ -1,0 +1,32 @@
+:root {
+
+}
+@media (min-width: 778px) {
+    .home{
+        display: flex;
+        justify-content: center; /* Alinea horizontalmente */
+        align-items: center;    /* Alinea verticalmente */
+        height: 40vh;
+    }
+
+    .ejido{
+        font-size: 85px;
+        text-align: center;
+    }
+
+    .comisario{
+        font-size: 60px;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .transicion{
+        font-size: 60px;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .caballos{
+        height: 60vh!important;
+    }
+}
