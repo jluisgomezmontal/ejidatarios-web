@@ -10,9 +10,9 @@ import Col from 'react-bootstrap/Col';
 function NavbarComponent() {
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" className="bg-primary" variant="dark">
+            <Navbar collapseOnSelect expand="lg" className="bg-dark border-bottom border-info" variant="dark">
                 <Container>
-                    <Link to={`/`}>
+                    <Link className={"text-decoration-none"} to={`/`}>
                         <Navbar.Brand>Ejido de San Marcos</Navbar.Brand>
                     </Link>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
@@ -20,10 +20,10 @@ function NavbarComponent() {
                         <Nav className="me-auto">
                         </Nav>
                         <Nav>
-                            <Link to={`ejidatarios`}>
+                            <Link className={"text-decoration-none"} to={`ejidatarios`}>
                                 <Nav.Link href="#deets">Ejidatarios</Nav.Link>
                             </Link>
-                            <Link to={`ejidos`}>
+                            <Link className={"text-decoration-none mx-3"} to={`ejidos`}>
                                 <Nav.Link href="#deets">Ejido</Nav.Link>
                             </Link>
                             <Form inline="true">

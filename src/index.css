@@ -1,6 +1,11 @@
 :root {
 
 }
+
+*{
+    background-color: #212529;
+    color: white;
+}
 @media (min-width: 778px) {
     .home{
         display: flex;
