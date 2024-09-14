@@ -8,12 +8,13 @@ import {useState} from "react";
 import {ejidatariosEjemplo} from "../mocks.js";
 
 export const Ejidatarios = () => {
+
     const initialForm = {
+        calidadAgraria: '',
         iD_Ejidatario: '',
         nombre: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
-        calidadAgraria: 'Avecindado',
         domicilio: '',
         telefono: '',
         curp: '',
@@ -29,69 +30,82 @@ export const Ejidatarios = () => {
         console.log(ejidatarios)
         reset();
     }
-
     return (
         <div>
-            <h3>Agregar Ejidatario</h3>
+            <h3>Agregar Sujeto</h3>
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5">
-                    <Row>
+                    <Col md={"6"} className="">
+                        <Form.Label>Calidad Agraria:</Form.Label>
+                        <Form.Group className="mb-3">
+                            <Form.Select value={formValues.calidadAgraria} onChange={handleInputChange} name="calidadAgraria" >
+                                <option>Seleccione una opcion</option>
+                                <option>Avecindado</option>
+                                <option>Posicionario</option>
+                                <option>Ejidatario</option>
+                                <option>No Aplica</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                </Form.Group>
+                {
+                    formValues.calidadAgraria !== "" &&
+                <Form.Group as={Row} className="my-5">
                         <Col>
-                            <Form.Label>ID Ejidatario</Form.Label>
-                            <Form.Control placeholder="ID Ejidatario" value={formValues.iD_Ejidatario} onChange={handleInputChange} name="iD_Ejidatario" />
+                            <Form.Label>{formValues.calidadAgraria === 'No Aplica'? 'ID Sujeto:' : 'ID Ejidatario:'}</Form.Label>
+                            <Form.Control placeholder={formValues.calidadAgraria === 'No Aplica'? 'ID Sujeto' : 'ID Ejidatario'} value={formValues.iD_Ejidatario} onChange={handleInputChange} name="iD_Ejidatario" />
                         </Col>
                         <Col>
-                            <Form.Label>Nombre</Form.Label>
+                            <Form.Label>Nombre:</Form.Label>
                             <Form.Control placeholder="Nombre" value={formValues.nombre} onChange={handleInputChange} name="nombre" />
                         </Col>
-                    </Row>
                 </Form.Group>
+                }
+                {
+                    formValues.nombre !== "" &&
                 <Form.Group as={Row} className="my-5">
-                    <Row>
                         <Col>
-                            <Form.Label>Apellido Paterno</Form.Label>
+                            <Form.Label>Apellido Paterno:</Form.Label>
                             <Form.Control placeholder="Apellido Paterno" value={formValues.apellidoPaterno} onChange={handleInputChange} name="apellidoPaterno"/>
                         </Col>
                         <Col>
-                            <Form.Label>Apellido Materno</Form.Label>
+                            <Form.Label>Apellido Materno:</Form.Label>
                             <Form.Control placeholder="Apellido Materno" value={formValues.apellidoMaterno} onChange={handleInputChange} name={"apellidoMaterno"} />
                         </Col>
-                    </Row>
                 </Form.Group>
+                }
+                {
+                    formValues.apellidoMaterno !== "" &&
                 <Form.Group as={Row} className="my-5">
-
-                    <Row>
                         <Col>
-                            <Form.Label>Domicilio</Form.Label>
+                            <Form.Label>Domicilio:</Form.Label>
                             <Form.Control placeholder="Domicilio" value={formValues.domicilio} onChange={handleInputChange} name="domicilio" />
                         </Col>
                         <Col>
-                            <Form.Label>Telefono</Form.Label>
+                            <Form.Label>Telefono:</Form.Label>
                             <Form.Control placeholder="Telefono" value={formValues.telefono} onChange={handleInputChange} name="telefono" />
                         </Col>
-                    </Row>
                 </Form.Group>
+                }
+                {
+                    formValues.telefono !== "" &&
                 <Form.Group as={Row} className="my-5">
-                        <Col>
-                            <Form.Label>CURP</Form.Label>
-                            <Form.Control placeholder="CURP" value={formValues.curp} onChange={handleInputChange} name="curp" />
-                            <Link className="" to={`https://www.gob.mx/curp/`} target={"_blank"}>
-                                Obtener CURP
-                            </Link>
-                        </Col>
-                        <Col className="">
-                            <Form.Label>Calidad Agraria</Form.Label>
-                            <Form.Group className="mb-3">
-                                <Form.Select value={formValues.calidadAgraria} onChange={handleInputChange} name="calidadAgraria" >
-                                    <option>Avecindado</option>
-                                    <option>Posicionario</option>
-                                    <option>Ejidatario</option>
-                                    <option>No Aplica</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
+                    <Col >
+                        <Form.Label>CURP:</Form.Label>
+                        <Form.Control placeholder="CURP" value={formValues.curp} onChange={handleInputChange} name="curp" />
+                        <Link  to={`https://www.gob.mx/curp/`} target={"_blank"}>
+                            Obtener CURP
+                        </Link >
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Foto INE</Form.Label>
+                            <Form.Control type="file" />
+                        </Form.Group>
+                    </Col>
                 </Form.Group>
+                }
                 <Button type="submit">Guardar</Button>
             </Form>
         </div>

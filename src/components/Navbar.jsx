@@ -2,12 +2,13 @@ import { Outlet, Link  } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import {setLoggedOut} from "../redux/loginSlice.js";
+import {useDispatch} from "react-redux";
 
 function NavbarComponent() {
+    const dispatch = useDispatch()
+
     return (
         <>
             <Navbar collapseOnSelect expand="lg" className="bg-dark border-bottom border-info" variant="dark">
@@ -20,26 +21,16 @@ function NavbarComponent() {
                         <Nav className="me-auto">
                         </Nav>
                         <Nav>
-                            <Link className={"text-decoration-none"} to={`ejidatarios`}>
-                                <Nav.Link href="#deets">Ejidatarios</Nav.Link>
+                            <Link className={"text-decoration-none me-3"} to={`sujeto`}>
+                                <Nav.Link href="#deets">Sujetos</Nav.Link>
                             </Link>
-                            <Link className={"text-decoration-none mx-3"} to={`ejidos`}>
-                                <Nav.Link href="#deets">Ejido</Nav.Link>
+                            <Link className={"text-decoration-none me-3"} to={`parcela`}>
+                                <Nav.Link href="#deets">Parcela</Nav.Link>
                             </Link>
-                            <Form inline="true">
-                                <Row>
-                                    <Col xs="auto">
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Celular"
-                                            className=" mr-sm-2"
-                                        />
-                                    </Col>
-                                    <Col xs="auto">
-                                        <Button variant="outline-light" type="submit">Buscar</Button>
-                                    </Col>
-                                </Row>
-                            </Form>
+                            <Link className={"text-decoration-none me-5 p-0"} to={`buscar`}>
+                                <Nav.Link href="#deets">Buscar</Nav.Link>
+                            </Link>
+                            <Button variant="outline-danger" className="px-4" onClick={()=> dispatch(setLoggedOut())}>Salir</Button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

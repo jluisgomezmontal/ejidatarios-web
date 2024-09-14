@@ -11,12 +11,21 @@ import ErrorPage from "./components/ErrorPäge.jsx";
 import {Home} from "./components/Home.jsx";
 import {Ejidatarios} from "./routes/Ejidatarios.jsx";
 import {Ejidos} from "./routes/Ejidos.jsx";
+import { store } from './redux/store.js'
+import {Provider} from 'react-redux'
+import Login from "./routes/Login.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import {Buscar} from "./routes/Buscar.jsx";
 
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>,
+        element: (
+            <PrivateRoute>
+                <App />
+            </PrivateRoute>
+        ),
         errorElement: <ErrorPage />,
         children: [
             {
@@ -24,16 +33,29 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "ejidatarios",
-                element: <Ejidatarios />,
+                path: "sujeto",
+                element: <Ejidatarios />
             },
             {
-                path: "ejidos",
+                path: "parcela",
                 element: <Ejidos />,
             },
+            {
+                path: "buscar",
+                element: <Buscar />,
+            },
+
         ],
-    }
+    },
+    {
+        path: "login",
+        element: <Login />,
+    },
 ]);
 
 
-createRoot(document.getElementById('root')).render(<RouterProvider router={router} />)
+createRoot(document.getElementById('root')).render(
+    <Provider store={store}>
+        <RouterProvider router={router}/>
+    </Provider>
+)

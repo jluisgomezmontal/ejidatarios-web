@@ -33,45 +33,26 @@ export const Ejidos = () => {
             <h3>Agregar Ejido</h3>
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5">
-                        <Col md={"4"}>
-                            <Form.Label>ID Ejidatario</Form.Label>
-                            <Form.Control
-                                placeholder="ID Ejidatario"
+                    <Col md={"6"} >
+                        <Form.Group>
+                            <Form.Label>Certificado</Form.Label>
+                            <Form.Select
                                 onChange={handleInputChange}
-                                name="iD_Ejidatario"
-                                value={formValues.iD_Ejidatario}
-                            />
-                        </Col>
-                        <Col md={"2"} className="mt-4">
-                            <Form.Label onClick={handleIdentificar} className="btn btn-primary mt-2">Identificar</Form.Label>
-                        </Col>
-                    <Col md={"4"} className="mt-4">
-                        <Form.Group >
-                            <p className="mt-2 fs-4">{nombre === undefined ? "" : "Ejidatario: "+ nombre}</p>
+                                name="tipoCertificado"
+                                value={formValues.tipoCertificado}
+                            >
+                                <option>Parcelario</option>
+                                <option>Uso comun</option>
+                                <option>Posecionario</option>
+                            </Form.Select>
                         </Form.Group>
                     </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="my-5">
-                        <Col md={"4"} className="d-flex justify-content-between ">
-                            <Form.Group className="mb-3">
-                                <Form.Label>Certificado</Form.Label>
-                                <Form.Select
-                                    onChange={handleInputChange}
-                                    name="tipoCertificado"
-                                    value={formValues.tipoCertificado}
-                                >
-                                    <option>Parcelario</option>
-                                    <option>Uso comun</option>
-                                    <option>Posecionario</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
                     {
                         formValues.tipoCertificado !== "Uso comun" &&
-                        <Col md={"4"}>
-                            <Form.Label>Numero de Parcel</Form.Label>
+                        <Col md={"6"}>
+                            <Form.Label>Numero de {formValues.tipoCertificado === "Parcelario"? "Parcela" : "Folio"}</Form.Label>
                             <Form.Control
-                                placeholder="Numero de parcel"
+                                placeholder="Introdusca Numero"
                                 onChange={handleInputChange}
                                 name="noParcel"
                                 value={formValues.noParcel}
@@ -79,6 +60,26 @@ export const Ejidos = () => {
                         </Col>
                     }
                 </Form.Group>
+                <Form.Group as={Row} className="my-5">
+                    <Col md={"4"}>
+                        <Form.Label>ID Sujeto</Form.Label>
+                        <Form.Control
+                            placeholder="ID Ejidatario"
+                            onChange={handleInputChange}
+                            name="iD_Ejidatario"
+                            value={formValues.iD_Ejidatario}
+                        />
+                    </Col>
+                    <Col md={"2"} className="mt-4">
+                        <Form.Label onClick={handleIdentificar} className="btn btn-primary mt-2">Identificar</Form.Label>
+                    </Col>
+                    <Col md={"4"} className="mt-4">
+                        <Form.Group >
+                            <p className="mt-2 fs-4">{nombre === undefined ? "" : "Ejidatario: "+ nombre}</p>
+                        </Form.Group>
+                    </Col>
+                </Form.Group>
+
                 <Form.Group as={Row} className="my-5">
                     <Col md={"4"}>
                         <Form.Label>Numero de Certificado</Form.Label>
@@ -89,7 +90,7 @@ export const Ejidos = () => {
                             value={formValues.noCertificado}
                         />
                     </Col>
-                        <Col className="">
+                        <Col md={"4"} className="">
                             <Form.Group controlId="formFileMultiple" className="mb-3">
                                 <Form.Label>Fotos</Form.Label>
                                 <Form.Control type="file" multiple />
