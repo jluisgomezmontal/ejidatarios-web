@@ -4,10 +4,10 @@ import comisaria from '../assets/comisaria.jpg'
 export const Home = () => {
     return (
         <div className="home row mi_dark">
-            <h2 className="ejido" >Ejido de San Marcos Guerrero</h2>
-            <h3 className="comisario" >Comisariado Ejidal: Mario Vazquez Agaton</h3>
+            <h3 className="ejido" >Ejido de San Marcos Guerrero</h3>
+            <h4 className="comisario" >Comisariado Ejidal: Mario Vazquez Agaton</h4>
             <h4 className="transicion" >2024-2027</h4>
-            <Image className="caballos" src={comisaria} fluid />;
+            <Image className="caballos" src={comisaria} fluid />
         </div>
     )
 }

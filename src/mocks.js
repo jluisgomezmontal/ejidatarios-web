@@ -1,10 +1,10 @@
 export const ejidatariosEjemplo = [
     {
         iD_Ejidatario: '001',
+        calidadAgraria: 'Ejidatario',
         nombre: 'Juan',
         apellidoPaterno: 'Pérez',
         apellidoMaterno: 'López',
-        calidadAgraria: 'Ejidatario',
         domicilio: 'Calle 123, Ciudad, Estado',
         telefono: '5551234',
         curp: 'JPL123456HMCLRT01'
@@ -192,7 +192,7 @@ export const Usuarios = [
         telefono: '7444215691',
         contraseña: 'IBQ13320058',
         nombre: 'Stephanie',
-        apellido: 'Vazquez',
+        apellido: 'Vazquez Galeana',
 
     }
 ];

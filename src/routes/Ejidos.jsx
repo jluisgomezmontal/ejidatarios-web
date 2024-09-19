@@ -30,7 +30,7 @@ export const Ejidos = () => {
     };
     return (
         <div>
-            <h3>Agregar Ejido</h3>
+            <h3>Agregar Parcela</h3>
             <Form onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5">
                     <Col md={"6"} >
@@ -41,9 +41,10 @@ export const Ejidos = () => {
                                 name="tipoCertificado"
                                 value={formValues.tipoCertificado}
                             >
-                                <option>Parcelario</option>
-                                <option>Uso comun</option>
-                                <option>Posecionario</option>
+                                <option value={""}>Seleccione una opcion</option>
+                                <option>1.-Parcelario</option>
+                                <option>2.-Uso comun</option>
+                                <option>3.-Posesionario</option>
                             </Form.Select>
                         </Form.Group>
                     </Col>
@@ -90,12 +91,40 @@ export const Ejidos = () => {
                             value={formValues.noCertificado}
                         />
                     </Col>
-                        <Col md={"4"} className="">
+                    <Col md={"4"} className="">
                             <Form.Group controlId="formFileMultiple" className="mb-3">
-                                <Form.Label>Fotos</Form.Label>
+                                <Form.Label>Foto Vendedor</Form.Label>
                                 <Form.Control type="file" multiple />
                             </Form.Group>
                         </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="my-5">
+                    <Col md={"4"} className="">
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Foto Testigo Vendedor</Form.Label>
+                            <Form.Control type="file" multiple />
+                        </Form.Group>
+                    </Col>
+                    <Col md={"4"} className="">
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Foto Testigo Vendedor</Form.Label>
+                            <Form.Control type="file" multiple />
+                        </Form.Group>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="my-5">
+                    <Col md={"4"} className="">
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Foto Testigo Comprador</Form.Label>
+                            <Form.Control type="file" multiple />
+                        </Form.Group>
+                    </Col>
+                    <Col md={"4"} className="">
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Foto Testigo Comprador</Form.Label>
+                            <Form.Control type="file" multiple />
+                        </Form.Group>
+                    </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="my-5">
                         <Col className="d-flex gap-5">

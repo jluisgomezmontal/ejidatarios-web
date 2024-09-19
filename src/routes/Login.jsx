@@ -31,6 +31,7 @@ function Login() {
     return (
         <div className="d-flex justify-content-center align-items-center vh-100">
             <Form>
+                <h1 className="mb-5">Iniciar Sesion</h1>
                 <Col className="mx-">
                     <Form.Group className="mb-3" controlId="formGroupEmail">
                         <Form.Label>Numero de Celular</Form.Label>
@@ -38,7 +39,7 @@ function Login() {
                                       value={formValues.telefono}/>
                     </Form.Group>
                     <Form.Group className="mb-4" controlId="formGroupPassword">
-                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Label visuallyHidden>Contraseña</Form.Label>
                         <Form.Control type="password" placeholder="Introduce Contraseña" onChange={handleInputChange} name="contraseña"
                                       value={formValues.contraseña}/>
                     </Form.Group>
