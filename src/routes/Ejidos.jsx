@@ -42,16 +42,16 @@ export const Ejidos = () => {
                                 value={formValues.tipoCertificado}
                             >
                                 <option value={""}>Seleccione una opcion</option>
-                                <option>1.-Parcelario</option>
-                                <option>2.-Uso comun</option>
-                                <option>3.-Posesionario</option>
+                                <option value="Parcelario">1.-Parcelario</option>
+                                <option value="Uso comun">2.-Uso comun</option>
+                                <option value="Posesion">3.-Posesion</option>
                             </Form.Select>
                         </Form.Group>
                     </Col>
                     {
                         formValues.tipoCertificado !== "Uso comun" &&
                         <Col md={"6"}>
-                            <Form.Label>Numero de {formValues.tipoCertificado === "Parcelario"? "Parcela" : "Folio"}</Form.Label>
+                            <Form.Label>Numero de {formValues.tipoCertificado === "Parcelario"? "Parcela" : "Parcela Origen"}</Form.Label>
                             <Form.Control
                                 placeholder="Introdusca Numero"
                                 onChange={handleInputChange}
@@ -93,39 +93,12 @@ export const Ejidos = () => {
                     </Col>
                     <Col md={"4"} className="">
                             <Form.Group controlId="formFileMultiple" className="mb-3">
-                                <Form.Label>Foto Vendedor</Form.Label>
-                                <Form.Control type="file" multiple />
+                                <Form.Label>Documento Escaneado</Form.Label>
+                                <Form.Control type="file" />
                             </Form.Group>
                         </Col>
                 </Form.Group>
-                <Form.Group as={Row} className="my-5">
-                    <Col md={"4"} className="">
-                        <Form.Group controlId="formFileMultiple" className="mb-3">
-                            <Form.Label>Foto Testigo Vendedor</Form.Label>
-                            <Form.Control type="file" multiple />
-                        </Form.Group>
-                    </Col>
-                    <Col md={"4"} className="">
-                        <Form.Group controlId="formFileMultiple" className="mb-3">
-                            <Form.Label>Foto Testigo Vendedor</Form.Label>
-                            <Form.Control type="file" multiple />
-                        </Form.Group>
-                    </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="my-5">
-                    <Col md={"4"} className="">
-                        <Form.Group controlId="formFileMultiple" className="mb-3">
-                            <Form.Label>Foto Testigo Comprador</Form.Label>
-                            <Form.Control type="file" multiple />
-                        </Form.Group>
-                    </Col>
-                    <Col md={"4"} className="">
-                        <Form.Group controlId="formFileMultiple" className="mb-3">
-                            <Form.Label>Foto Testigo Comprador</Form.Label>
-                            <Form.Control type="file" multiple />
-                        </Form.Group>
-                    </Col>
-                </Form.Group>
+
                 <Form.Group as={Row} className="my-5">
                         <Col className="d-flex gap-5">
                             <Form.Group className="mb-3">
@@ -135,10 +108,11 @@ export const Ejidos = () => {
                                     name="actoJuridico"
                                     value={formValues.actoJuridico}
                                 >
-                                    <option>ADDAT</option>
-                                    <option>AJENACION</option>
-                                    <option>SENTENCIA</option>
-                                    <option>ASIGNACION</option>
+                                    <option value={""}>Seleccione una opcion</option>
+                                    <option value="ADDAT">1.-ADDAT</option>
+                                    <option value="AJENACION">2.-AJENACION</option>
+                                    <option value="SENTENCIA">3.-SENTENCIA</option>
+                                    <option value="ASIGNACION">4.-ASIGNACION</option>
                                 </Form.Select>
                             </Form.Group>
                         </Col>

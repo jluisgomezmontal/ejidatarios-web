@@ -56,10 +56,10 @@ export const Ejidatarios = () => {
                         <Form.Group className="mb-3" >
                             <Form.Select value={formValues.calidadAgraria} onChange={handleInputChange} name="calidadAgraria" required>
                                 <option value={""}>Seleccione una opcion</option>
-                                <option>1.-Ejidatario</option>
-                                <option>2.-Avecindado</option>
-                                <option>3.-Posesionario de hecho</option>
-                                <option>4.-Posesionario de derecho</option>
+                                <option value="Ejidatario">1.-Ejidatario</option>
+                                <option value="Avecindado">2.-Avecindado</option>
+                                <option value="Posesionario de hecho">3.-Posesionario de hecho</option>
+                                <option value="Posesionario de derecho">4.-Posesionario de derecho</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio

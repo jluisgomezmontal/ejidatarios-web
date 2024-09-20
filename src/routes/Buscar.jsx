@@ -38,10 +38,11 @@ export const Buscar = () => {
                                 value={formValues.metodoDeBusqueda}
                             >
                                 <option value="">Seleccione una opcion</option>
-                                <option>1.-ID</option>
-                                <option>2.-CURP</option>
-                                <option>3.-Numero de Certificado</option>
-                                <option>4.-Numero de Parcela o Folio</option>
+                                <option value="ID">1.-ID</option>
+                                <option value="CURP">2.-CURP</option>
+                                <option value="Numero de Certificado">3.-Numero de Certificado</option>
+                                <option value="Numero de Parcela">4.-Numero de Parcela o Folio</option>
+                                <option value="Numero de Folio">4.-Numero de Parcela o Folio</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid" className="text-white">
                                 Please choose a username.
