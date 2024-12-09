@@ -82,24 +82,6 @@ export const Ejidos = () => {
                 </Form.Group>
 
                 <Form.Group as={Row} className="my-5">
-                    <Col md={"4"}>
-                        <Form.Label>Numero de Certificado</Form.Label>
-                        <Form.Control
-                            placeholder="Numero de certificado"
-                            name="noCertificado"
-                            onChange={handleInputChange}
-                            value={formValues.noCertificado}
-                        />
-                    </Col>
-                    <Col md={"4"} className="">
-                            <Form.Group controlId="formFileMultiple" className="mb-3">
-                                <Form.Label>Documento Escaneado</Form.Label>
-                                <Form.Control type="file" />
-                            </Form.Group>
-                        </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} className="my-5">
                         <Col className="d-flex gap-5">
                             <Form.Group className="mb-3">
                                 <Form.Label>Acto Juridico</Form.Label>
@@ -110,13 +92,65 @@ export const Ejidos = () => {
                                 >
                                     <option value={""}>Seleccione una opcion</option>
                                     <option value="ADDAT">1.-ADDAT</option>
-                                    <option value="AJENACION">2.-AJENACION</option>
+                                    <option value="ENAJENACION">2.-AJENACION</option>
                                     <option value="SENTENCIA">3.-SENTENCIA</option>
-                                    <option value="ASIGNACION">4.-ASIGNACION</option>
                                 </Form.Select>
                             </Form.Group>
                         </Col>
                 </Form.Group>
+                {
+                    formValues.tipoCertificado === "Posesion" &&
+                    <>
+                        <Form.Group as={Row} className="my-5">
+                            <Col md={"4"} className="">
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Credencial del Comprador</Form.Label>
+                                    <Form.Control type="file" />
+                                </Form.Group>
+                            </Col>
+                            <Col md={"4"} className="">
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Credencial del Vendedor</Form.Label>
+                                    <Form.Control type="file" />
+                                </Form.Group>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="my-5">
+                            <Col md={"4"}>
+                                <Form.Label>Credencial Testigo 1</Form.Label>
+                                <Form.Control
+                                    placeholder="Numero de certificado"
+                                    name="noCertificado"
+                                    onChange={handleInputChange}
+                                    value={formValues.noCertificado}
+                                />
+                            </Col>
+                            <Col md={"4"} className="">
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Credencial Testigo 2</Form.Label>
+                                    <Form.Control type="file" />
+                                </Form.Group>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="my-5">
+                            <Col md={"4"}>
+                                <Form.Label>Documento de parcela desprendida</Form.Label>
+                                <Form.Control
+                                    placeholder="Numero de certificado"
+                                    name="noCertificado"
+                                    onChange={handleInputChange}
+                                    value={formValues.noCertificado}
+                                />
+                            </Col>
+                            <Col md={"4"} className="">
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Constancia de Posecion</Form.Label>
+                                    <Form.Control type="file" />
+                                </Form.Group>
+                            </Col>
+                        </Form.Group>
+                    </>
+                }
                 <Button type="submit">Guardar</Button>
             </Form>
         </div>

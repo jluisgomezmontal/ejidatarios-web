@@ -13,7 +13,7 @@ export const Buscar = () => {
     const [formValues, handleInputChange] = useForm(initialForm);
     const [validated, setValidated] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -22,6 +22,10 @@ export const Buscar = () => {
         }
 
         setValidated(true);
+        const url = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log(data)
     };
     return (
         <div>
@@ -42,7 +46,6 @@ export const Buscar = () => {
                                 <option value="CURP">2.-CURP</option>
                                 <option value="Numero de Certificado">3.-Numero de Certificado</option>
                                 <option value="Numero de Parcela">4.-Numero de Parcela o Folio</option>
-                                <option value="Numero de Folio">4.-Numero de Parcela o Folio</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid" className="text-white">
                                 Please choose a username.

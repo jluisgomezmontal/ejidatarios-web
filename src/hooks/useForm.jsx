@@ -8,17 +8,12 @@ export const useForm = (initialState = {}) => {
     };
 
     const handleInputChange = ({ target }) => {
-        const { name, value, type, checked } = target;
+        const { name, value, type, files } = target;
 
-        if (type === "checkbox") {
-            setValues((prevValues) => {
-                const selectedValues = prevValues[name] || [];
-
-                if (checked) {
-                    return { ...prevValues, [name]: [...selectedValues, value] };
-                } else {
-                    return { ...prevValues, [name]: selectedValues.filter((item) => item !== value) };
-                }
+        if (type === "file") {
+            setValues({
+                ...values,
+                [name]: files[0], // Solo guarda un archivo si no se espera un array
             });
         } else {
             setValues({

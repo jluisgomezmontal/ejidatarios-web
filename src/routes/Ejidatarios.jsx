@@ -5,49 +5,67 @@ import Row from 'react-bootstrap/Row';
 import {useForm} from "../hooks/useForm.jsx";
 import {Link} from "react-router-dom";
 import {useState} from "react";
-import {ejidatariosEjemplo} from "../mocks.js";
 
 export const Ejidatarios = () => {
 
     const initialForm = {
-        calidadAgraria: '',
-        iD_Ejidatario: '',
-        nombre: '',
-        apellidoPaterno: '',
-        apellidoMaterno: '',
-        domicilio: '',
-        telefono: '',
-        curp: '',
+        calidadAgraria: 'Ejidatario',
+        iD_Ejidatario: "310594",
+        nombre: "Stephanie",
+        apellidoPaterno: "Vazquez",
+        apellidoMaterno: "Galeana",
+        telefono: "7444215691",
+        curp: "stephcrup",
+        documentoPDF: "documentoPDF"
     };
 
     const [ formValues, handleInputChange, reset ] = useForm( initialForm );
 
-    const [ejidatarios, setEjidatarios] = useState(ejidatariosEjemplo)
     const [validated, setValidated] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
 
         if (form.checkValidity()) {
-            // Agregar los valores del formulario a la lista de ejidatarios
-            setEjidatarios([...ejidatarios, formValues]);
-            console.log("Nuevo ejidatario agregado");
+            try {
+                // const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
+                const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+
+                // Crear un objeto FormData
+                const formData = new FormData();
+                Object.entries(formValues).forEach(([key, value]) => {
+                        formData.append(key, value);
+                });
+
+                const response = await fetch(apiEjidaterios, {
+                    method: "POST",
+                    body: formData, // Enviar el FormData directamente
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error al realizar el POST");
+                }
+
+                const data = await response.json();
+                console.log("Respuesta del servidor:", data);
+                alert("Datos enviados correctamente");
+            } catch (error) {
+                console.error("Error al enviar los datos:", error.message);
+                alert("Hubo un problema al enviar los datos");
+            }
 
             // Limpiar el formulario
             reset();
-
-            // Resetear la validación después de un envío exitoso
             setValidated(false);
         } else {
-            // Mostrar errores de validación
             setValidated(true);
         }
     };
 
     return (
         <div>
-            <h3>Agregar Sujeto</h3>
+            <h3>Agregar Sujeto Agrario</h3>
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5" controlId="validationCustom01" hasValidation>
@@ -110,24 +128,12 @@ export const Ejidatarios = () => {
                  //   formValues.apellidoMaterno !== "" &&
                 <Form.Group as={Row} className="my-5" hasValidation>
                         <Col>
-                            <Form.Label>Domicilio:</Form.Label>
-                            <Form.Control required autoComplete="off" placeholder="Domicilio" value={formValues.domicilio} onChange={handleInputChange} name="domicilio" />
-                            <Form.Control.Feedback type="invalid">
-                                Campo Obligatorio
-                            </Form.Control.Feedback>
-                        </Col>
-                        <Col>
                             <Form.Label>Telefono:</Form.Label>
                             <Form.Control required autoComplete="off" placeholder="Telefono" value={formValues.telefono} onChange={handleInputChange} name="telefono" />
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
                         </Col>
-                </Form.Group>
-                }
-                {
-                    //formValues.telefono !== "" &&
-                <Form.Group as={Row} className="my-5" hasValidation>
                     <Col >
                         <Form.Label>CURP:</Form.Label>
                         <Form.Control required autoComplete="off" placeholder="CURP" value={formValues.curp} onChange={handleInputChange} name="curp" />
@@ -138,13 +144,21 @@ export const Ejidatarios = () => {
                             Obtener CURP
                         </Link >
                     </Col>
+                </Form.Group>
+                }
+                {
+                    //formValues.telefono !== "" &&
+                <Form.Group as={Row} className="my-5" hasValidation>
+
                     <Col>
                         <Form.Group controlId="formFileMultiple" className="mb-3">
                             <Form.Label>Foto INE</Form.Label>
-                            <Form.Control type="file" required autoComplete="off"/>
-                            <Form.Control.Feedback type="invalid">
-                                Campo Obligatorio
-                            </Form.Control.Feedback>
+                            <Form.Control
+                                type="file"
+                                autoComplete="off"
+                                onChange={handleInputChange} // Sigue utilizando el mismo manejador
+                                name="documentoPDF"
+                            />
                         </Form.Group>
                     </Col>
                 </Form.Group>
