@@ -18,7 +18,7 @@ export const useForm = (initialState = {}) => {
         } else {
             setValues({
                 ...values,
-                [name]: value,
+                [name]: value.toUpperCase(),
             });
         }
     };

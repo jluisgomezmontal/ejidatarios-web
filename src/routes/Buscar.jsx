@@ -7,7 +7,7 @@ import {useState} from "react";
 
 export const Buscar = () => {
     const initialForm = {
-        metodoDeBusqueda: '',
+        metodoDeBusqueda: 'ID',
         valor: ""
     };
     const [formValues, handleInputChange] = useForm(initialForm);
@@ -23,9 +23,12 @@ export const Buscar = () => {
 
         setValidated(true);
         const url = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+        // const url = "http://localhost:3000/api/ejidatarios";
+        ;
         const response = await fetch(url)
         const data = await response.json()
         console.log(data)
+        console.log(form.checkValidity())
     };
     return (
         <div>
@@ -41,27 +44,23 @@ export const Buscar = () => {
                                 name="metodoDeBusqueda"
                                 value={formValues.metodoDeBusqueda}
                             >
-                                <option value="">Seleccione una opcion</option>
                                 <option value="ID">1.-ID</option>
                                 <option value="CURP">2.-CURP</option>
-                                <option value="Numero de Certificado">3.-Numero de Certificado</option>
-                                <option value="Numero de Parcela">4.-Numero de Parcela o Folio</option>
+                                <option value="Telefono">3.-Telefono</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid" className="text-white">
-                                Please choose a username.
+                                Seleccione una opcion
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
-                    {
-                        formValues.metodoDeBusqueda !== "" &&
-                        <Col md={"6"}>
-                            <Form.Label>{formValues.metodoDeBusqueda}</Form.Label>
-                            <Form.Control type="text" placeholder={"Introduzca "+formValues.metodoDeBusqueda} required />
-                            <Form.Control.Feedback type="invalid">
-                                Introdusca un valor valido.
-                            </Form.Control.Feedback>
-                        </Col>
-                    }
+                    <Col>
+                        <Form.Label>Metodo de busqueda</Form.Label>
+                        <Form.Control autoComplete="off" required placeholder="Metodo de busqueda"
+                                      value={formValues.valor} onChange={handleInputChange} name="valor" />
+                        <Form.Control.Feedback type="invalid">
+                            Campo Obligatorio
+                        </Form.Control.Feedback>
+                    </Col>
                 </Form.Group>
                 <Button type="submit">Buscar</Button>
             </Form>

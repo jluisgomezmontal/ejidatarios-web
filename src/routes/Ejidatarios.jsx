@@ -9,15 +9,26 @@ import {useState} from "react";
 export const Ejidatarios = () => {
 
     const initialForm = {
-        calidadAgraria: 'Ejidatario',
-        iD_Ejidatario: "310594",
-        nombre: "Stephanie",
-        apellidoPaterno: "Vazquez",
-        apellidoMaterno: "Galeana",
-        telefono: "7444215691",
-        curp: "stephcrup",
-        documentoPDF: "documentoPDF"
+        calidadAgraria: '',
+        iD_Ejidatario: "",
+        nombre: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        telefono: "",
+        curp: "",
+        documentoPDF: ""
     };
+
+    // const initialForm = {
+    //     calidadAgraria: 'EJIDATARIO',
+    //     iD_Ejidatario: "150513",
+    //     nombre: "STEPH",
+    //     apellidoPaterno: "VAZQUEZ",
+    //     apellidoMaterno: "GALEANA",
+    //     telefono: "7444215691",
+    //     curp: "CURPSTEPH",
+    //     documentoPDF: "documentoPDF"
+    // };
 
     const [ formValues, handleInputChange, reset ] = useForm( initialForm );
 
@@ -29,8 +40,8 @@ export const Ejidatarios = () => {
 
         if (form.checkValidity()) {
             try {
-                // const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
-                const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+                const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
+                //const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
 
                 // Crear un objeto FormData
                 const formData = new FormData();
@@ -38,21 +49,17 @@ export const Ejidatarios = () => {
                         formData.append(key, value);
                 });
 
+                console.log("formData:", formData);
                 const response = await fetch(apiEjidaterios, {
                     method: "POST",
                     body: formData, // Enviar el FormData directamente
                 });
-
-                if (!response.ok) {
-                    throw new Error("Error al realizar el POST");
-                }
 
                 const data = await response.json();
                 console.log("Respuesta del servidor:", data);
                 alert("Datos enviados correctamente");
             } catch (error) {
                 console.error("Error al enviar los datos:", error.message);
-                alert("Hubo un problema al enviar los datos");
             }
 
             // Limpiar el formulario
@@ -74,10 +81,10 @@ export const Ejidatarios = () => {
                         <Form.Group className="mb-3" >
                             <Form.Select value={formValues.calidadAgraria} onChange={handleInputChange} name="calidadAgraria" required>
                                 <option value={""}>Seleccione una opcion</option>
-                                <option value="Ejidatario">1.-Ejidatario</option>
-                                <option value="Avecindado">2.-Avecindado</option>
-                                <option value="Posesionario de hecho">3.-Posesionario de hecho</option>
-                                <option value="Posesionario de derecho">4.-Posesionario de derecho</option>
+                                <option value="EJIDATARIO">1.-EJIDATARIO</option>
+                                <option value="AVECINDADO">2.-AVECINDADO</option>
+                                <option value="POSESIONARIO DE HECHO">3.-POSESIONARIO DE HECHO</option>
+                                <option value="POSESIONARIO DE DERECHO">4.-POSESIONARIO DE DERECHO</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
