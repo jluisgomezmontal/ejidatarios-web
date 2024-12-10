@@ -59,7 +59,7 @@ export const Perfil = () => {
                     <td>{
                             ejidatario.documentoPDF !== "" &&
                                 <Link target="_blank"
-                                      to={`https://ejidatarios-api.onrender.com/api/terrenos/files/${ejidatario.documentoPDF}`}>Descargar</Link>
+                                      to={`https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`}>Descargar</Link>
                     }</td>
                 </tr>
                 </tbody>
