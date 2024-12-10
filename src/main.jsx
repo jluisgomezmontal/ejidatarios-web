@@ -16,6 +16,7 @@ import {Provider} from 'react-redux'
 import Login from "./routes/Login.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import {Buscar} from "./routes/Buscar.jsx";
+import {Perfil} from "./components/Perfil.jsx";
 
 
 const router = createBrowserRouter([
@@ -43,6 +44,9 @@ const router = createBrowserRouter([
             {
                 path: "buscar",
                 element: <Buscar />,
+            },            {
+                path: "perfil/:ID",
+                element: <Perfil />,
             },
 
         ],

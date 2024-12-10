@@ -40,8 +40,8 @@ export const Ejidatarios = () => {
 
         if (form.checkValidity()) {
             try {
-                const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
-                //const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+                // const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
+                const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
 
                 // Crear un objeto FormData
                 const formData = new FormData();
@@ -72,7 +72,9 @@ export const Ejidatarios = () => {
 
     return (
         <div>
-            <h3>Agregar Sujeto Agrario</h3>
+            <h2 className="text-center my-4 fs-1 text-info ">
+                Agregar Sujeto Agrario
+            </h2>
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5" controlId="validationCustom01" hasValidation>
