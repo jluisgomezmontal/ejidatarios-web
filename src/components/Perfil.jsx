@@ -1,13 +1,12 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams,} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Table from "react-bootstrap/Table";
-import {Alert} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
 
 export const Perfil = () => {
     let {ID}  = useParams();
     const [ejidatario, setEjidatario] = useState({});
     const [terrenos, setTerrenos] = useState([]);
-
     useEffect(() => {
         const fetchData = async () => {
             const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ID}`;
@@ -64,7 +63,8 @@ export const Perfil = () => {
                 </tr>
                 </tbody>
             </Table>
-
+            <Link className="btn btn-primary" to={`/editar/${ejidatario.iD_Ejidatario}`}>Editar</Link>
+            <Button variant="danger">Eliminar</Button>
             <h2 className="text-center my-4 fs-1 text-info ">
                 Terrenos
             </h2>

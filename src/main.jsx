@@ -44,9 +44,14 @@ const router = createBrowserRouter([
             {
                 path: "buscar",
                 element: <Buscar />,
-            },            {
+            },
+            {
                 path: "perfil/:ID",
                 element: <Perfil />,
+            },
+            {
+                path: "editar/:ID",
+                element: <Ejidatarios />,
             },
 
         ],

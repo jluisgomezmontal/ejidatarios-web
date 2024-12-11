@@ -3,33 +3,58 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import {useForm} from "../hooks/useForm.jsx";
-import {Link} from "react-router-dom";
-import {useState} from "react";
+import {Link, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 export const Ejidatarios = () => {
+    const params = useParams()
+    console.log(params.ID)
+    const [ejidatario, setEjidatario] = useState({});
 
-    const initialForm = {
-        calidadAgraria: '',
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${params.ID}`;
+            const response = await fetch(url)
+            const data = await response.json()
+            setEjidatario(data);
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (ejidatario) {
+            reset({
+                calidadAgraria: ejidatario.calidadAgraria || "",
+                iD_Ejidatario: ejidatario.iD_Ejidatario || "",
+                nombre: ejidatario.nombre || "",
+                apellidoPaterno: ejidatario.apellidoPaterno || "",
+                apellidoMaterno: ejidatario.apellidoMaterno || "",
+                telefono: ejidatario.telefono || "",
+                curp: ejidatario.curp || "",
+                documentoPDF: ejidatario.documentoPDF || ""
+            });
+        }
+    }, [ejidatario]);
+
+    const initialForm = params.ID !== undefined  ? {
+        calidadAgraria: ejidatario.calidadAgraria,
+        iD_Ejidatario: ejidatario.iD_Ejidatario,
+        nombre: ejidatario.nombre,
+        apellidoPaterno: ejidatario.apellidoPaterno,
+        apellidoMaterno: ejidatario.apellidoMaterno,
+        telefono: ejidatario.telefono,
+        curp: ejidatario.curp,
+        documentoPDF: ejidatario.documentoPDF
+    }: {
+        calidadAgraria: "",
         iD_Ejidatario: "",
         nombre: "",
         apellidoPaterno: "",
         apellidoMaterno: "",
         telefono: "",
         curp: "",
-        documentoPDF: ""
+        documentoPDF: "test"
     };
-
-    // const initialForm = {
-    //     calidadAgraria: 'EJIDATARIO',
-    //     iD_Ejidatario: "150513",
-    //     nombre: "STEPH",
-    //     apellidoPaterno: "VAZQUEZ",
-    //     apellidoMaterno: "GALEANA",
-    //     telefono: "7444215691",
-    //     curp: "CURPSTEPH",
-    //     documentoPDF: "documentoPDF"
-    // };
-
     const [ formValues, handleInputChange, reset ] = useForm( initialForm );
 
     const [validated, setValidated] = useState(false);
@@ -41,7 +66,8 @@ export const Ejidatarios = () => {
         if (form.checkValidity()) {
             try {
                 // const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
-                const apiEjidaterios = "https://ejidatarios-api.onrender.com/api/ejidatarios";
+                const apiEjidaterios = params.ID === undefined ? "https://ejidatarios-api.onrender.com/api/ejidatarios"
+                    : `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario.iD_Ejidatario}`;
 
                 // Crear un objeto FormData
                 const formData = new FormData();
@@ -51,7 +77,7 @@ export const Ejidatarios = () => {
 
                 console.log("formData:", formData);
                 const response = await fetch(apiEjidaterios, {
-                    method: "POST",
+                    method: params.ID === undefined ? "POST" : "PUT",
                     body: formData, // Enviar el FormData directamente
                 });
 
@@ -73,7 +99,9 @@ export const Ejidatarios = () => {
     return (
         <div>
             <h2 className="text-center my-4 fs-1 text-info ">
-                Agregar Sujeto Agrario
+                {
+                    params.ID === undefined ? "Agregar Sujeto Agrario": "Editar Sujeto Agrario"
+                }
             </h2>
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
