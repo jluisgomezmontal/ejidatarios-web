@@ -35,13 +35,9 @@ export const Buscar = () => {
         }else{
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
         }
-        // const url = "http://localhost:3000/api/ejidatarios";
         const response = await fetch(url)
         const data = await response.json()
         setResultado(data);
-        // console.log(formValues)
-        // console.log(data)
-        // console.log(Array.isArray(resultado))
     };
     return (
         <div>

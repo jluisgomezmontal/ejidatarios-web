@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import {useState} from "react";
 import {Badge} from "react-bootstrap";
+import { TERRENO } from "../utils/const.js";
 
 export const Ejidos = () => {
     const initialForm = {
@@ -12,6 +13,7 @@ export const Ejidos = () => {
         noCertificado: '',
         tipoCertificado: 'PARCELARIO', // Cambiado a un array
         numeroParcela: '',
+        numeroCertificado: '',
         actoJuridico: 'ADDAT',
         documentoPDF: ""
     };
@@ -61,7 +63,7 @@ export const Ejidos = () => {
             <Form onSubmit={handleIdentificar}>
                 <Form.Group as={Row} className="my-5">
                 <Col md={"4"}>
-                        <Form.Label>ID Sujeto</Form.Label>
+                        <Form.Label>{TERRENO.idSujeto}:</Form.Label>
                         <Form.Control
                             placeholder="ID Ejidatario"
                             onChange={handleInputChange}
@@ -91,35 +93,45 @@ export const Ejidos = () => {
                 <Form.Group as={Row} className="my-5">
                     <Col md={"6"} >
                         <Form.Group>
-                            <Form.Label>Certificado</Form.Label>
+                            <Form.Label>{TERRENO.tipoCertificado}:</Form.Label>
                             <Form.Select
                                 onChange={handleInputChange}
                                 name="tipoCertificado"
                             >
                                 <option value={""}>SELECCIONE UNA OPCION</option>
                                 <option value="PARCELARIO">1.-PARCELARIO</option>
-                                <option value="USO COMUN">2.-USO COMUN</option>
-                                <option value="POSESION">3.-POSESION</option>
+                                <option value="POSESION">2.-POSESION</option>
+                                <option value="USO COMUN">3.-USO COMUN</option>
                             </Form.Select>
                         </Form.Group>
                     </Col>
                     {
-                        formValues.tipoCertificado !== "USO COMUN" &&
+                        formValues.tipoCertificado === "PARCELARIO" ?
                         <Col md={"6"}>
-                            <Form.Label>Numero de {formValues.tipoCertificado === "Parcelario"? "Parcela" : "Parcela Origen"}</Form.Label>
+                            <Form.Label>{TERRENO.numeroParcela}:</Form.Label>
                             <Form.Control
-                                placeholder="Introdusca Numero"
+                                placeholder={TERRENO.numeroParcela}
                                 onChange={handleInputChange}
                                 name="numeroParcela"
                                 value={formValues.numeroParcela}
+                            />
+                        </Col> :
+                        formValues.tipoCertificado === "POSESION" &&
+                        <Col md={"6"}>
+                            <Form.Label>{TERRENO.parcelaOrigen}:</Form.Label>
+                            <Form.Control
+                                placeholder={TERRENO.parcelaOrigen}
+                                onChange={handleInputChange}
+                                name="parcelaOrigen"
+                                value={formValues.parcelaOrigen}
                             />
                         </Col>
                     }
                 </Form.Group>
                 <Form.Group as={Row} className="my-5">
-                        <Col className="d-flex gap-5">
+                        <Col>
                             <Form.Group className="mb-3">
-                                <Form.Label>Acto Juridico</Form.Label>
+                                <Form.Label>{TERRENO.actoJuridico}:</Form.Label>
                                 <Form.Select
                                     onChange={handleInputChange}
                                     name="actoJuridico"
@@ -131,6 +143,15 @@ export const Ejidos = () => {
                                     <option value="SENTENCIA">3.-SENTENCIA</option>
                                 </Form.Select>
                             </Form.Group>
+                        </Col>
+                        <Col md={"6"}>
+                            <Form.Label>{formValues.tipoCertificado === "POSESION"? "Folio" : formValues.tipoCertificado === "USO COMUN"? "Número numeroParcelanumeroParcela Certificado Compartido" : TERRENO.numeroCertificado}:</Form.Label>
+                            <Form.Control
+                                placeholder={formValues.tipoCertificado === "POSESION"? "Folio" : formValues.tipoCertificado === "USO COMUN"? "Número De Certificado Compartido" : TERRENO.numeroCertificado}
+                                onChange={handleInputChange}
+                                name="numeroCertificado"
+                                value={formValues.numeroCertificado}
+                            />
                         </Col>
                 </Form.Group>
                 {

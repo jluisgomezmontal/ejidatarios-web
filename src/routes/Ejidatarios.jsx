@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import {useForm} from "../hooks/useForm.jsx";
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import { EJIDATARIO } from '../utils/const.js';
 
 export const Ejidatarios = () => {
     const params = useParams()
@@ -107,7 +108,7 @@ export const Ejidatarios = () => {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group as={Row} className="my-5" controlId="validationCustom01" hasValidation>
                     <Col md={"6"} className="">
-                        <Form.Label>Calidad Agraria:</Form.Label>
+                        <Form.Label>{EJIDATARIO.calidadAgraria}:</Form.Label>
                         <Form.Group className="mb-3" >
                             <Form.Select value={formValues.calidadAgraria} onChange={handleInputChange} name="calidadAgraria" required>
                                 <option value={""}>Seleccione una opcion</option>
@@ -126,16 +127,16 @@ export const Ejidatarios = () => {
                     //formValues.calidadAgraria !== "" &&
                 <Form.Group as={Row} className="my-5" controlId="validationCustomUsername22" hasValidation>
                         <Col>
-                            <Form.Label>{formValues.calidadAgraria === 'No Aplica'? 'ID Sujeto:' : 'ID Ejidatario:'}</Form.Label>
-                            <Form.Control autoComplete="off" required placeholder={formValues.calidadAgraria === 'No Aplica'? 'ID Sujeto' : 'ID Ejidatario'}
+                            <Form.Label>{EJIDATARIO.id}:</Form.Label>
+                            <Form.Control autoComplete="off" required placeholder={EJIDATARIO.id}
                                           value={formValues.iD_Ejidatario} onChange={handleInputChange} name="iD_Ejidatario" />
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
                         </Col>
                         <Col>
-                            <Form.Label>Nombre:</Form.Label>
-                            <Form.Control autoComplete="nope" required  placeholder="Nombre" value={formValues.nombre} onChange={handleInputChange} name="nombre" />
+                            <Form.Label>{EJIDATARIO.nombre}:</Form.Label>
+                            <Form.Control autoComplete="nope" required  placeholder={EJIDATARIO.nombre} value={formValues.nombre} onChange={handleInputChange} name="nombre" />
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
@@ -146,15 +147,15 @@ export const Ejidatarios = () => {
                     //formValues.nombre !== "" &&
                 <Form.Group as={Row} className="my-5" hasValidation>
                         <Col>
-                            <Form.Label>Apellido Paterno:</Form.Label>
-                            <Form.Control required autoComplete="nope" placeholder="Apellido Paterno" value={formValues.apellidoPaterno} onChange={handleInputChange} name="apellidoPaterno"/>
+                            <Form.Label>{EJIDATARIO.apellidoPaterno}:</Form.Label>
+                            <Form.Control required autoComplete="nope" placeholder={EJIDATARIO.apellidoPaterno} value={formValues.apellidoPaterno} onChange={handleInputChange} name="apellidoPaterno"/>
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
                         </Col>
                         <Col>
-                            <Form.Label>Apellido Materno:</Form.Label>
-                            <Form.Control required autoComplete="nope" placeholder="Apellido Materno" value={formValues.apellidoMaterno} onChange={handleInputChange} name={"apellidoMaterno"} />
+                            <Form.Label>{EJIDATARIO.apellidoMaterno}:</Form.Label>
+                            <Form.Control required autoComplete="nope" placeholder={EJIDATARIO.apellidoMaterno} value={formValues.apellidoMaterno} onChange={handleInputChange} name={"apellidoMaterno"} />
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
@@ -165,15 +166,15 @@ export const Ejidatarios = () => {
                  //   formValues.apellidoMaterno !== "" &&
                 <Form.Group as={Row} className="my-5" hasValidation>
                         <Col>
-                            <Form.Label>Telefono:</Form.Label>
-                            <Form.Control required autoComplete="off" placeholder="Telefono" value={formValues.telefono} onChange={handleInputChange} name="telefono" />
+                            <Form.Label>{EJIDATARIO.telefono}:</Form.Label>
+                            <Form.Control required autoComplete="off" placeholder={EJIDATARIO.telefono} value={formValues.telefono} onChange={handleInputChange} name="telefono" />
                             <Form.Control.Feedback type="invalid">
                                 Campo Obligatorio
                             </Form.Control.Feedback>
                         </Col>
                     <Col >
-                        <Form.Label>CURP:</Form.Label>
-                        <Form.Control required autoComplete="off" placeholder="CURP" value={formValues.curp} onChange={handleInputChange} name="curp" />
+                        <Form.Label>{EJIDATARIO.curp}:</Form.Label>
+                        <Form.Control required autoComplete="off" placeholder={EJIDATARIO.curp} value={formValues.curp} onChange={handleInputChange} name="curp" />
                         <Form.Control.Feedback type="invalid">
                             Campo Obligatorio
                         </Form.Control.Feedback>
@@ -189,7 +190,7 @@ export const Ejidatarios = () => {
 
                     <Col>
                         <Form.Group controlId="formFileMultiple" className="mb-3">
-                            <Form.Label>Foto INE</Form.Label>
+                            <Form.Label>{EJIDATARIO.ine}:</Form.Label>
                             <Form.Control
                                 type="file"
                                 autoComplete="off"

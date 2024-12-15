@@ -1,19 +1,20 @@
 import Table from "react-bootstrap/Table";
 import {Link} from "react-router-dom";
+import { EJIDATARIO } from "../utils/const";
 
                     // eslint-disable-next-line react/prop-types
 export const EjidatarioTable = ({resultado}) => {
     if (Array.isArray(resultado)){
         return (
-            <Table striped bordered hover>
+            <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th>iD_Ejidatario</th>
-                    <th>Nombre Completo</th>
-                    <th>Calidad Agraria</th>
-                    <th>Telefono</th>
-                    <th>Curp</th>
-                    <th>Perfil</th>
+                    <th>{EJIDATARIO.id}</th>
+                    <th>{EJIDATARIO.nombreCompleto}</th>
+                    <th>{EJIDATARIO.calidadAgraria}</th>
+                    <th>{EJIDATARIO.telefono}</th>
+                    <th>{EJIDATARIO.curp}</th>
+                    <th>{EJIDATARIO.perfil}</th>
                 </tr>
                 </thead>
                 {
@@ -35,15 +36,15 @@ export const EjidatarioTable = ({resultado}) => {
         )
     } else {
         return (
-            <Table striped bordered hover>
+            <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th>iD_Ejidatario</th>
-                    <th>Nombre Completo</th>
-                    <th>Calidad Agraria</th>
-                    <th>Telefono</th>
-                    <th>Curp</th>
-                    <th>Perfil</th>
+                    <th>{EJIDATARIO.id}</th>
+                    <th>{EJIDATARIO.nombreCompleto}</th>
+                    <th>{EJIDATARIO.calidadAgraria}</th>
+                    <th>{EJIDATARIO.telefono}</th>
+                    <th>{EJIDATARIO.curp}</th>
+                    <th>{EJIDATARIO.perfil}</th>
                 </tr>
                 </thead>
                 <tbody>

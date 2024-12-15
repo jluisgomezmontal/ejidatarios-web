@@ -2,6 +2,7 @@ import {Link, useParams,} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Table from "react-bootstrap/Table";
 import {Alert, Button} from "react-bootstrap";
+import { EJIDATARIO, TERRENO } from "../utils/const";
 
 export const Perfil = () => {
     let {ID}  = useParams();
@@ -27,34 +28,34 @@ export const Perfil = () => {
             <h2 className="text-center my-4 fs-1 text-info ">
                 Sujeto
             </h2>
-            <Table striped bordered hover size="sm">
+            <Table striped bordered hover size="sm" variant="dark">
                 <tbody>
                 <tr>
-                    <td className="fw-bold">iD_Ejidatario</td>
+                    <td className="fw-bold">{EJIDATARIO.id}</td>
                     <td>{ejidatario.iD_Ejidatario}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">Nombre</td>
+                    <td className="fw-bold">{EJIDATARIO.nombre}</td>
                     <td>{ejidatario.nombre}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">Apellido Paterno</td>
+                    <td className="fw-bold">{EJIDATARIO.apellidoPaterno}</td>
                     <td>{ejidatario.apellidoPaterno}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">Apellido Materno</td>
+                    <td className="fw-bold">{EJIDATARIO.apellidoMaterno}</td>
                     <td>{ejidatario.apellidoMaterno}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">Telefono</td>
+                    <td className="fw-bold">{EJIDATARIO.telefono}</td>
                     <td>{ejidatario.telefono}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">Curp</td>
+                    <td className="fw-bold">{EJIDATARIO.curp}</td>
                     <td>{ejidatario.curp}</td>
                 </tr>
                 <tr>
-                    <td className="fw-bold">INE</td>
+                    <td className="fw-bold">{EJIDATARIO.ine}</td>
                     <td>{
                             ejidatario.documentoPDF !== "" &&
                                 <Link target="_blank"
@@ -71,13 +72,15 @@ export const Perfil = () => {
 
             {
                 terrenos.length > 0 ?
-                    <Table striped bordered hover>
+                    <Table striped bordered hover variant="dark">
                         <thead>
                         <tr>
-                            <th>tipoCertificado</th>
-                            <th>numeroParcela</th>
-                            <th>actoJuridico</th>
-                            <th>@documentoPDF</th>
+                            <th>{TERRENO.numeroParcela}</th>
+                            <th>{TERRENO.tipoCertificado}</th>
+                            <th>{TERRENO.numeroCertificado}</th>
+                            <th>{TERRENO.actoJuridico}</th>
+                            <th>{TERRENO.parcelaOrigen}</th>
+                            <th>{TERRENO.documentoPDF}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -85,9 +88,11 @@ export const Perfil = () => {
                         {
                             terrenos?.map((terreno, index) => (
                                 <tr key={index}>
-                                    <td>{terreno.tipoCertificado}</td>
                                     <td>{terreno.numeroParcela}</td>
+                                    <td>{terreno.tipoCertificado}</td>
+                                    <td>{terreno.numeroCertificado}</td>
                                     <td>{terreno.actoJuridico}</td>
+                                    <td>{terreno.parcelaOrigen}</td>
                                     <td>
                                         {
                                             terreno.documentoPDF !== "" &&
