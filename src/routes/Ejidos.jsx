@@ -6,6 +6,7 @@ import { useForm } from "../hooks/useForm.jsx";
 import {useState} from "react";
 import {Badge} from "react-bootstrap";
 import { TERRENO } from "../utils/const.js";
+import Swal from "sweetalert2";
 
 export const Ejidos = () => {
     const initialForm = {
@@ -15,17 +16,20 @@ export const Ejidos = () => {
         numeroParcela: '',
         numeroCertificado: '',
         actoJuridico: 'ADDAT',
-        documentoPDF: ""
+        documentoPDF: "",
+        parcelaOrigen: "",
     };
 
     const [formValues, handleInputChange, reset] = useForm(initialForm);
     const [ejidatario, setEjidatario] = useState();
+    console.log(ejidatario)
+    const [origen, setOrigen] = useState({});
     const handleIdentificar = async (e) => {
         e.preventDefault();
-
-        const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${formValues.iD_Ejidatario}`;
+        const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
         const response = await fetch(url)
         const data = await response.json()
+        console.log(data)
         setEjidatario(data)
     }
 
@@ -48,15 +52,33 @@ export const Ejidos = () => {
 
             const data = await response.json();
             console.log("Respuesta del servidor:", data);
-            alert("Datos enviados correctamente");
+            Swal.fire({
+                icon: `${data.msg ? "success" : "error"}`,
+                title: `${data.msg ? data.msg : "Error en el formulario"}`,
+                showConfirmButton: false,
+                timer: 1800
+            });
         } catch (error) {
             console.error("Error al enviar los datos:", error.message);
         }
 
         reset();
     };
+    const handleOrigen = async (e) => {
+        try {
+            e.preventDefault();
+            const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
+            const response = await fetch(url)
+            const data = await response.json()
+            setOrigen(data)
+            console.log(data);
+        } catch (error) {
+            console.log(e)
+        }
+
+    };
     return (
-        <div>
+        <div className="vh-100">
             <h2 className="text-center my-4 fs-1 text-info ">
                 Agregar Parcela
             </h2>
@@ -72,24 +94,26 @@ export const Ejidos = () => {
                         />
                     </Col>
                     <Col md={"2"} className="mt-4">
-                        <Form.Label onClick={handleIdentificar} className="btn btn-primary mt-2">Identificar</Form.Label>
+                        <Form.Label onClick={handleIdentificar} className="btn btn-primary mt-2">Identificar Sujeto</Form.Label>
                     </Col>
                     <Col md={"4"} className="mt-4">
                         <Form.Group >
-                            {ejidatario === undefined ? "" :
-                                ejidatario.nombre === undefined ?
+                            {
+                                ejidatario?.nombre !== undefined ?
+                                <Badge pill bg="success" className={"p-3 fs-7"}>
+                                    Ejidatario: {ejidatario?.nombre} {ejidatario?.apellidoPaterno} {ejidatario?.apellidoMaterno}
+                                </Badge> :
+                                ejidatario?.error === 'Ejidatario no encontrado' &&
                                     <Badge pill bg="danger" className={"p-3 fs-7"}>
                                         Ejidatario no encontrado
-                                    </Badge>
-                                    : <Badge pill bg="success" className={"p-3 fs-7"}>Ejidatario: {ejidatario.nombre} {ejidatario.apellidoPaterno} {ejidatario.apellidoMaterno}</Badge>
+                                    </Badge> 
+                                    
                             }
                         </Form.Group>
                     </Col>
                 </Form.Group>
             </Form>
             <Form onSubmit={handleSubmit}>
-
-
                 <Form.Group as={Row} className="my-5">
                     <Col md={"6"} >
                         <Form.Group>
@@ -106,7 +130,7 @@ export const Ejidos = () => {
                         </Form.Group>
                     </Col>
                     {
-                        formValues.tipoCertificado === "PARCELARIO" ?
+                        formValues.tipoCertificado === "PARCELARIO" &&
                         <Col md={"6"}>
                             <Form.Label>{TERRENO.numeroParcela}:</Form.Label>
                             <Form.Control
@@ -115,9 +139,14 @@ export const Ejidos = () => {
                                 name="numeroParcela"
                                 value={formValues.numeroParcela}
                             />
-                        </Col> :
-                        formValues.tipoCertificado === "POSESION" &&
-                        <Col md={"6"}>
+                        </Col>
+                    }
+                </Form.Group>
+                {
+                    formValues.tipoCertificado === "POSESION" &&
+
+                    <Form.Group as={Row} className="my-5">
+                    <Col md={"4"}>
                             <Form.Label>{TERRENO.parcelaOrigen}:</Form.Label>
                             <Form.Control
                                 placeholder={TERRENO.parcelaOrigen}
@@ -126,8 +155,26 @@ export const Ejidos = () => {
                                 value={formValues.parcelaOrigen}
                             />
                         </Col>
-                    }
-                </Form.Group>
+                        <Col md={"2"} className="mt-4">
+                            <Form.Label onClick={handleOrigen} className="btn btn-primary mt-2">Identificar Parcela</Form.Label>
+                        </Col>
+                        <Col md={"4"} className="mt-4">
+                            <Form.Group >
+                            {
+                                origen?.numeroParcela !== undefined ?
+                                <Badge pill bg="success" className={"p-3 fs-7"}>
+                                    Propietario: {origen?.propietario.nombre} {origen?.propietario.apellidoPaterno} {origen?.propietario.apellidoMaterno}
+                                </Badge> :
+                                origen?.error !== null &&
+                                    <Badge pill bg="danger" className={"p-3 fs-7"}>
+                                        Propietario no encontrado
+                                    </Badge> 
+                                    
+                            }
+                            </Form.Group>
+                        </Col>
+                    </Form.Group>
+                }
                 <Form.Group as={Row} className="my-5">
                         <Col>
                             <Form.Group className="mb-3">
@@ -145,7 +192,7 @@ export const Ejidos = () => {
                             </Form.Group>
                         </Col>
                         <Col md={"6"}>
-                            <Form.Label>{formValues.tipoCertificado === "POSESION"? "Folio" : formValues.tipoCertificado === "USO COMUN"? "Número numeroParcelanumeroParcela Certificado Compartido" : TERRENO.numeroCertificado}:</Form.Label>
+                            <Form.Label>{formValues.tipoCertificado === "POSESION"? "Folio" : formValues.tipoCertificado === "USO COMUN" ? "Certificado Compartido" : TERRENO.numeroCertificado}:</Form.Label>
                             <Form.Control
                                 placeholder={formValues.tipoCertificado === "POSESION"? "Folio" : formValues.tipoCertificado === "USO COMUN"? "Número De Certificado Compartido" : TERRENO.numeroCertificado}
                                 onChange={handleInputChange}

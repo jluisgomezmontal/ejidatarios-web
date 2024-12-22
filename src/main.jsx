@@ -17,6 +17,7 @@ import Login from "./routes/Login.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import {Buscar} from "./routes/Buscar.jsx";
 import {Perfil} from "./components/Perfil.jsx";
+import { Terreno } from './components/Terreno.jsx';
 
 
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             {
                 path: "perfil/:ID",
                 element: <Perfil />,
+            },
+            {
+                path: "terreno/:ID",
+                element: <Terreno />,
             },
             {
                 path: "editar/:ID",

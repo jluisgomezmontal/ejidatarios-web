@@ -19,4 +19,5 @@ export const TERRENO = {
     parcelaOrigen: "Parcela de Origen",
     documentoPDF: "Documentos",
     idSujeto: "ID Sujeto",
+    propietario: "Propietario",
 };

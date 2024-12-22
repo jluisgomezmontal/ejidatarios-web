@@ -6,6 +6,7 @@ import {useForm} from "../hooks/useForm.jsx";
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import { EJIDATARIO } from '../utils/const.js';
+import Swal from 'sweetalert2';
 
 export const Ejidatarios = () => {
     const params = useParams()
@@ -14,7 +15,7 @@ export const Ejidatarios = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${params.ID}`;
+            const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${params.ID}`;
             const response = await fetch(url)
             const data = await response.json()
             setEjidatario(data);
@@ -54,12 +55,12 @@ export const Ejidatarios = () => {
         apellidoMaterno: "",
         telefono: "",
         curp: "",
-        documentoPDF: "test"
+        documentoPDF: ""
     };
     const [ formValues, handleInputChange, reset ] = useForm( initialForm );
 
     const [validated, setValidated] = useState(false);
-
+      
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
@@ -68,7 +69,7 @@ export const Ejidatarios = () => {
             try {
                 // const apiEjidaterios = "http://localhost:3000/api/ejidatarios";
                 const apiEjidaterios = params.ID === undefined ? "https://ejidatarios-api.onrender.com/api/ejidatarios"
-                    : `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario.iD_Ejidatario}`;
+                    : `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${ejidatario.iD_Ejidatario}`;
 
                 // Crear un objeto FormData
                 const formData = new FormData();
@@ -84,7 +85,13 @@ export const Ejidatarios = () => {
 
                 const data = await response.json();
                 console.log("Respuesta del servidor:", data);
-                alert("Datos enviados correctamente");
+                Swal.fire({
+                    icon: `${data.msg ? "success" : "error"}`,
+                    title: `${data.msg ? data.msg : "Error en el formulario"}`,
+                    showConfirmButton: false,
+                    timer: 1800
+                });
+
             } catch (error) {
                 console.error("Error al enviar los datos:", error.message);
             }

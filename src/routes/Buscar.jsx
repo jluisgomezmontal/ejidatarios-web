@@ -27,7 +27,7 @@ export const Buscar = () => {
         setValidated(true);
         let url
         if (formValues.metodoDeBusqueda === 'ID') {
-            url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${formValues.valor}`;
+            url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.valor}`;
         }else if (formValues.metodoDeBusqueda === 'CURP') {
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios/curp/${formValues.valor}`;
         }else if (formValues.metodoDeBusqueda === 'TELEFONO') {
@@ -37,10 +37,11 @@ export const Buscar = () => {
         }
         const response = await fetch(url)
         const data = await response.json()
+        console.log(data)
         setResultado(data);
     };
     return (
-        <div>
+        <div className="vh-100">
             <h2 className="text-center my-4 fs-1 text-info ">
                 Buscar
             </h2>
