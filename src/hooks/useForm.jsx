@@ -7,11 +7,16 @@ export const useForm = (initialState = {}) => {
     setValues(initialState);
   };
 
-  const agregarPropietario = (propietario) => {
+  const agregarPropietario = (propietario, propietarioOrigen = false) => {
     setValues({
       ...values,
       propietario,
-    });
+    })
+    propietarioOrigen &&
+    setValues({
+      ...values,
+      propietarioOrigen : propietario,
+    })
   };
   const handleInputChange = ({ target }) => {
     const { name, value, type, files } = target;

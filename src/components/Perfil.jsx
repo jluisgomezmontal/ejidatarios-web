@@ -12,22 +12,17 @@ export const Perfil = () => {
     const [terrenos, setTerrenos] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-            const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${ID}`;
             const urlTerreno = `https://ejidatarios-api.onrender.com/api/terrenos/sujeto/${ID}`;
-            const response = await fetch(url)
             const responseTerreno = await fetch(urlTerreno)
-            const data = await response.json()
             const dataTerreno = await responseTerreno.json()
-            console.log(data)   
             console.log(dataTerreno)   
-            setEjidatario(data);
+            setEjidatario(dataTerreno[0].propietario);
             setTerrenos(dataTerreno);
             setLoading(!loading);
         };
         fetchData();
     }, []);
 
-    console.log(terrenos)
     return (
         <>
         {

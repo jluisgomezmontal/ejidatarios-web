@@ -17,7 +17,7 @@ export const Terreno = () => {
             console.log(data)   
             setTerreno(data);
             setLoading(!loading);
-            navigate(`/perfil/${data.iD_Ejidatario}`);
+            // navigate(`/perfil/${data.iD_Ejidatario}`);
         };
         fetchData();
     }, []);
@@ -43,7 +43,6 @@ export const Terreno = () => {
                                 <th>{TERRENO.actoJuridico}</th>
                                 <th>{TERRENO.parcelaOrigen}</th>
                                 <th>{TERRENO.propietario}</th>
-                                <th>{TERRENO.documentoPDF}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,15 +64,8 @@ export const Terreno = () => {
                                         <Link 
                                             target="_blank"
                                             to={`/perfil/${terreno.iD_Ejidatario}`}>
-                                                {terreno.iD_Ejidatario}
+                                                {terreno.propietario.nombre} {terreno.propietario.apellidoPaterno} {terreno.propietario.apellidoMaterno}
                                         </Link>
-                                    </td>
-                                    <td>
-                                        {
-                                            terreno.documentoPDF !== "" &&
-                                            <Link target="_blank"
-                                                to={`https://ejidatarios-api.onrender.com/api/terrenos/files/${terreno.documentoPDF}`}>Descargar</Link>
-                                        }
                                     </td>
                                 </tr>
                             </tbody>

@@ -26,12 +26,18 @@ export const Buscar = () => {
 
         setValidated(true);
         let url
+        console.log(formValues)
+
         if (formValues.metodoDeBusqueda === 'ID') {
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.valor}`;
         }else if (formValues.metodoDeBusqueda === 'CURP') {
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios/curp/${formValues.valor}`;
         }else if (formValues.metodoDeBusqueda === 'TELEFONO') {
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios/telefono/${formValues.valor}`;
+        }else if (formValues.metodoDeBusqueda === 'NUMEROPARCELA') {
+            url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.valor}`;
+        }else if (formValues.metodoDeBusqueda === 'NUMEROCERTIFICADO') {
+            url = `https://ejidatarios-api.onrender.com/api/terrenos/certificado/${formValues.valor}`;
         }else{
             url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
         }
@@ -58,6 +64,10 @@ export const Buscar = () => {
                                 <option value="ID">1.-ID</option>
                                 <option value="CURP">2.-CURP</option>
                                 <option value="Telefono">3.-Telefono</option>
+                                <option value="numeroParcela">4.-Numero de Parcela</option>
+                                <option value="numeroCertificado">5.-Numero de Certificado</option>
+                                <option value="parcelaOrigen">6.-Parcela de Origen</option>
+                                <option value="">TESTING</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid" className="text-white">
                                 Seleccione una opcion

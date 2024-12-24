@@ -36,7 +36,7 @@ export const Ejidos = () => {
         const response = await fetch(url);
         const data = await response.json();
         setEjidatario(data);
-        agregarPropietario(data._id);
+        agregarPropietario(data._id, false);
       } catch (error) {
         console.error("Error al enviar los datos:", error.message);
       }
@@ -94,7 +94,7 @@ export const Ejidos = () => {
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
-      agregarPropietario(data.propietario._id);
+      agregarPropietario(data.propietario._id, true);
       setOrigen(data);
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);

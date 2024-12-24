@@ -3,24 +3,27 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useForm } from "../hooks/useForm.jsx";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { EJIDATARIO } from "../utils/const.js";
 import Swal from "sweetalert2";
 
 export const Ejidatarios = () => {
   const params = useParams();
-  console.log(params.ID);
+  let location = useLocation();
+
   const [ejidatario, setEjidatario] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
-      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${params.ID}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      setEjidatario(data);
-    };
-    fetchData();
+    if (location.pathname.includes("editar")) {
+      const fetchData = async () => {
+        const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${params.ID}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setEjidatario(data);
+      };
+      fetchData();
+    }
   }, []);
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export const Ejidatarios = () => {
           documentoPDF: "",
         };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-
+  console.log(ejidatario, formValues)
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -74,7 +77,7 @@ export const Ejidatarios = () => {
         const apiEjidaterios =
           params.ID === undefined
             ? "https://ejidatarios-api.onrender.com/api/ejidatarios"
-            : `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${ejidatario.iD_Ejidatario}`;
+            : `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario._id}`;
 
         // Crear un objeto FormData
         const formData = new FormData();
@@ -82,7 +85,6 @@ export const Ejidatarios = () => {
           formData.append(key, value);
         });
 
-        console.log("formData:", formData);
         const response = await fetch(apiEjidaterios, {
           method: params.ID === undefined ? "POST" : "PUT",
           body: formData, // Enviar el FormData directamente

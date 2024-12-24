@@ -23,7 +23,7 @@ export const EjidatarioTable = ({resultado}) => {
                         <tbody key={index}>
                         <tr>
                             <td>{element.iD_Ejidatario}</td>
-                            <td>{element.nombre} {element.apellidoPaterno} {element.apellidoMaterno}</td>
+                            <td>{element.nombre ? element.nombre : element.propietario.nombre} {element.apellidoPaterno} {element.apellidoMaterno}</td>
                             <td>{element.calidadAgraria}</td>
                             <td>{element.telefono}</td>
                             <td>{element.curp}</td>
@@ -42,18 +42,14 @@ export const EjidatarioTable = ({resultado}) => {
                     <th>{EJIDATARIO.id}</th>
                     <th>{EJIDATARIO.nombreCompleto}</th>
                     <th>{EJIDATARIO.calidadAgraria}</th>
-                    <th>{EJIDATARIO.telefono}</th>
-                    <th>{EJIDATARIO.curp}</th>
                     <th>{EJIDATARIO.perfil}</th>
                 </tr>
                 </thead>
                 <tbody>
             <tr>
                 <td>{resultado.iD_Ejidatario}</td>
-                <td>{resultado.nombre} {resultado.apellidoPaterno} {resultado.apellidoMaterno}</td>
-                <td>{resultado.calidadAgraria}</td>
-                <td>{resultado.telefono}</td>
-                <td>{resultado.curp}</td>
+                <td>{resultado.nombre ? resultado.nombre : resultado.propietario.nombre} {resultado.apellidoPaterno ? resultado.apellidoPaterno : resultado.propietario.apellidoPaterno} {resultado.apellidoMaterno ? resultado.apellidoMaterno : resultado.propietario.apellidoMaterno}</td>
+                <td>{resultado.calidadAgraria ? resultado.calidadAgraria : resultado.propietario.calidadAgraria}</td>
                 <td>
                     <Link to={`/perfil/${resultado.iD_Ejidatario}`}>VISITAR</Link>
                 </td>
