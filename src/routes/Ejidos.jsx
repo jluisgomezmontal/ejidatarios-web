@@ -68,7 +68,6 @@ export const Ejidos = () => {
         });
 
         const data = await response.json();
-        console.log(data);
         Swal.fire({
           icon: `${data.msg ? "success" : "error"}`,
           title: `${data.msg ? data.msg : "Error en el formulario"}`,
@@ -93,7 +92,6 @@ export const Ejidos = () => {
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
       agregarPropietario(data.propietario._id, true);
       setOrigen(data);
     } catch (error) {
@@ -101,7 +99,6 @@ export const Ejidos = () => {
     }
   };
 
-  console.log(formValues);
   return (
     <div className="vh-100">
       <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
