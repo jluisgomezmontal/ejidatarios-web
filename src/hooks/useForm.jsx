@@ -11,12 +11,12 @@ export const useForm = (initialState = {}) => {
     setValues({
       ...values,
       propietario,
-    })
+    });
     propietarioOrigen &&
-    setValues({
-      ...values,
-      propietarioOrigen : propietario,
-    })
+      setValues({
+        ...values,
+        propietarioOrigen: propietario,
+      });
   };
   const handleInputChange = ({ target }) => {
     const { name, value, type, files } = target;

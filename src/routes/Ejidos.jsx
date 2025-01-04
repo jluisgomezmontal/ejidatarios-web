@@ -61,7 +61,6 @@ export const Ejidos = () => {
         Object.entries(formValues).forEach(([key, value]) => {
           formData.append(key, value);
         });
-        formData.append("nuevaPropiedad", "valor");
         const response = await fetch(url, {
           method: "POST",
           body: formData, // Enviar el FormData directamente

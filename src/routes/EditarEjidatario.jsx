@@ -1,17 +1,20 @@
+import { useForm } from "../hooks/useForm.jsx";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { EJIDATARIO } from "../utils/const.js";
 import Swal from "sweetalert2";
-import SendIcon from "@mui/icons-material/Send";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useForm } from "../hooks/useForm.jsx";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SendIcon from "@mui/icons-material/Send";
 import { VisuallyHiddenInput } from "../styles/index.js";
-import { EJIDATARIO } from "../utils/const.js";
-
-export const Ejidatarios = () => {
-  const initialForm = {
+import axios from "axios";
+export const EditarEjidatarios = () => {
+  const params = useParams();
+  const [ejidatario, setEjidatario] = useState({
     calidadAgraria: "",
     iD_Ejidatario: "",
     nombre: "",
@@ -20,41 +23,49 @@ export const Ejidatarios = () => {
     telefono: "",
     curp: "",
     documentoPDF: "",
+  });
+  const [formValues, handleInputChange, reset] = useForm(ejidatario);
+
+  const fetchData = async () => {
+    const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${params.ID}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    setEjidatario(data);
   };
-  const [formValues, handleInputChange, reset] = useForm(initialForm);
+
+  useEffect(() => {
+    fetchData();
+  }, [params.ID]);
+
+  useEffect(() => {
+    reset(); // Actualiza los valores del formulario cuando ejidatario cambie
+  }, [ejidatario]); // Se ejecuta cuando se actualiza el estado de ejidatario
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiEjidatarios =
-        "https://ejidatarios-api.onrender.com/api/ejidatarios/";
+      const apiEjidatarios = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario._id}`;
 
       // Crear FormData correctamente
       const formData = new FormData();
-      console.log(formValues);
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
         console.log(key, value);
       });
-
       // No se usa "Content-Type" con FormData
-      const response = await fetch(apiEjidatarios, {
-        method: "POST",
-        body: formData,
-      });
 
-      const data = await response.json();
-      console.log(data);
+      const response = await axios.put(apiEjidatarios, formData);
+      console.log(response.data);
 
       Swal.fire({
-        icon: data.msg ? "success" : "error",
-        title: data.msg || "Error en el formulario",
+        icon: response.data.msg ? "success" : "error",
+        title: response.data.msg || "Error en el formulario",
         showConfirmButton: false,
         timer: 1800,
       });
-      reset();
+
+      params.ID === undefined && reset();
     } catch (error) {
-      console.error("Error al enviar los datos:", error.message);
       Swal.fire({
         icon: "error",
         title: "Error al enviar los datos",
@@ -66,7 +77,9 @@ export const Ejidatarios = () => {
   return (
     <div className="vh-100">
       <h2 className="text-center my-4 fs-1 text-info ">
-        Agregar Sujeto Agrario
+        {params.ID === undefined
+          ? "Agregar Sujeto Agrario"
+          : "Editar Sujeto Agrario"}
       </h2>
 
       <Box component="form" sx={{ flexGrow: 1 }} noValidate autoComplete="off">
@@ -177,7 +190,7 @@ export const Ejidatarios = () => {
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
             >
-              Subir INE
+              Subir Curp
               <VisuallyHiddenInput
                 type="file"
                 onChange={handleInputChange}

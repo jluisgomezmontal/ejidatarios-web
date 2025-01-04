@@ -1,7 +1,9 @@
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid2";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { useState } from "react";
 import { Alert } from "react-bootstrap";
@@ -9,11 +11,10 @@ import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
 
 export const Buscar = () => {
   const initialForm = {
-    metodoDeBusqueda: "ID",
+    metodoDeBusqueda: "",
     valor: "220690",
   };
   const [formValues, handleInputChange] = useForm(initialForm);
-  const [validated, setValidated] = useState(false);
   const [resultado, setResultado] = useState({});
 
   const handleSubmit = async (event) => {
@@ -24,7 +25,6 @@ export const Buscar = () => {
       event.stopPropagation();
     }
 
-    setValidated(true);
     let url;
 
     if (formValues.metodoDeBusqueda === "ID") {
@@ -46,49 +46,60 @@ export const Buscar = () => {
   };
   return (
     <div className="vh-100">
-      <h2 className="text-center my-4 fs-1 text-info ">Buscar</h2>
-      <Form onSubmit={handleSubmit} noValidate validated={validated}>
-        <Form.Group as={Row} className="my-5" controlId="validationCustom01">
-          <Col md={"6"}>
-            <Form.Group controlId="validationCustom02">
-              <Form.Label>¿Metodo de busqueda?</Form.Label>
-              <Form.Select
-                required
+      <h2 className="text-center my-4 fs-1 text-info ">
+        Agregar Sujeto Agrario
+      </h2>
+
+      <Box component="form" sx={{ flexGrow: 1 }} noValidate autoComplete="off">
+        <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid size={6}>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="demo-simple-select-label">
+                ¿Metodo de busqueda?
+              </InputLabel>
+              <Select
+                autoWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="¿Metodo de busqueda?"
+                value={formValues.metodoDeBusqueda}
                 onChange={handleInputChange}
                 name="metodoDeBusqueda"
               >
-                <option value="ID">1.-ID</option>
-                <option value="CURP">2.-CURP</option>
-                <option value="Telefono">3.-Telefono</option>
-                <option value="numeroParcela">4.-Numero de Parcela</option>
-                <option value="numeroCertificado">
+                <MenuItem value={""}>Seleccione una opcion</MenuItem>
+                <MenuItem value="ID">1.-ID</MenuItem>
+                <MenuItem value="CURP">2.-CURP</MenuItem>
+                <MenuItem value="numeroParcela">3.-Numero de Parcela</MenuItem>
+                <MenuItem value="numeroCertificado">
                   5.-Numero de Certificado
-                </option>
-                <option value="parcelaOrigen">6.-Parcela de Origen</option>
-                <option value="">TESTING</option>
-              </Form.Select>
-              <Form.Control.Feedback type="invalid" className="text-white">
-                Seleccione una opcion
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Label>Metodo de busqueda</Form.Label>
-            <Form.Control
+                </MenuItem>
+                <MenuItem value="parcelaOrigen">6.-Parcela de Origen</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid size={6}>
+            <TextField
               autoComplete="off"
-              required
-              placeholder="Metodo de busqueda"
+              placeholder="Buscar"
               value={formValues.valor}
               onChange={handleInputChange}
               name="valor"
+              label="ID Ejidatario"
+              variant="outlined"
+              sx={{ width: "100%" }}
             />
-            <Form.Control.Feedback type="invalid">
-              Campo Obligatorio
-            </Form.Control.Feedback>
-          </Col>
-        </Form.Group>
-        <Button type="submit">Buscar</Button>
-      </Form>
+          </Grid>
+          <Grid size={12}>
+            <Button
+              variant="contained"
+              endIcon={<SearchIcon />}
+              onClick={handleSubmit}
+            >
+              Buscar
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
       <h2 className="my-5 fs-2 text-light ">Resultados</h2>
 
       {(resultado?.iD_Ejidatario || Array.isArray(resultado)) && (

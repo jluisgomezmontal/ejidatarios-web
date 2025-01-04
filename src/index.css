@@ -7,6 +7,12 @@
     color: white;
 }
 
+.link{
+    text-decoration: none;
+    color: #22A5C3;
+    text-transform: uppercase
+    ;
+}
 @media (min-width: 778px) {
     .home{
         display: flex;

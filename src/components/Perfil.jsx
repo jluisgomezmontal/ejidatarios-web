@@ -96,6 +96,7 @@ export const Perfil = () => {
                 try {
                   Swal.fire({
                     title: "¿Seguro que quieres eliminar el perfil?",
+                    text: "No podras revertir esto.",
                     showDenyButton: true,
                     confirmButtonText: "Cancelar",
                     confirmButtonColor: "#0d6efd",
@@ -109,10 +110,20 @@ export const Perfil = () => {
                         method: "DELETE",
                       });
                       const data = await response.json();
-                      Swal.fire(data.message, "", "success");
+                      Swal.fire({
+                        title: data.message,
+                        icon: "success",
+                        confirmButtonColor: "#0d6efd",
+                        timer: 2000,
+                      });
                       navigate("/");
                     } else {
-                      Swal.fire("Perfil no eliminado", "", "info");
+                      Swal.fire({
+                        title: "Perfil no eliminado",
+                        icon: "info",
+                        confirmButtonColor: "#0d6efd",
+                        timer: 1000,
+                      });
                     }
                   });
                 } catch (error) {
