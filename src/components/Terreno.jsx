@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 export const Terreno = () => {
   let { ID } = useParams();
@@ -57,10 +58,15 @@ export const Terreno = () => {
                   }
                 </td>
                 <td>
-                  <Link target="_blank" to={`/perfil/${terreno.iD_Ejidatario}`}>
+                  <Link
+                    target="_blank"
+                    to={`/perfil/${terreno.iD_Ejidatario}`}
+                    className="link"
+                  >
                     {terreno.propietario.nombre}{" "}
                     {terreno.propietario.apellidoPaterno}{" "}
                     {terreno.propietario.apellidoMaterno}
+                    {terreno.propietario.nombre && <LaunchIcon />}
                   </Link>
                 </td>
               </tr>

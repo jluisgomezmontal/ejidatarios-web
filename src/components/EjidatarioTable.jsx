@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import LaunchIcon from "@mui/icons-material/Launch";
 import { StyledTableCell, StyledTableRow } from "../styles";
 // eslint-disable-next-line react/prop-types
 
@@ -77,6 +78,7 @@ export const EjidatarioTable = ({ resultado }) => {
                     to={`/perfil/${row.iD_Ejidatario}`}
                   >
                     Visitar
+                    <LaunchIcon />
                   </Link>
                 </StyledTableCell>
               </StyledTableRow>
@@ -122,6 +124,7 @@ export const EjidatarioTable = ({ resultado }) => {
                   to={`/perfil/${resultado.iD_Ejidatario}`}
                 >
                   Visitar
+                  <LaunchIcon />
                 </Link>
               </StyledTableCell>
             </StyledTableRow>

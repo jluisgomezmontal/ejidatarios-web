@@ -1,11 +1,15 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
-import { Alert, Button } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import Button from "@mui/material/Button";
+
 import { EJIDATARIO, TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
-
+import LaunchIcon from "@mui/icons-material/Launch";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 export const Perfil = () => {
   let navigate = useNavigate();
   let { ID } = useParams();
@@ -85,13 +89,16 @@ export const Perfil = () => {
             </tbody>
           </Table>
           <div className="d-flex gap-2 mb-2">
-            <Link
-              className="btn btn-primary"
-              to={`/editar/${ejidatario.iD_Ejidatario}`}
-            >
-              Editar
+            <Link to={`/editar/${ejidatario.iD_Ejidatario}`}>
+              {" "}
+              <Button variant="contained" endIcon={<EditIcon />}>
+                Editar
+              </Button>
             </Link>
             <Button
+              variant="contained"
+              color="error"
+              endIcon={<DeleteIcon />}
               onClick={async () => {
                 try {
                   Swal.fire({
@@ -130,7 +137,6 @@ export const Perfil = () => {
                   console.error(error);
                 }
               }}
-              variant="danger"
             >
               Eliminar
             </Button>
@@ -160,10 +166,12 @@ export const Perfil = () => {
                     <td>
                       {
                         <Link
+                          className="link"
                           target="_blank"
                           to={`/terreno/${terreno.parcelaOrigen}`}
                         >
                           {terreno.parcelaOrigen}
+                          {terreno.parcelaOrigen && <LaunchIcon />}
                         </Link>
                       }
                     </td>
