@@ -3,13 +3,18 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { Alert } from "react-bootstrap";
 import Button from "@mui/material/Button";
-
 import { EJIDATARIO, TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 import LaunchIcon from "@mui/icons-material/Launch";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid2";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+
 export const Perfil = () => {
   let navigate = useNavigate();
   let { ID } = useParams();
@@ -47,47 +52,127 @@ export const Perfil = () => {
       ) : (
         <div className="mt-5 vh-100">
           <h2 className="text-center my-4 fs-1 text-info ">Sujeto</h2>
-          <Table striped bordered hover size="sm" variant="dark">
-            <tbody>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.id}</td>
-                <td>{ejidatario.iD_Ejidatario}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.nombre}</td>
-                <td>{ejidatario.nombre}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.apellidoPaterno}</td>
-                <td>{ejidatario.apellidoPaterno}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.apellidoMaterno}</td>
-                <td>{ejidatario.apellidoMaterno}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.telefono}</td>
-                <td>{ejidatario.telefono}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.curp}</td>
-                <td>{ejidatario.curp}</td>
-              </tr>
-              <tr>
-                <td className="fw-bold">{EJIDATARIO.ine}</td>
-                <td>
-                  {ejidatario.documentoPDF !== "" && (
-                    <Link
-                      target="_blank"
-                      to={`https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`}
-                    >
-                      Descargar
-                    </Link>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
+          <Box component="form" noValidate autoComplete="off">
+            <Grid
+              container
+              rowSpacing={5}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              <Grid size={12}>
+                <FormControl sx={{ width: "100%" }} disabled>
+                  <InputLabel id="demo-simple-select-label">
+                    Calidad Agraria
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Age"
+                    value={ejidatario.calidadAgraria}
+                    name="calidadAgraria"
+                  >
+                    <MenuItem value={""}>Seleccione una opcion</MenuItem>
+                    <MenuItem value="EJIDATARIO">1.-EJIDATARIO</MenuItem>
+                    <MenuItem value="AVECINDADO">2.-AVECINDADO</MenuItem>
+                    <MenuItem value="POSESIONARIO DE HECHO">
+                      3.-POSESIONARIO DE HECHO
+                    </MenuItem>
+                    <MenuItem value="POSESIONARIO DE DERECHO">
+                      4.-POSESIONARIO DE DERECHO{" "}
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  autoComplete="off"
+                  placeholder={EJIDATARIO.id}
+                  value={ejidatario.iD_Ejidatario}
+                  name="iD_Ejidatario"
+                  label="ID Ejidatario"
+                  variant="outlined"
+                  sx={{ width: "100%" }}
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  sx={{ width: "100%" }}
+                  placeholder={EJIDATARIO.nombre}
+                  value={ejidatario.nombre}
+                  name="nombre"
+                  label={EJIDATARIO.nombre}
+                  variant="outlined"
+                />
+              </Grid>
+
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  sx={{ width: "100%" }}
+                  autoComplete="nope"
+                  placeholder={EJIDATARIO.apellidoPaterno}
+                  value={ejidatario.apellidoPaterno}
+                  label={EJIDATARIO.apellidoPaterno}
+                  name="apellidoPaterno"
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  autoComplete="nope"
+                  placeholder={EJIDATARIO.apellidoMaterno}
+                  label={EJIDATARIO.apellidoMaterno}
+                  value={ejidatario.apellidoMaterno}
+                  name={"apellidoMaterno"}
+                  sx={{ width: "100%" }}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  autoComplete="off"
+                  placeholder={EJIDATARIO.telefono}
+                  label={EJIDATARIO.telefono}
+                  value={ejidatario.telefono}
+                  sx={{ width: "100%" }}
+                  name="telefono"
+                />
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  disabled
+                  autoComplete="off"
+                  placeholder={EJIDATARIO.curp}
+                  label={EJIDATARIO.curp}
+                  sx={{ width: "100%" }}
+                  value={ejidatario.curp}
+                  name="curp"
+                />
+              </Grid>
+              {ejidatario.documentoPDF !== "" && (
+                <Grid size={12} className="mb-4">
+                  <Button
+                    component="label"
+                    color="secondary"
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudDownloadIcon />}
+                    onClick={() => {
+                      window.open(
+                        `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`,
+                        "_blank"
+                      );
+                    }}
+                  >
+                    Descargar INE
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
           <div className="d-flex gap-2 mb-2">
             <Link to={`/editar/${ejidatario.iD_Ejidatario}`}>
               {" "}
@@ -145,12 +230,14 @@ export const Perfil = () => {
           <h2 className="text-center my-4 fs-1 text-info ">Terrenos</h2>
 
           {terrenos.length > 0 ? (
-            <Table striped bordered hover variant="dark">
+            <Table striped bordered hover variant="dark" responsive>
               <thead>
                 <tr>
                   <th>{TERRENO.numeroParcela}</th>
                   <th>{TERRENO.tipoCertificado}</th>
-                  <th>{TERRENO.numeroCertificado}</th>
+                  <th>
+                    {TERRENO.numeroCertificado} o {TERRENO.folio}
+                  </th>
                   <th>{TERRENO.actoJuridico}</th>
                   <th>{TERRENO.parcelaOrigen}</th>
                   <th>{TERRENO.documentoPDF}</th>
@@ -159,7 +246,18 @@ export const Perfil = () => {
               <tbody>
                 {terrenos?.map((terreno, index) => (
                   <tr key={index}>
-                    <td>{terreno.numeroParcela}</td>
+                    <td>
+                      {
+                        <Link
+                          className="link"
+                          target="_blank"
+                          to={`/terreno/${terreno.numeroParcela}`}
+                        >
+                          {terreno.numeroParcela}
+                          {terreno.numeroParcela && <LaunchIcon />}
+                        </Link>
+                      }
+                    </td>
                     <td>{terreno.tipoCertificado}</td>
                     <td>{terreno.numeroCertificado}</td>
                     <td>{terreno.actoJuridico}</td>

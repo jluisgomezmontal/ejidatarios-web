@@ -12,6 +12,7 @@ import { StyledTableCell, StyledTableRow } from "../styles";
 // eslint-disable-next-line react/prop-types
 
 export const EjidatarioTable = ({ resultado }) => {
+  console.log(resultado);
   if (Array.isArray(resultado)) {
     function createData(
       nombre,
@@ -105,23 +106,26 @@ export const EjidatarioTable = ({ resultado }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow key={resultado.nombre}>
+            <StyledTableRow key={resultado.propietario.nombre}>
               <StyledTableCell component="th" scope="row">
-                {resultado.iD_Ejidatario}
+                {resultado.propietario.iD_Ejidatario}
               </StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.nombre} {resultado.apellidoPaterno}{" "}
-                {resultado.apellidoMaterno}
+                {resultado.propietario.nombre}{" "}
+                {resultado.propietario.apellidoPaterno}{" "}
+                {resultado.propietario.apellidoMaterno}
               </StyledTableCell>
-              <StyledTableCell align="left">{resultado.curp}</StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.telefono}
+                {resultado.propietario.curp}
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                {resultado.propietario.telefono}
               </StyledTableCell>
               <StyledTableCell align="left">
                 <Link
                   className="link"
                   target="_blank"
-                  to={`/perfil/${resultado.iD_Ejidatario}`}
+                  to={`/perfil/${resultado.propietario.iD_Ejidatario}`}
                 >
                   Visitar
                   <LaunchIcon />

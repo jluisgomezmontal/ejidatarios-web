@@ -26,7 +26,7 @@ export const Buscar = () => {
     }
 
     let url;
-
+    console.log(formValues);
     if (formValues.metodoDeBusqueda === "ID") {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.valor}`;
     } else if (formValues.metodoDeBusqueda === "CURP") {
@@ -69,8 +69,8 @@ export const Buscar = () => {
                 <MenuItem value={""}>Seleccione una opcion</MenuItem>
                 <MenuItem value="ID">1.-ID</MenuItem>
                 <MenuItem value="CURP">2.-CURP</MenuItem>
-                <MenuItem value="numeroParcela">3.-Numero de Parcela</MenuItem>
-                <MenuItem value="numeroCertificado">
+                <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
+                <MenuItem value="NUMEROCERTIFICADO">
                   5.-Numero de Certificado
                 </MenuItem>
                 <MenuItem value="parcelaOrigen">6.-Parcela de Origen</MenuItem>

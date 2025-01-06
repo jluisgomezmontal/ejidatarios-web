@@ -77,9 +77,7 @@ export const EditarEjidatarios = () => {
   return (
     <div className="vh-100">
       <h2 className="text-center my-4 fs-1 text-info ">
-        {params.ID === undefined
-          ? "Agregar Sujeto Agrario"
-          : "Editar Sujeto Agrario"}
+        Editar Sujeto Agrario
       </h2>
 
       <Box component="form" sx={{ flexGrow: 1 }} noValidate autoComplete="off">
@@ -204,7 +202,7 @@ export const EditarEjidatarios = () => {
               endIcon={<SendIcon />}
               onClick={handleSubmit}
             >
-              Crear Ejidatario
+              Editar Ejidatario
             </Button>
           </Grid>
         </Grid>

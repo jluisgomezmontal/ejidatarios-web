@@ -19,33 +19,39 @@ export const Ejidatarios = () => {
     apellidoMaterno: "",
     telefono: "",
     curp: "",
-    documentoPDF: "",
+    documentoPDF: null,
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar campos requeridos
+    for (const [key, value] of Object.entries(formValues)) {
+      if (!value) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `El campo ${key} es requerido`,
+        });
+        return;
+      }
+    }
+
     try {
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
 
-      // Crear FormData correctamente
       const formData = new FormData();
-      console.log(formValues);
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
-        console.log(key, value);
       });
 
-      // No se usa "Content-Type" con FormData
       const response = await fetch(apiEjidatarios, {
         method: "POST",
         body: formData,
       });
-
       const data = await response.json();
-      console.log(data);
-
       Swal.fire({
         icon: data.msg ? "success" : "error",
         title: data.msg || "Error en el formulario",
@@ -55,11 +61,6 @@ export const Ejidatarios = () => {
       reset();
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
-      Swal.fire({
-        icon: "error",
-        title: "Error al enviar los datos",
-        text: error.message,
-      });
     }
   };
 
@@ -68,134 +69,84 @@ export const Ejidatarios = () => {
       <h2 className="text-center my-4 fs-1 text-info ">
         Agregar Sujeto Agrario
       </h2>
-
-      <Box component="form" sx={{ flexGrow: 1 }} noValidate autoComplete="off">
-        <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid size={12}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="demo-simple-select-label">
-                Calidad Agraria
-              </InputLabel>
-              <Select
-                autoWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Age"
-                value={formValues.calidadAgraria}
-                onChange={handleInputChange}
-                name="calidadAgraria"
+      <form onSubmit={handleSubmit}>
+        <Box autoComplete="off">
+          <Grid
+            container
+            rowSpacing={5}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            <Grid size={12}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="demo-simple-select-label">
+                  Calidad Agraria
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  required
+                  value={formValues.calidadAgraria}
+                  onChange={handleInputChange}
+                  name="calidadAgraria"
+                >
+                  <MenuItem value={""}>Seleccione una opción</MenuItem>
+                  <MenuItem value="EJIDATARIO">1.-EJIDATARIO</MenuItem>
+                  <MenuItem value="AVECINDADO">2.-AVECINDADO</MenuItem>
+                  <MenuItem value="POSESIONARIO DE HECHO">
+                    3.-POSESIONARIO DE HECHO
+                  </MenuItem>
+                  <MenuItem value="POSESIONARIO DE DERECHO">
+                    4.-POSESIONARIO DE DERECHO
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {[
+              { name: "iD_Ejidatario", label: "ID Ejidatario" },
+              { name: "nombre", label: "Nombre" },
+              { name: "apellidoPaterno", label: "Apellido Paterno" },
+              { name: "apellidoMaterno", label: "Apellido Materno" },
+              { name: "telefono", label: "Teléfono" },
+              { name: "curp", label: "CURP" },
+            ].map((field, index) => (
+              <Grid key={index} size={6}>
+                <TextField
+                  required
+                  sx={{ width: "100%" }}
+                  placeholder={EJIDATARIO[field.name]}
+                  value={formValues[field.name]}
+                  onChange={handleInputChange}
+                  name={field.name}
+                  label={field.label}
+                  variant="outlined"
+                />
+              </Grid>
+            ))}
+            <Grid size={12}>
+              <Button
+                component="label"
+                role={undefined}
+                color="secondary"
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
               >
-                <MenuItem value={""}>Seleccione una opcion</MenuItem>
-                <MenuItem value="EJIDATARIO">1.-EJIDATARIO</MenuItem>
-                <MenuItem value="AVECINDADO">2.-AVECINDADO</MenuItem>
-                <MenuItem value="POSESIONARIO DE HECHO">
-                  3.-POSESIONARIO DE HECHO
-                </MenuItem>
-                <MenuItem value="POSESIONARIO DE DERECHO">
-                  4.-POSESIONARIO DE DERECHO{" "}
-                </MenuItem>
-              </Select>
-            </FormControl>
+                Subir INE
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleInputChange}
+                  name="documentoPDF"
+                />
+              </Button>
+            </Grid>
+            <Grid size={12}>
+              <Button variant="contained" endIcon={<SendIcon />} type="submit">
+                Crear Ejidatario
+              </Button>
+            </Grid>
           </Grid>
-          <Grid size={6}>
-            <TextField
-              autoComplete="off"
-              placeholder={EJIDATARIO.id}
-              value={formValues.iD_Ejidatario}
-              onChange={handleInputChange}
-              name="iD_Ejidatario"
-              label="ID Ejidatario"
-              variant="outlined"
-              sx={{ width: "100%" }}
-            />
-          </Grid>
-          <Grid size={6}>
-            <TextField
-              sx={{ width: "100%" }}
-              placeholder={EJIDATARIO.nombre}
-              value={formValues.nombre}
-              onChange={handleInputChange}
-              name="nombre"
-              label={EJIDATARIO.nombre}
-              variant="outlined"
-            />
-          </Grid>
-
-          <Grid size={6}>
-            <TextField
-              sx={{ width: "100%" }}
-              autoComplete="nope"
-              placeholder={EJIDATARIO.apellidoPaterno}
-              value={formValues.apellidoPaterno}
-              label={EJIDATARIO.apellidoPaterno}
-              onChange={handleInputChange}
-              name="apellidoPaterno"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid size={6}>
-            <TextField
-              autoComplete="nope"
-              placeholder={EJIDATARIO.apellidoMaterno}
-              label={EJIDATARIO.apellidoMaterno}
-              value={formValues.apellidoMaterno}
-              onChange={handleInputChange}
-              name={"apellidoMaterno"}
-              sx={{ width: "100%" }}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid size={6}>
-            <TextField
-              autoComplete="off"
-              placeholder={EJIDATARIO.telefono}
-              label={EJIDATARIO.telefono}
-              value={formValues.telefono}
-              onChange={handleInputChange}
-              sx={{ width: "100%" }}
-              name="telefono"
-            />
-          </Grid>
-          <Grid size={6}>
-            <TextField
-              autoComplete="off"
-              placeholder={EJIDATARIO.curp}
-              label={EJIDATARIO.curp}
-              sx={{ width: "100%" }}
-              value={formValues.curp}
-              onChange={handleInputChange}
-              name="curp"
-            />
-          </Grid>
-
-          <Grid size={12}>
-            <Button
-              component="label"
-              role={undefined}
-              color="secondary"
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Subir INE
-              <VisuallyHiddenInput
-                type="file"
-                onChange={handleInputChange}
-                name="documentoPDF"
-              />
-            </Button>
-          </Grid>
-          <Grid size={12}>
-            <Button
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSubmit}
-            >
-              Crear Ejidatario
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </form>
     </div>
   );
 };
