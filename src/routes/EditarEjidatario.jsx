@@ -1,5 +1,5 @@
 import { useForm } from "../hooks/useForm.jsx";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { EJIDATARIO } from "../utils/const.js";
 import Swal from "sweetalert2";
@@ -13,29 +13,10 @@ import SendIcon from "@mui/icons-material/Send";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import axios from "axios";
 export const EditarEjidatarios = () => {
+  const location = useLocation();
   const params = useParams();
-  const [ejidatario, setEjidatario] = useState({
-    calidadAgraria: "",
-    iD_Ejidatario: "",
-    nombre: "",
-    apellidoPaterno: "",
-    apellidoMaterno: "",
-    telefono: "",
-    curp: "",
-    documentoPDF: "",
-  });
+  const [ejidatario] = useState(location.state);
   const [formValues, handleInputChange, reset] = useForm(ejidatario);
-
-  const fetchData = async () => {
-    const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${params.ID}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    setEjidatario(data);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [params.ID]);
 
   useEffect(() => {
     reset(); // Actualiza los valores del formulario cuando ejidatario cambie

@@ -1,11 +1,14 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { Button } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const Terreno = () => {
+  let navigate = useNavigate();
   let { ID } = useParams();
   const [loading, setLoading] = useState(true);
   const [terreno, setTerreno] = useState({});
@@ -23,7 +26,9 @@ export const Terreno = () => {
         response.json(),
         response2.json(),
       ]);
-      setTerreno(ejidatario);
+      Array.isArray(ejidatario)
+        ? setTerreno(ejidatario)
+        : setTerreno(ejidatario);
       console.log(ejidatario);
       console.log(posesionarios);
       setPosesionario(posesionarios);
@@ -54,32 +59,47 @@ export const Terreno = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>{terreno.numeroParcela}</td>
-                  <td>{terreno.tipoCertificado}</td>
-                  <td>{terreno.numeroCertificado}</td>
-                  <td>{terreno.actoJuridico}</td>
+                {terreno.map((ter) => (
+                  <tr key={ter.numeroParcela}>
+                    <td>{ter.numeroParcela}</td>
+                    <td>{ter.tipoCertificado}</td>
+                    <td>{ter.numeroCertificado}</td>
+                    <td>{ter.actoJuridico}</td>
 
-                  <td>
-                    <Link
-                      target="_blank"
-                      to={`/perfil/${terreno.iD_Ejidatario}`}
-                      className="link"
-                    >
-                      {terreno.propietario.nombre}{" "}
-                      {terreno.propietario.apellidoPaterno}{" "}
-                      {terreno.propietario.apellidoMaterno}
-                      {terreno.propietario.nombre && <LaunchIcon />}
-                    </Link>
-                  </td>
-                </tr>
+                    <td>
+                      <Link
+                        target="_blank"
+                        to={`/perfil/${ter.iD_Ejidatario}`}
+                        className="link"
+                      >
+                        {ter.propietario.nombre}{" "}
+                        {ter.propietario.apellidoPaterno}{" "}
+                        {ter.propietario.apellidoMaterno}
+                        {ter.propietario.nombre && <LaunchIcon />}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
+            <div className="d-flex gap-2">
+              <Button
+                variant="contained"
+                endIcon={<EditIcon />}
+                onClick={() =>
+                  navigate(`/editar/terreno/${terreno.iD_Ejidatario}`, {
+                    state: terreno,
+                  })
+                }
+              >
+                Editar
+              </Button>
+            </div>
             <h2 className="text-center my-4 fs-1 text-info mt-5">
               Posesionarios
             </h2>
             <Table striped bordered hover variant="dark">
-              <thead>
+              <thead className="bg-info">
                 <tr>
                   <th>{TERRENO.tipoCertificado}</th>
                   <th>{TERRENO.folio}</th>

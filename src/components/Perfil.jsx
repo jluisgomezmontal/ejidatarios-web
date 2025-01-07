@@ -173,13 +173,19 @@ export const Perfil = () => {
               )}
             </Grid>
           </Box>
-          <div className="d-flex gap-2 mb-2">
-            <Link to={`/editar/${ejidatario.iD_Ejidatario}`}>
-              {" "}
-              <Button variant="contained" endIcon={<EditIcon />}>
-                Editar
-              </Button>
-            </Link>
+          <div className="d-flex gap-2 my-4">
+            {" "}
+            <Button
+              variant="contained"
+              endIcon={<EditIcon />}
+              onClick={() =>
+                navigate(`/editar/ejidatario/${ejidatario.iD_Ejidatario}`, {
+                  state: ejidatario,
+                })
+              }
+            >
+              Editar
+            </Button>
             <Button
               variant="contained"
               color="error"

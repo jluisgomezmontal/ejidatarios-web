@@ -106,26 +106,34 @@ export const EjidatarioTable = ({ resultado }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow key={resultado.propietario.nombre}>
+            <StyledTableRow key={resultado.propietario?.nombre}>
               <StyledTableCell component="th" scope="row">
-                {resultado.propietario.iD_Ejidatario}
+                {resultado.propietario?.iD_Ejidatario ??
+                  resultado.iD_Ejidatario}
               </StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.propietario.nombre}{" "}
-                {resultado.propietario.apellidoPaterno}{" "}
-                {resultado.propietario.apellidoMaterno}
+                {resultado.propietario?.nombre ??
+                  resultado.nombre ??
+                  resultado?.apellidoPaterno}{" "}
+                {resultado.propietario?.apellidoPaterno ??
+                  resultado?.apellidoPaterno}{" "}
+                {resultado.propietario?.apellidoMaterno ??
+                  resultado?.apellidoMaterno}
               </StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.propietario.curp}
+                {resultado.propietario?.curp ?? resultado?.curp}
               </StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.propietario.telefono}
+                {resultado.propietario?.telefono ?? resultado?.telefono}
               </StyledTableCell>
               <StyledTableCell align="left">
                 <Link
                   className="link"
                   target="_blank"
-                  to={`/perfil/${resultado.propietario.iD_Ejidatario}`}
+                  to={`/perfil/${
+                    resultado.propietario?.iD_Ejidatario ??
+                    resultado?.iD_Ejidatario
+                  }`}
                 >
                   Visitar
                   <LaunchIcon />

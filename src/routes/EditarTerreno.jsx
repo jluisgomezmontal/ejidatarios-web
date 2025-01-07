@@ -1,34 +1,67 @@
+import { useForm } from "../hooks/useForm.jsx";
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid2";
 import {
-  TextField,
   Button,
-  Select,
-  MenuItem,
+  Box,
   FormControl,
   InputLabel,
-  Box,
+  MenuItem,
+  Select,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { useForm } from "../hooks/useForm.jsx";
-import { useState } from "react";
-import Swal from "sweetalert2";
+import axios from "axios";
+
 import { TERRENO } from "../utils/const.js";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
-const initialForm = {
-  iD_Ejidatario: "",
-  tipoCertificado: "",
-  numeroParcela: "",
-  numeroCertificado: "",
-  actoJuridico: "",
-  documentoPDF: "",
-  parcelaOrigen: "",
-};
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-export const Ejidos = () => {
-  const [formValues, handleInputChange, reset, agregarPropietario] =
-    useForm(initialForm);
-  const [ejidatario, setEjidatario] = useState({});
-  const [origen, setOrigen] = useState({});
 
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+export const EditarTerrenos = () => {
+  const [origen, setOrigen] = useState({});
+  const location = useLocation();
+  const params = useParams();
+  const [ejidatario, setEjidatario] = useState(location.state);
+  const [formValues, handleInputChange, reset, agregarPropietario] =
+    useForm(ejidatario);
+
+  useEffect(() => {
+    reset(); // Actualiza los valores del formulario cuando ejidatario cambie
+  }, [ejidatario]); // Se ejecuta cuando se actualiza el estado de ejidatario
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const apiEjidatarios = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario._id}`;
+
+      // Crear FormData correctamente
+      const formData = new FormData();
+      Object.entries(formValues).forEach(([key, value]) => {
+        formData.append(key, value);
+        console.log(key, value);
+      });
+      // No se usa "Content-Type" con FormData
+
+      const response = await axios.put(apiEjidatarios, formData);
+      console.log(response.data);
+
+      Swal.fire({
+        icon: response.data.msg ? "success" : "error",
+        title: response.data.msg || "Error en el formulario",
+        showConfirmButton: false,
+        timer: 1800,
+      });
+
+      params.ID === undefined && reset();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al enviar los datos",
+        text: error.message,
+      });
+    }
+  };
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
@@ -37,33 +70,6 @@ export const Ejidos = () => {
       const data = await response.json();
       setEjidatario(data);
       agregarPropietario(data._id, false);
-    } catch (error) {
-      console.error("Error al enviar los datos:", error.message);
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const url = `https://ejidatarios-api.onrender.com/api/terrenos`;
-      const formData = new FormData();
-      Object.entries(formValues).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      Swal.fire({
-        icon: data.msg ? "success" : "error",
-        title: data.msg || "Error en el formulario",
-        showConfirmButton: false,
-        timer: 1800,
-      });
-      reset();
-      setEjidatario({});
-      setOrigen({});
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
     }
@@ -82,15 +88,14 @@ export const Ejidos = () => {
       setOrigen({ error: "error" });
     }
   };
-  console.log(origen);
   return (
     <div style={{ padding: "2rem" }} className="vh-100">
-      <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
+      <h2 className="text-center my-4 fs-1 text-info ">Editar Parcela</h2>
 
       <form onSubmit={handleIdentificar}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid item size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 required
@@ -100,12 +105,12 @@ export const Ejidos = () => {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid xs={12} md={2} sx={{ alignContent: "center" }}>
+            <Grid item xs={12} md={2} sx={{ alignContent: "center" }}>
               <Button type="submit" variant="contained">
                 Identificar Sujeto
               </Button>
             </Grid>
-            <Grid size={{ xs: 12, md: 4 }} sx={{ alignContent: "center" }}>
+            <Grid item size={{ xs: 12, md: 4 }} sx={{ alignContent: "center" }}>
               {ejidatario?.nombre ? (
                 <Button
                   size="large"
@@ -165,7 +170,7 @@ export const Ejidos = () => {
             </Grid>
             {formValues.tipoCertificado === "POSESION" && (
               <>
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid item size={{ xs: 12, md: 4 }}>
                   <TextField
                     fullWidth
                     required
@@ -175,12 +180,16 @@ export const Ejidos = () => {
                     onChange={handleInputChange}
                   />
                 </Grid>
-                <Grid xs={12} md={2} sx={{ alignContent: "center" }}>
+                <Grid item xs={12} md={2} sx={{ alignContent: "center" }}>
                   <Button variant="contained" onClick={handleOrigen}>
                     Identificar Parcela
                   </Button>
                 </Grid>
-                <Grid size={{ xs: 12, md: 4 }} sx={{ alignContent: "center" }}>
+                <Grid
+                  item
+                  size={{ xs: 12, md: 4 }}
+                  sx={{ alignContent: "center" }}
+                >
                   {origen?.propietario?.nombre !== undefined ? (
                     <Button
                       size="large"
@@ -239,7 +248,7 @@ export const Ejidos = () => {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <Button type="submit" variant="contained">
                 Guardar
               </Button>

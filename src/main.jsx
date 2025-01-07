@@ -22,6 +22,7 @@ import "@fontsource/roboto/700.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { EditarEjidatarios } from "./routes/EditarEjidatario.jsx";
+import { EditarTerrenos } from "./routes/EditarTerreno.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -35,51 +36,62 @@ const darkTheme = createTheme({
   },
 });
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: (
+        <PrivateRoute>
+          <App />
+        </PrivateRoute>
+      ),
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "sujeto",
+          element: <Ejidatarios />,
+        },
+        {
+          path: "parcela",
+          element: <Ejidos />,
+        },
+        {
+          path: "buscar",
+          element: <Buscar />,
+        },
+        {
+          path: "perfil/:ID",
+          element: <Perfil />,
+        },
+        {
+          path: "terreno/:ID",
+          element: <Terreno />,
+        },
+        {
+          path: "editar/ejidatario/:ID",
+          element: <EditarEjidatarios />,
+        },
+        {
+          path: "editar/terreno/:ID",
+          element: <EditarTerrenos />,
+        },
+      ],
+    },
+    {
+      path: "login",
+      element: <Login />,
+    },
+  ],
   {
-    path: "/",
-    element: (
-      <PrivateRoute>
-        <App />
-      </PrivateRoute>
-    ),
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: "sujeto",
-        element: <Ejidatarios />,
-      },
-      {
-        path: "parcela",
-        element: <Ejidos />,
-      },
-      {
-        path: "buscar",
-        element: <Buscar />,
-      },
-      {
-        path: "perfil/:ID",
-        element: <Perfil />,
-      },
-      {
-        path: "terreno/:ID",
-        element: <Terreno />,
-      },
-      {
-        path: "editar/:ID",
-        element: <EditarEjidatarios />,
-      },
-    ],
-  },
-  {
-    path: "login",
-    element: <Login />,
-  },
-]);
+    future: {
+      v7_relativeSplatPath: true,
+    },
+  }
+);
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={darkTheme}>

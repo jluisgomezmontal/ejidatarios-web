@@ -19,24 +19,12 @@ export const Ejidatarios = () => {
     apellidoMaterno: "",
     telefono: "",
     curp: "",
-    documentoPDF: null,
+    documentoPDF: "",
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validar campos requeridos
-    for (const [key, value] of Object.entries(formValues)) {
-      if (!value) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `El campo ${key} es requerido`,
-        });
-        return;
-      }
-    }
 
     try {
       const apiEjidatarios =
