@@ -36,20 +36,22 @@ export const EjidatarioTable = ({ resultado }) => {
 
     const rows = resultado.map((ejidatario) =>
       createData(
-        ejidatario.nombre,
-        ejidatario.apellidoPaterno,
-        ejidatario.apellidoMaterno,
-        ejidatario.calidadAgraria,
-        ejidatario.telefono,
-        ejidatario.curp,
-        ejidatario.iD_Ejidatario
+        ejidatario.nombre ?? ejidatario.propietario.nombre,
+        ejidatario.apellidoPaterno ?? ejidatario.propietario.apellidoPaterno,
+        ejidatario.apellidoMaterno ?? ejidatario.propietario.apellidoMaterno,
+        ejidatario.calidadAgraria ?? ejidatario.propietario.calidadAgraria,
+        ejidatario.telefono ?? ejidatario.propietario.telefono,
+        ejidatario.curp ?? ejidatario.propietario.curp,
+        ejidatario.iD_Ejidatario ?? ejidatario.propietario.iD_Ejidatario
       )
     );
+    console.log(rows);
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell>No.</StyledTableCell>
               <StyledTableCell>{EJIDATARIO.id}</StyledTableCell>
               <StyledTableCell align="left">Nombre Completo</StyledTableCell>
               <StyledTableCell align="left">{EJIDATARIO.curp}</StyledTableCell>
@@ -62,13 +64,20 @@ export const EjidatarioTable = ({ resultado }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.nombre}>
+            {rows.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   {row.iD_Ejidatario}
                 </StyledTableCell>
                 <StyledTableCell align="left">
-                  {row.nombre} {row.apellidoPaterno} {row.apellidoMaterno}
+                  {`${row.nombre ?? "row.propietario.nombre"} ${
+                    row.apellidoPaterno ?? "row.propietario.apellidoPaterno"
+                  } ${
+                    row.apellidoMaterno ?? "row.propietario.apellidoMaterno"
+                  }`}
                 </StyledTableCell>
                 <StyledTableCell align="left">{row.curp}</StyledTableCell>
                 <StyledTableCell align="left">{row.telefono}</StyledTableCell>

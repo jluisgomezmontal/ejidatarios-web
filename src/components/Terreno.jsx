@@ -26,9 +26,7 @@ export const Terreno = () => {
         response.json(),
         response2.json(),
       ]);
-      Array.isArray(ejidatario)
-        ? setTerreno(ejidatario)
-        : setTerreno(ejidatario);
+      setTerreno(ejidatario.reverse());
       console.log(ejidatario);
       console.log(posesionarios);
       setPosesionario(posesionarios);
@@ -51,6 +49,7 @@ export const Terreno = () => {
             <Table striped bordered hover variant="dark" className="mb-5">
               <thead>
                 <tr>
+                  <th>No.</th>
                   <th>{TERRENO.numeroParcela}</th>
                   <th>{TERRENO.tipoCertificado}</th>
                   <th>{TERRENO.numeroCertificado}</th>
@@ -59,8 +58,13 @@ export const Terreno = () => {
                 </tr>
               </thead>
               <tbody>
-                {terreno.map((ter) => (
-                  <tr key={ter.numeroParcela}>
+                {terreno.map((ter, index, array) => (
+                  <tr key={ter.numeroParcela + ter.propietario.curp}>
+                    <td>
+                      {array.length - index === array.length
+                        ? "Actual"
+                        : array.length - index}
+                    </td>
                     <td>{ter.numeroParcela}</td>
                     <td>{ter.tipoCertificado}</td>
                     <td>{ter.numeroCertificado}</td>
@@ -101,15 +105,18 @@ export const Terreno = () => {
             <Table striped bordered hover variant="dark">
               <thead className="bg-info">
                 <tr>
+                  <th>No.</th>
                   <th>{TERRENO.tipoCertificado}</th>
                   <th>{TERRENO.folio}</th>
                   <th>{TERRENO.actoJuridico}</th>
                   <th>{TERRENO.posesionario}</th>
+                  <th>{TERRENO.emitido}</th>
                 </tr>
               </thead>
               <tbody>
-                {posesionario?.map((pos, idx) => (
-                  <tr key={idx}>
+                {posesionario?.map((pos, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>{pos.tipoCertificado}</td>
                     <td>{pos.numeroCertificado}</td>
                     <td>{pos.actoJuridico}</td>
@@ -125,6 +132,11 @@ export const Terreno = () => {
                         {pos.propietario.apellidoMaterno}
                         {pos.propietario.nombre && <LaunchIcon />}
                       </Link>
+                    </td>
+                    <td>
+                      {pos.propietarioOrigen.nombre}{" "}
+                      {pos.propietarioOrigen.apellidoPaterno}{" "}
+                      {pos.propietarioOrigen.apellidoMaterno}
                     </td>
                   </tr>
                 ))}

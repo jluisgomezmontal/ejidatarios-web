@@ -22,4 +22,6 @@ export const TERRENO = {
   propietario: "Propietario",
   posesionario: "Posesionario",
   folio: "Folio",
+  emitido: "Emitido por",
+  porcentaje: "Porcentaje",
 };

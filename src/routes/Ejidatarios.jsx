@@ -4,11 +4,18 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormHelperText,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { EJIDATARIO } from "../utils/const.js";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 export const Ejidatarios = () => {
   const initialForm = {
@@ -66,18 +73,16 @@ export const Ejidatarios = () => {
           >
             <Grid size={12}>
               <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="demo-simple-select-label">
+                <InputLabel id="demo-simple-select-label" required>
                   Calidad Agraria
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  label="Calidad Agraria"
                   required
                   value={formValues.calidadAgraria}
                   onChange={handleInputChange}
                   name="calidadAgraria"
                 >
-                  <MenuItem value={""}>Seleccione una opción</MenuItem>
                   <MenuItem value="EJIDATARIO">1.-EJIDATARIO</MenuItem>
                   <MenuItem value="AVECINDADO">2.-AVECINDADO</MenuItem>
                   <MenuItem value="POSESIONARIO DE HECHO">
@@ -108,6 +113,18 @@ export const Ejidatarios = () => {
                   label={field.label}
                   variant="outlined"
                 />
+                {field.name === "curp" && (
+                  <FormHelperText id="my-helper-text">
+                    <a
+                      target="_blank"
+                      className="link text-capitalize"
+                      href="https://www.gob.mx/curp/"
+                    >
+                      Consultar curp
+                      <LaunchIcon className="fs-6" />
+                    </a>
+                  </FormHelperText>
+                )}
               </Grid>
             ))}
             <Grid size={12}>

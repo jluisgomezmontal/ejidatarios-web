@@ -21,6 +21,7 @@ const initialForm = {
   actoJuridico: "",
   documentoPDF: "",
   parcelaOrigen: "",
+  porcentaje: "",
 };
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 export const Ejidos = () => {
@@ -36,7 +37,7 @@ export const Ejidos = () => {
       const response = await fetch(url);
       const data = await response.json();
       setEjidatario(data);
-      agregarPropietario(data._id, false);
+      agregarPropietario(data._id);
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
     }
@@ -74,15 +75,13 @@ export const Ejidos = () => {
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
-      agregarPropietario(data.propietario._id, true);
-      setOrigen(data);
-      console.log(data);
+      agregarPropietario(data[data.length - 1].propietario._id, true);
+      setOrigen(data[data.length - 1]);
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
       setOrigen({ error: "error" });
     }
   };
-  console.log(origen);
   return (
     <div style={{ padding: "2rem" }} className="vh-100">
       <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
@@ -137,22 +136,22 @@ export const Ejidos = () => {
           <Grid container spacing={2}>
             <Grid size={6}>
               <FormControl fullWidth>
-                <InputLabel>{TERRENO.tipoCertificado}</InputLabel>
+                <InputLabel required>{TERRENO.tipoCertificado}</InputLabel>
                 <Select
                   name="tipoCertificado"
                   value={formValues.tipoCertificado}
                   onChange={handleInputChange}
                   label={TERRENO.tipoCertificado}
+                  required
                 >
-                  <MenuItem value="">Seleccione una opción</MenuItem>
-                  <MenuItem value="PARCELARIO">Parcelario</MenuItem>
-                  <MenuItem value="POSESION">Posesión</MenuItem>
-                  <MenuItem value="USO COMUN">Uso Común</MenuItem>
+                  <MenuItem value="PARCELARIO">1.-Parcelario</MenuItem>
+                  <MenuItem value="POSESION">2.-Posesión</MenuItem>
+                  <MenuItem value="USO COMUN">3.-Uso Común</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid size={6}>
-              {formValues.tipoCertificado === "PARCELARIO" && (
+              {formValues.tipoCertificado === "PARCELARIO" ? (
                 <TextField
                   fullWidth
                   required
@@ -161,6 +160,17 @@ export const Ejidos = () => {
                   value={formValues.numeroParcela}
                   onChange={handleInputChange}
                 />
+              ) : (
+                formValues.tipoCertificado === "USO COMUN" && (
+                  <TextField
+                    fullWidth
+                    required
+                    label={TERRENO.porcentaje}
+                    name="porcentaje"
+                    value={formValues.porcentaje}
+                    onChange={handleInputChange}
+                  />
+                )
               )}
             </Grid>
             {formValues.tipoCertificado === "POSESION" && (
@@ -185,7 +195,7 @@ export const Ejidos = () => {
                     <Button
                       size="large"
                       variant="outlined"
-                      color="success"
+                      color="info"
                       startIcon={<Person2OutlinedIcon />}
                     >
                       {origen?.propietario.nombre}{" "}
@@ -209,9 +219,10 @@ export const Ejidos = () => {
             )}
             <Grid size={{ xs: 6, md: 6 }}>
               <FormControl fullWidth>
-                <InputLabel>{TERRENO.actoJuridico}</InputLabel>
+                <InputLabel required>{TERRENO.actoJuridico}</InputLabel>
                 <Select
                   name="actoJuridico"
+                  required
                   value={formValues.actoJuridico}
                   onChange={handleInputChange}
                   label={TERRENO.actoJuridico}

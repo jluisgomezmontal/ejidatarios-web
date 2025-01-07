@@ -239,6 +239,7 @@ export const Perfil = () => {
             <Table striped bordered hover variant="dark" responsive>
               <thead>
                 <tr>
+                  <th>No.</th>
                   <th>{TERRENO.numeroParcela}</th>
                   <th>{TERRENO.tipoCertificado}</th>
                   <th>
@@ -252,6 +253,7 @@ export const Perfil = () => {
               <tbody>
                 {terrenos?.map((terreno, index) => (
                   <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>
                       {
                         <Link

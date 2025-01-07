@@ -66,14 +66,13 @@ export const Buscar = () => {
                 onChange={handleInputChange}
                 name="metodoDeBusqueda"
               >
-                <MenuItem value={""}>Seleccione una opcion</MenuItem>
                 <MenuItem value="ID">1.-ID</MenuItem>
                 <MenuItem value="CURP">2.-CURP</MenuItem>
                 <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
                 <MenuItem value="NUMEROCERTIFICADO">
-                  5.-Numero de Certificado
+                  4.-Numero de Certificado
                 </MenuItem>
-                <MenuItem value="parcelaOrigen">6.-Parcela de Origen</MenuItem>
+                <MenuItem value="parcelaOrigen">5.-Parcela de Origen</MenuItem>
               </Select>
             </FormControl>
           </Grid>
