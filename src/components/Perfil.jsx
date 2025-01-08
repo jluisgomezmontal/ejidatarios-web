@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { Alert } from "react-bootstrap";
 import Button from "@mui/material/Button";
-import { EJIDATARIO, TERRENO } from "../utils/const";
+import { BOTONES, EJIDATARIO, RUTAS, TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -12,7 +12,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 export const Perfil = () => {
@@ -154,27 +160,44 @@ export const Perfil = () => {
               </Grid>
               {ejidatario.documentoPDF !== "" && (
                 <Grid size={12} className="mb-4">
-                  <Button
-                    component="label"
-                    color="secondary"
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudDownloadIcon />}
-                    onClick={() => {
-                      window.open(
-                        `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`,
-                        "_blank"
-                      );
-                    }}
+                  <ButtonGroup
+                    aria-label="Disabled button group"
+                    variant="outlined"
                   >
-                    Descargar INE
-                  </Button>
+                    <Button
+                      component="label"
+                      color="success"
+                      tabIndex={-1}
+                      startIcon={<CloudDownloadIcon />}
+                      onClick={() => {
+                        window.open(
+                          `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      {BOTONES.descargarINE}
+                    </Button>
+                    <Button
+                      component="label"
+                      color="info"
+                      tabIndex={-1}
+                      startIcon={<CloudDownloadIcon />}
+                      onClick={() => {
+                        window.open(
+                          `https://ejidatarios-api.onrender.com/uploads/${ejidatario.documentoPDF}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      {BOTONES.verINE}
+                    </Button>
+                  </ButtonGroup>
                 </Grid>
               )}
             </Grid>
           </Box>
           <div className="d-flex gap-2 my-4">
-            {" "}
             <Button
               variant="contained"
               endIcon={<EditIcon />}
@@ -184,7 +207,7 @@ export const Perfil = () => {
                 })
               }
             >
-              Editar
+              {BOTONES.editar}
             </Button>
             <Button
               variant="contained"
@@ -229,7 +252,7 @@ export const Perfil = () => {
                 }
               }}
             >
-              Eliminar
+              {BOTONES.eliminar}
             </Button>
           </div>
 
@@ -259,22 +282,37 @@ export const Perfil = () => {
                         <Link
                           className="link"
                           target="_blank"
-                          to={`/terreno/${terreno.numeroParcela}`}
+                          to={`${RUTAS.parcela}${terreno.numeroParcela}`}
                         >
                           {terreno.numeroParcela}
                           {terreno.numeroParcela && <LaunchIcon />}
                         </Link>
                       }
                     </td>
-                    <td>{terreno.tipoCertificado}</td>
-                    <td>{terreno.numeroCertificado}</td>
+                    <td>
+                      {terreno.tipoCertificado === "USO COMUN"
+                        ? `${terreno.tipoCertificado} ${terreno.porcentaje}%`
+                        : terreno.tipoCertificado}
+                    </td>
+                    <td>
+                      {
+                        <Link
+                          className="link"
+                          target="_blank"
+                          to={`${RUTAS.terreno}${terreno.numeroCertificado}`}
+                        >
+                          {terreno.numeroCertificado}
+                          {terreno.numeroCertificado && <LaunchIcon />}
+                        </Link>
+                      }
+                    </td>
                     <td>{terreno.actoJuridico}</td>
                     <td>
                       {
                         <Link
                           className="link"
                           target="_blank"
-                          to={`/terreno/${terreno.parcelaOrigen}`}
+                          to={`${RUTAS.parcela}${terreno.parcelaOrigen}`}
                         >
                           {terreno.parcelaOrigen}
                           {terreno.parcelaOrigen && <LaunchIcon />}

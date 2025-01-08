@@ -10,8 +10,8 @@
 .link{
     text-decoration: none;
     color: #22A5C3;
-    text-transform: uppercase
-    ;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 @media (min-width: 778px) {
     .home{

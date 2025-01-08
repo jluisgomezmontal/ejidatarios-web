@@ -37,6 +37,8 @@ export const Buscar = () => {
       url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.valor}`;
     } else if (formValues.metodoDeBusqueda === "NUMEROCERTIFICADO") {
       url = `https://ejidatarios-api.onrender.com/api/terrenos/certificado/${formValues.valor}`;
+    } else if (formValues.metodoDeBusqueda === "PARCELAORIGEN") {
+      url = `https://ejidatarios-api.onrender.com/api/terrenos/origen/${formValues.valor}`;
     } else {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
     }
@@ -72,7 +74,7 @@ export const Buscar = () => {
                 <MenuItem value="NUMEROCERTIFICADO">
                   4.-Numero de Certificado
                 </MenuItem>
-                <MenuItem value="parcelaOrigen">5.-Parcela de Origen</MenuItem>
+                <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
               </Select>
             </FormControl>
           </Grid>

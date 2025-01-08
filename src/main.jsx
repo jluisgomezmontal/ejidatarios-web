@@ -23,6 +23,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { EditarEjidatarios } from "./routes/EditarEjidatario.jsx";
 import { EditarTerrenos } from "./routes/EditarTerreno.jsx";
+import { RUTAS } from "./utils/const.js";
+import { Parcela } from "./components/Parcela.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -39,7 +41,7 @@ const darkTheme = createTheme({
 const router = createBrowserRouter(
   [
     {
-      path: "/",
+      path: RUTAS.home,
       element: (
         <PrivateRoute>
           <App />
@@ -52,37 +54,41 @@ const router = createBrowserRouter(
           element: <Home />,
         },
         {
-          path: "sujeto",
+          path: RUTAS.agregarSujeto,
           element: <Ejidatarios />,
         },
         {
-          path: "parcela",
+          path: RUTAS.agregarParcela,
           element: <Ejidos />,
         },
         {
-          path: "buscar",
+          path: RUTAS.buscar,
           element: <Buscar />,
         },
         {
-          path: "perfil/:ID",
+          path: RUTAS.perfilID,
           element: <Perfil />,
         },
         {
-          path: "terreno/:ID",
+          path: RUTAS.parcelaID,
+          element: <Parcela />,
+        },
+        {
+          path: RUTAS.terrenoID,
           element: <Terreno />,
         },
         {
-          path: "editar/ejidatario/:ID",
+          path: RUTAS.editarEjidatarios,
           element: <EditarEjidatarios />,
         },
         {
-          path: "editar/terreno/:ID",
+          path: RUTAS.editarTerrenos,
           element: <EditarTerrenos />,
         },
       ],
     },
     {
-      path: "login",
+      path: RUTAS.login,
       element: <Login />,
     },
   ],

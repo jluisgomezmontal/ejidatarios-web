@@ -114,7 +114,7 @@ export const Ejidatarios = () => {
                   variant="outlined"
                 />
                 {field.name === "curp" && (
-                  <FormHelperText id="my-helper-text">
+                  <FormHelperText id="my-helper-text" className="mt-2">
                     <a
                       target="_blank"
                       className="link text-capitalize"
