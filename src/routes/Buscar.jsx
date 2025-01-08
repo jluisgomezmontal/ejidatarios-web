@@ -26,7 +26,6 @@ export const Buscar = () => {
     }
 
     let url;
-    console.log(formValues);
     if (formValues.metodoDeBusqueda === "ID") {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.valor}`;
     } else if (formValues.metodoDeBusqueda === "CURP") {

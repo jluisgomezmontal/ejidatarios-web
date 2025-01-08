@@ -31,12 +31,10 @@ export const EditarEjidatarios = () => {
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
-        console.log(key, value);
       });
       // No se usa "Content-Type" con FormData
 
       const response = await axios.put(apiEjidatarios, formData);
-      console.log(response.data);
 
       Swal.fire({
         icon: response.data.msg ? "success" : "error",

@@ -12,7 +12,6 @@ import { StyledTableCell, StyledTableRow } from "../styles";
 // eslint-disable-next-line react/prop-types
 
 export const EjidatarioTable = ({ resultado }) => {
-  console.log(resultado);
   if (Array.isArray(resultado)) {
     function createData(
       nombre,
@@ -45,7 +44,6 @@ export const EjidatarioTable = ({ resultado }) => {
         ejidatario.iD_Ejidatario ?? ejidatario.propietario.iD_Ejidatario
       )
     );
-    console.log(rows);
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">

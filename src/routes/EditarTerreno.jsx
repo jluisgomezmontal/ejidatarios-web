@@ -23,7 +23,6 @@ export const EditarTerrenos = () => {
   const location = useLocation();
   const params = useParams();
   const [terreno, setTerreno] = useState(location.state);
-  console.log(terreno);
   const [formValues, handleInputChange, reset, agregarPropietario] =
     useForm(terreno);
 
@@ -37,15 +36,12 @@ export const EditarTerrenos = () => {
       Object.entries(formValues).forEach(([key, value]) => {
         if (key === "propietario") {
           formData.append(key, value._id);
-          console.log(key, value);
         } else {
           formData.append(key, value);
-          console.log(key, value);
         }
       });
       // No se usa "Content-Type" con FormData
       const response = await axios.put(apiEjidatarios, formData);
-      console.log(response.data);
 
       Swal.fire({
         icon: response.data.msg ? "success" : "error",
@@ -65,7 +61,6 @@ export const EditarTerrenos = () => {
   };
   const handleIdentificar = async (event) => {
     event.preventDefault();
-    console.log(formValues);
     try {
       const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
@@ -84,7 +79,6 @@ export const EditarTerrenos = () => {
       const data = await response.json();
       agregarPropietario(data.propietario._id, true);
       setOrigen(data);
-      console.log(data);
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
       setOrigen({ error: "error" });

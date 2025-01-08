@@ -29,8 +29,6 @@ export const Parcela = () => {
         response2.json(),
       ]);
       setTerreno(ejidatario.reverse());
-      console.log(ejidatario);
-      console.log(posesionarios);
       setPosesionario(posesionarios);
       setLoading(!loading);
     };

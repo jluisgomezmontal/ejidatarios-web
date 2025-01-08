@@ -4,14 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { setLoggedOut } from "../redux/loginSlice.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { RUTAS } from "../utils/const.js";
 
 function NavbarComponent() {
-  const { user } = useSelector(({ login }) => login);
+  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
-
   // Tiempo de inactividad en milisegundos (10 minutos)
   const inactivityTime = 10 * 1000 * 60;
 
