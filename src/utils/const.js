@@ -46,5 +46,8 @@ export const BOTONES = {
   descargarINE: "Descargar INE",
   verINE: "Ver INE",
   editar: "Editar",
+  editarEjidatario: "Confirmar",
   eliminar: "Eliminar",
+  cancelarEdicion: "Cancelar",
+  cancelar: "Datos no guardados",
 };

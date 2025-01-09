@@ -35,6 +35,7 @@ export const useForm = (initialState = {}) => {
           ...values,
           [name]: value.toUpperCase(),
           parcelaOrigen: "",
+          porcentaje: "",
         });
       }
       if (value === "POSESION") {
@@ -42,6 +43,7 @@ export const useForm = (initialState = {}) => {
           ...values,
           [name]: value.toUpperCase(),
           numeroParcela: "",
+          porcentaje: "",
         });
       }
       if (value === "USO COMUN") {

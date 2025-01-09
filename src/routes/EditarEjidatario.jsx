@@ -1,7 +1,7 @@
 import { useForm } from "../hooks/useForm.jsx";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { EJIDATARIO } from "../utils/const.js";
+import { BOTONES, EJIDATARIO } from "../utils/const.js";
 import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,10 +9,13 @@ import Grid from "@mui/material/Grid2";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import SendIcon from "@mui/icons-material/Send";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import axios from "axios";
+import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 export const EditarEjidatarios = () => {
+  let navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
   const [ejidatario] = useState(location.state);
@@ -75,7 +78,6 @@ export const EditarEjidatarios = () => {
                 onChange={handleInputChange}
                 name="calidadAgraria"
               >
-                <MenuItem value={""}>Seleccione una opcion</MenuItem>
                 <MenuItem value="EJIDATARIO">1.-EJIDATARIO</MenuItem>
                 <MenuItem value="AVECINDADO">2.-AVECINDADO</MenuItem>
                 <MenuItem value="POSESIONARIO DE HECHO">
@@ -176,13 +178,31 @@ export const EditarEjidatarios = () => {
             </Button>
           </Grid>
           <Grid size={12}>
-            <Button
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSubmit}
-            >
-              Editar Ejidatario
-            </Button>
+            <div className="d-flex gap-2 my-4">
+              <Button
+                variant="contained"
+                endIcon={<EditIcon />}
+                onClick={handleSubmit}
+              >
+                {BOTONES.editarEjidatario}
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                endIcon={<CancelIcon />}
+                onClick={async () => {
+                  Swal.fire({
+                    title: BOTONES.cancelar,
+                    icon: "info",
+                    confirmButtonColor: "#0d6efd",
+                    timer: 1500,
+                  });
+                  navigate("/");
+                }}
+              >
+                {BOTONES.cancelarEdicion}
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </Box>

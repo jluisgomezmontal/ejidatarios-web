@@ -1,5 +1,5 @@
 import { useForm } from "../hooks/useForm.jsx";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import TextField from "@mui/material/TextField";
@@ -13,12 +13,14 @@ import {
   Select,
 } from "@mui/material";
 import axios from "axios";
-
-import { TERRENO } from "../utils/const.js";
+import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { BOTONES, TERRENO } from "../utils/const.js";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 export const EditarTerrenos = () => {
+  let navigate = useNavigate();
   const [origen, setOrigen] = useState({});
   const location = useLocation();
   const params = useParams();
@@ -139,7 +141,7 @@ export const EditarTerrenos = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid size={6}>
-              <FormControl fullWidth disabled>
+              <FormControl fullWidth>
                 <InputLabel>{TERRENO.tipoCertificado}</InputLabel>
                 <Select
                   name="tipoCertificado"
@@ -155,16 +157,26 @@ export const EditarTerrenos = () => {
               </FormControl>
             </Grid>
             <Grid size={6}>
-              {formValues.tipoCertificado === "PARCELARIO" && (
+              {formValues.tipoCertificado === "PARCELARIO" ? (
                 <TextField
                   fullWidth
                   required
-                  disabled
                   label={TERRENO.numeroParcela}
                   name="numeroParcela"
                   value={formValues.numeroParcela}
                   onChange={handleInputChange}
                 />
+              ) : (
+                formValues.tipoCertificado === "USO COMUN" && (
+                  <TextField
+                    fullWidth
+                    required
+                    label={TERRENO.porcentaje}
+                    name="porcentaje"
+                    value={formValues.porcentaje}
+                    onChange={handleInputChange}
+                  />
+                )
               )}
             </Grid>
             {formValues.tipoCertificado === "POSESION" && (
@@ -244,9 +256,31 @@ export const EditarTerrenos = () => {
               />
             </Grid>
             <Grid xs={12}>
-              <Button type="submit" variant="contained">
-                Guardar
-              </Button>
+              <div className="d-flex gap-2 my-4">
+                <Button
+                  variant="contained"
+                  endIcon={<EditIcon />}
+                  onClick={handleSubmit}
+                >
+                  {BOTONES.editarEjidatario}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  endIcon={<CancelIcon />}
+                  onClick={async () => {
+                    Swal.fire({
+                      title: BOTONES.cancelar,
+                      icon: "info",
+                      confirmButtonColor: "#0d6efd",
+                      timer: 1500,
+                    });
+                    navigate("/");
+                  }}
+                >
+                  {BOTONES.cancelarEdicion}
+                </Button>
+              </div>
             </Grid>
           </Grid>
         </Box>
