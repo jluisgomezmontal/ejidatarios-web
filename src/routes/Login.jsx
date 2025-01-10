@@ -1,7 +1,6 @@
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { Usuarios } from "../mocks.js";
 import { useForm } from "../hooks/useForm.jsx";
 import { useDispatch } from "react-redux";
 import { setLoggedIn } from "../redux/loginSlice.js";
@@ -10,21 +9,24 @@ import { useState } from "react";
 
 function Login() {
   const initialForm = {
-    telefono: "7444215691",
-    contraseña: "IBQ13320058",
+    telefono: "",
+    contraseña: "",
   };
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const [formValues, handleInputChange] = useForm(initialForm);
   const dispatch = useDispatch();
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    const usuario = Usuarios.find(
-      (user) => user.telefono === formValues.telefono
-    );
+    const url = "https://ejidatarios-api.onrender.com/api/usuarios";
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    const usuario = data.find((user) => user.telefono === formValues.telefono);
+    console.log(usuario);
     if (
-      usuario?.telefono === formValues.telefono &&
-      usuario?.contraseña === formValues.contraseña
+      usuario.telefono === formValues.telefono &&
+      usuario.password === formValues.contraseña
     ) {
       setError(false);
       dispatch(setLoggedIn(JSON.stringify(usuario)));
@@ -35,7 +37,7 @@ function Login() {
   };
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form>
+      <Form className=" p-5 border border-info border-3 rounded">
         <h1 className="mb-5">Iniciar Sesion</h1>
         <Col className="mx-">
           <Form.Group className="mb-3" controlId="formGroupEmail">

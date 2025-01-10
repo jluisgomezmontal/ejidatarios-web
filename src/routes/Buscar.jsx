@@ -12,7 +12,7 @@ import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
 export const Buscar = () => {
   const initialForm = {
     metodoDeBusqueda: "",
-    valor: "220690",
+    valor: "",
   };
   const [formValues, handleInputChange] = useForm(initialForm);
   const [resultado, setResultado] = useState({});
