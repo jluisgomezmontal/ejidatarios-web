@@ -87,7 +87,7 @@ export const EditarTerrenos = () => {
     }
   };
   return (
-    <div style={{ padding: "2rem" }} className="vh-100">
+    <div style={{ padding: "2rem" }}>
       <h2 className="text-center my-4 fs-1 text-info ">Editar Parcela</h2>
 
       <form onSubmit={handleIdentificar}>

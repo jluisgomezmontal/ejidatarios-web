@@ -7,6 +7,7 @@ import { setLoggedOut } from "../redux/loginSlice.js";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { RUTAS } from "../utils/const.js";
+import { Footer } from "./Footer.jsx";
 
 function NavbarComponent() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -39,7 +40,7 @@ function NavbarComponent() {
   }, []);
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar
         collapseOnSelect
         expand="lg"
@@ -86,10 +87,12 @@ function NavbarComponent() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container id="detail" className="pt-3">
+
+      <Container id="detail" className="pt-3 flex-grow-1">
         <Outlet />
       </Container>
-    </>
+      <Footer />
+    </div>
   );
 }
 

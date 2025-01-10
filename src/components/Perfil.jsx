@@ -52,11 +52,11 @@ export const Perfil = () => {
   return (
     <>
       {loading ? (
-        <div className="vh-100 d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
           <Spinner animation="border" variant="info" />
         </div>
       ) : (
-        <div className="mt-5 vh-100">
+        <div className="mt-5">
           <h2 className="text-center my-4 fs-1 text-info ">Sujeto</h2>
           <Box component="form" noValidate autoComplete="off">
             <Grid

@@ -29,12 +29,12 @@ export const Terreno = () => {
   return (
     <>
       {loading ? (
-        <div className="vh-100 d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
           <Spinner animation="border" variant="info" />
         </div>
       ) : (
         <>
-          <div className="mt-5 vh-100">
+          <div className="mt-5">
             <h2 className="text-center my-4 fs-1 text-info ">Terreno</h2>
             <Table striped bordered hover variant="dark" className="mb-5">
               <thead>

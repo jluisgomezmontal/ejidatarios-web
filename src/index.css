@@ -7,6 +7,13 @@
     color: white;
 }
 
+.footer{
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .link{
     text-decoration: none;
     color: #22A5C3;
@@ -18,7 +25,6 @@
         display: flex;
         justify-content: center; /* Alinea horizontalmente */
         align-items: center;    /* Alinea verticalmente */
-        height: 40vh;
     }
 
     .ejido{
@@ -29,16 +35,17 @@
     .comisario{
         font-size: 50px;
         text-align: center;
-        padding-top: 20px;
+        padding-top: 10px;
     }
 
     .transicion{
         font-size: 60px;
         text-align: center;
-        padding-top: 20px;
+        padding-top: 10px;
     }
 
     .caballos{
-        height: 60vh!important;
+        height: 50vh!important;
     }
 }
+

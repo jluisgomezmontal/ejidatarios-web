@@ -60,7 +60,7 @@ export const Ejidatarios = () => {
   };
 
   return (
-    <div className="vh-100">
+    <div>
       <h2 className="text-center my-4 fs-1 text-info ">
         Agregar Sujeto Agrario
       </h2>
