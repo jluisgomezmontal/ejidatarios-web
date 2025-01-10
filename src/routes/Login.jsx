@@ -21,9 +21,8 @@ function Login() {
     const url = "https://ejidatarios-api.onrender.com/api/usuarios";
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     const usuario = data.find((user) => user.telefono === formValues.telefono);
-    console.log(usuario);
+    if (!usuario) setError(true);
     if (
       usuario.telefono === formValues.telefono &&
       usuario.password === formValues.contraseña
@@ -44,6 +43,7 @@ function Login() {
             <Form.Label>Numero de Celular</Form.Label>
             <Form.Control
               type="email"
+              autoComplete="false"
               placeholder="Introduce Celular"
               onChange={handleInputChange}
               name="telefono"
