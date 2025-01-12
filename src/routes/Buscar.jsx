@@ -51,7 +51,13 @@ export const Buscar = () => {
         Agregar Sujeto Agrario
       </h2>
 
-      <Box component="form" sx={{ flexGrow: 1 }} noValidate autoComplete="off">
+      <Box
+        component="form"
+        sx={{ flexGrow: 1 }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid size={6}>
             <FormControl sx={{ width: "100%" }}>
@@ -74,6 +80,7 @@ export const Buscar = () => {
                   4.-Numero de Certificado
                 </MenuItem>
                 <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
+                <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -94,6 +101,7 @@ export const Buscar = () => {
               variant="contained"
               endIcon={<SearchIcon />}
               onClick={handleSubmit}
+              type="submit"
             >
               Buscar
             </Button>

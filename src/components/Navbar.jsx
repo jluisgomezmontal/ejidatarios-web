@@ -56,7 +56,7 @@ function NavbarComponent() {
             <Nav className="me-auto"></Nav>
             <Nav>
               <Nav.Link eventKey="3" disabled className="me-5">
-                {user.nombre} {user.apellido}
+                {user.name}
               </Nav.Link>
               <Link
                 className="text-decoration-none me-3 nav-link"

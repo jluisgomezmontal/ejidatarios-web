@@ -23,7 +23,9 @@ const initialForm = {
   parcelaOrigen: "",
   porcentaje: "",
 };
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { VisuallyHiddenInput } from "../styles/index.js";
 export const Ejidos = () => {
   const [formValues, handleInputChange, reset, agregarPropietario] =
     useForm(initialForm);
@@ -250,6 +252,26 @@ export const Ejidos = () => {
                 onChange={handleInputChange}
               />
             </Grid>
+            {formValues.tipoCertificado === "POSESION" && (
+              <Grid size={12}>
+                <Button
+                  component="label"
+                  role={undefined}
+                  color="secondary"
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Subir Documentos
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={handleInputChange}
+                    name="documentoPDF"
+                  />
+                </Button>
+              </Grid>
+            )}
+
             <Grid xs={12}>
               <Button type="submit" variant="contained">
                 Guardar

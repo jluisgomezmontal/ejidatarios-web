@@ -21,6 +21,7 @@ export const Terreno = () => {
 
       const data = await response.json();
       setTerreno(data);
+      console.log(data);
       setLoading(!loading);
     };
     fetchData();
@@ -61,7 +62,7 @@ export const Terreno = () => {
                       to={`${RUTAS.perfil}${terreno.iD_Ejidatario}`}
                       className="link"
                     >
-                      {terreno.propietario.nombre}{" "}
+                      {terreno.propietario.nombre ?? ""}{" "}
                       {terreno.propietario.apellidoPaterno}{" "}
                       {terreno.propietario.apellidoMaterno}
                       {terreno.propietario.nombre && <LaunchIcon />}
