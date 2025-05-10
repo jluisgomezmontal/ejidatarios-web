@@ -13,8 +13,10 @@ import { VisuallyHiddenInput } from "../styles/index.js";
 import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useSelector } from "react-redux";
 
 export const EditarEjidatarios = () => {
+  const user = useSelector((state) => state.login.user);
   let navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -24,7 +26,6 @@ export const EditarEjidatarios = () => {
   useEffect(() => {
     reset(); // Actualiza los valores del formulario cuando ejidatario cambie
   }, [ejidatario]); // Se ejecuta cuando se actualiza el estado de ejidatario
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +37,9 @@ export const EditarEjidatarios = () => {
         formData.append(key, value);
       });
       // No se usa "Content-Type" con FormData
-
+      formData.delete("creadoPor");
+      formData.delete("actualizadoPor");
+      formData.append("actualizadoPor", user._id); // ✅ Aquí agregas el ID del usuario
       const response = await axios.put(apiEjidatarios, formData);
 
       Swal.fire({
@@ -45,7 +48,7 @@ export const EditarEjidatarios = () => {
         showConfirmButton: false,
         timer: 1800,
       });
-
+      navigate("/");
       params.ID === undefined && reset();
     } catch (error) {
       Swal.fire({

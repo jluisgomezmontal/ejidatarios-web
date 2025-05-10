@@ -281,7 +281,6 @@ export const Perfil = () => {
                       {
                         <Link
                           className="link"
-                          target="_blank"
                           to={`${RUTAS.parcela}${terreno.numeroParcela}`}
                         >
                           {terreno.numeroParcela}
@@ -298,7 +297,6 @@ export const Perfil = () => {
                       {
                         <Link
                           className="link"
-                          target="_blank"
                           to={`${RUTAS.terreno}${terreno.numeroCertificado}`}
                         >
                           {terreno.numeroCertificado}
@@ -311,7 +309,6 @@ export const Perfil = () => {
                       {
                         <Link
                           className="link"
-                          target="_blank"
                           to={`${RUTAS.parcela}${terreno.parcelaOrigen}`}
                         >
                           {terreno.parcelaOrigen}
@@ -322,7 +319,6 @@ export const Perfil = () => {
                     <td>
                       {terreno.documentoPDF !== "" && (
                         <Link
-                          target="_blank"
                           to={`https://ejidatarios-api.onrender.com/api/terrenos/files/${terreno.documentoPDF}`}
                         >
                           Descargar

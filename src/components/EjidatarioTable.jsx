@@ -80,11 +80,7 @@ export const EjidatarioTable = ({ resultado }) => {
                 <StyledTableCell align="left">{row.curp}</StyledTableCell>
                 <StyledTableCell align="left">{row.telefono}</StyledTableCell>
                 <StyledTableCell align="left">
-                  <Link
-                    className="link"
-                    target="_blank"
-                    to={`/perfil/${row.iD_Ejidatario}`}
-                  >
+                  <Link className="link" to={`/perfil/${row.iD_Ejidatario}`}>
                     Visitar
                     <LaunchIcon />
                   </Link>
@@ -136,7 +132,6 @@ export const EjidatarioTable = ({ resultado }) => {
               <StyledTableCell align="left">
                 <Link
                   className="link"
-                  target="_blank"
                   to={`/perfil/${
                     resultado.propietario?.iD_Ejidatario ??
                     resultado?.iD_Ejidatario

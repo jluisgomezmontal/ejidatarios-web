@@ -58,7 +58,6 @@ export const Terreno = () => {
 
                   <td>
                     <Link
-                      target="_blank"
                       to={`${RUTAS.perfil}${terreno.iD_Ejidatario}`}
                       className="link"
                     >

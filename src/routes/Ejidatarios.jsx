@@ -16,8 +16,10 @@ import { useForm } from "../hooks/useForm.jsx";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { EJIDATARIO } from "../utils/const.js";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { useSelector } from "react-redux";
 
 export const Ejidatarios = () => {
+  const user = useSelector((state) => state.login.user);
   const initialForm = {
     calidadAgraria: "",
     iD_Ejidatario: "",
@@ -27,6 +29,7 @@ export const Ejidatarios = () => {
     telefono: "",
     curp: "",
     documentoPDF: "",
+    creadoPor: user._id,
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
 
@@ -116,7 +119,6 @@ export const Ejidatarios = () => {
                 {field.name === "curp" && (
                   <FormHelperText id="my-helper-text" className="mt-2">
                     <a
-                      target="_blank"
                       className="link text-capitalize"
                       href="https://www.gob.mx/curp/"
                     >

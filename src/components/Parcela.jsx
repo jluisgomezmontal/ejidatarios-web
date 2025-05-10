@@ -71,7 +71,6 @@ export const Parcela = () => {
 
                     <td>
                       <Link
-                        target="_blank"
                         to={`${RUTAS.perfil}${ter.iD_Ejidatario}`}
                         className="link"
                       >
@@ -169,7 +168,6 @@ export const Parcela = () => {
 
                         <td>
                           <Link
-                            target="_blank"
                             to={`${RUTAS.perfil}${pos.iD_Ejidatario}`}
                             className="link"
                           >
