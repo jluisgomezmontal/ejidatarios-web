@@ -54,7 +54,7 @@ export const EjidatarioTable = ({ resultado }) => {
               <StyledTableCell align="left">Nombre Completo</StyledTableCell>
               <StyledTableCell align="left">{EJIDATARIO.curp}</StyledTableCell>
               <StyledTableCell align="left">
-                {EJIDATARIO.calidadAgraria}
+                {EJIDATARIO.telefono}
               </StyledTableCell>
               <StyledTableCell align="left">
                 {EJIDATARIO.perfil}
@@ -101,7 +101,7 @@ export const EjidatarioTable = ({ resultado }) => {
               <StyledTableCell align="left">Nombre Completo</StyledTableCell>
               <StyledTableCell align="left">{EJIDATARIO.curp}</StyledTableCell>
               <StyledTableCell align="left">
-                {EJIDATARIO.calidadAgraria}
+                {EJIDATARIO.telefono}
               </StyledTableCell>
               <StyledTableCell align="left">
                 {EJIDATARIO.perfil}
