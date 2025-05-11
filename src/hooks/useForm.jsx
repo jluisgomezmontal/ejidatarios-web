@@ -20,8 +20,6 @@ export const useForm = (initialState = {}) => {
   };
   const handleInputChange = ({ target }) => {
     const { name, value, type, files } = target;
-    console.log(name)
-    console.log(value)
     if (type === "file") {
       setValues({
         ...values,
