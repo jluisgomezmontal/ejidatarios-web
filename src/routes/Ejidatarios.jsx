@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 
 export const Ejidatarios = () => {
   const user = useSelector((state) => state.login.user);
+  console.log(user)
   const initialForm = {
     calidadAgraria: "",
     iD_Ejidatario: "",
@@ -39,7 +40,7 @@ export const Ejidatarios = () => {
     try {
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
-
+console.log(initialForm)
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);

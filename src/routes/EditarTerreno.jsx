@@ -4,6 +4,9 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { VisuallyHiddenInput } from "../styles/index.js";
+
 import {
   Button,
   Box,
@@ -255,6 +258,23 @@ export const EditarTerrenos = () => {
                 onChange={handleInputChange}
               />
             </Grid>
+            <Grid size={12}>
+                <Button
+                  component="label"
+                  role={undefined}
+                  color="secondary"
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Subir Documentos
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={handleInputChange}
+                    name="documentoPDF"
+                  />
+                </Button>
+              </Grid>
             <Grid xs={12}>
               <div className="d-flex gap-2 my-4">
                 <Button
