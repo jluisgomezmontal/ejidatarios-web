@@ -20,6 +20,8 @@ export const useForm = (initialState = {}) => {
   };
   const handleInputChange = ({ target }) => {
     const { name, value, type, files } = target;
+    console.log(name)
+    console.log(value)
     if (type === "file") {
       setValues({
         ...values,
@@ -30,6 +32,12 @@ export const useForm = (initialState = {}) => {
         ...values,
         [name]: value.toUpperCase(),
       });
+      if (name === "contraseña") {
+        setValues({
+          ...values,
+          [name]: value,
+        });
+      }
       if (value === "PARCELARIO") {
         setValues({
           ...values,

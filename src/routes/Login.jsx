@@ -23,6 +23,8 @@ function Login() {
     const data = await response.json();
     const usuario = data.find((user) => user.telefono === formValues.telefono);
     if (!usuario) setError(true);
+    console.log(usuario)
+    console.log(formValues)
     if (
       usuario.telefono === formValues.telefono &&
       usuario.password === formValues.contraseña
