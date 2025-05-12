@@ -20,6 +20,13 @@ export const useForm = (initialState = {}) => {
   };
   const handleInputChange = ({ target }) => {
     const { name, value, type, files } = target;
+    if (name === "iD_Ejidatario") {
+      const user = localStorage.getItem("user");
+      setValues({
+        ...values,
+        creadoPor: user._id,
+      });
+    }
     if (type === "file") {
       setValues({
         ...values,

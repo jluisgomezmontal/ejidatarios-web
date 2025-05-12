@@ -16,11 +16,8 @@ import { useForm } from "../hooks/useForm.jsx";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { EJIDATARIO } from "../utils/const.js";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { useSelector } from "react-redux";
 
 export const Ejidatarios = () => {
-  const user = useSelector((state) => state.login.user);
-  console.log(user)
   const initialForm = {
     calidadAgraria: "",
     iD_Ejidatario: "",
@@ -30,7 +27,6 @@ export const Ejidatarios = () => {
     telefono: "",
     curp: "",
     documentoPDF: "",
-    creadoPor: user._id,
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
 
@@ -40,7 +36,6 @@ export const Ejidatarios = () => {
     try {
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
-console.log(initialForm)
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
