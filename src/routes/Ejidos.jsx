@@ -31,16 +31,20 @@ export const Ejidos = () => {
     useForm(initialForm);
   const [ejidatario, setEjidatario] = useState({});
   const [origen, setOrigen] = useState({});
+  const [identificar, setIdentificar] = useState(false);
+  const [sujeto, setSujeto] = useState(false);
 
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
+      setSujeto(true)
       const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
       const data = await response.json();
       setEjidatario(data);
       agregarPropietario(data._id);
     } catch (error) {
+      setSujeto(false)
       console.error("Error al enviar los datos:", error.message);
     }
   };
@@ -48,6 +52,24 @@ export const Ejidos = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      if (sujeto === false) {
+        Swal.fire({
+          icon: "error",
+          title: "Identifique el Sujeto",
+          showConfirmButton: false,
+          timer: 1800,
+        });
+        return;
+      } 
+      if (identificar === false) {
+        Swal.fire({
+          icon: "error",
+          title: "Identifique la Parcela",
+          showConfirmButton: false,
+          timer: 1800,
+        });
+        return;
+      } 
       const url = `https://ejidatarios-api.onrender.com/api/terrenos`;
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
@@ -74,6 +96,7 @@ export const Ejidos = () => {
   const handleOrigen = async (e) => {
     try {
       e.preventDefault();
+      setIdentificar(true)
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
@@ -82,8 +105,10 @@ export const Ejidos = () => {
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
       setOrigen({ error: "error" });
+      setIdentificar(false)
     }
   };
+  console.log(identificar)
   return (
     <div style={{ padding: "2rem" }}>
       <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
@@ -177,7 +202,7 @@ export const Ejidos = () => {
             </Grid>
             {formValues.tipoCertificado === "POSESION" && (
               <>
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 3 }}>
                   <TextField
                     fullWidth
                     required
@@ -186,6 +211,7 @@ export const Ejidos = () => {
                     value={formValues.parcelaOrigen}
                     onChange={handleInputChange}
                   />
+
                 </Grid>
                 <Grid xs={12} md={2} sx={{ alignContent: "center" }}>
                   <Button variant="contained" onClick={handleOrigen}>
@@ -231,7 +257,7 @@ export const Ejidos = () => {
                 >
                   <MenuItem value={""}>Seleccione una opcion</MenuItem>
                   <MenuItem value="ADDAT">1.-ADDAT</MenuItem>
-                  <MenuItem value="ENAJENACION">2.-AJENACION</MenuItem>
+                  <MenuItem value="ENAJENACION">2.-ENAJENACION</MenuItem>
                   <MenuItem value="SENTENCIA">3.-SENTENCIA</MenuItem>
                 </Select>
               </FormControl>

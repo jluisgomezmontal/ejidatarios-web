@@ -237,7 +237,7 @@ export const EditarTerrenos = () => {
                 >
                   <MenuItem value={""}>Seleccione una opcion</MenuItem>
                   <MenuItem value="ADDAT">1.-ADDAT</MenuItem>
-                  <MenuItem value="ENAJENACION">2.-AJENACION</MenuItem>
+                  <MenuItem value="ENAJENACION">2.-ENAJENACION</MenuItem>
                   <MenuItem value="SENTENCIA">3.-SENTENCIA</MenuItem>
                 </Select>
               </FormControl>
