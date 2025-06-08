@@ -10,12 +10,14 @@ import {
   MenuItem,
   Select,
   FormHelperText,
+  Alert,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { EJIDATARIO } from "../utils/const.js";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { CheckCircleOutline } from "@mui/icons-material";
 
 export const Ejidatarios = () => {
   const initialForm = {
@@ -29,7 +31,7 @@ export const Ejidatarios = () => {
     documentoPDF: "",
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-
+console.log(formValues.documentoPDF.name)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -141,6 +143,12 @@ export const Ejidatarios = () => {
                   name="documentoPDF"
                 />
               </Button>
+              {
+                formValues.documentoPDF.name !== undefined &&
+                <Alert sx={{mt:3}} icon={<CheckCircleOutline fontSize="inherit" />} severity="success">
+                Documento subido con exito nombre del archivo:{" " +formValues.documentoPDF.name}
+              </Alert>
+              }
             </Grid>
             <Grid size={12}>
               <Button variant="contained" endIcon={<SendIcon />} type="submit">

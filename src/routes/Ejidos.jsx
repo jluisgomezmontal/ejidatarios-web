@@ -6,6 +6,7 @@ import {
   FormControl,
   InputLabel,
   Box,
+  Alert,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "../hooks/useForm.jsx";
@@ -26,6 +27,7 @@ const initialForm = {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { VisuallyHiddenInput } from "../styles/index.js";
+import { CheckCircleOutline } from "@mui/icons-material";
 export const Ejidos = () => {
   const [formValues, handleInputChange, reset, agregarPropietario] =
     useForm(initialForm);
@@ -61,7 +63,7 @@ export const Ejidos = () => {
         });
         return;
       } 
-      if (identificar === true) {
+      if (identificar === false) {
         Swal.fire({
           icon: "error",
           title: "Identifique la Parcela",
@@ -295,6 +297,12 @@ export const Ejidos = () => {
                     name="documentoPDF"
                   />
                 </Button>
+                {
+                  formValues.documentoPDF.name !== undefined &&
+                  <Alert sx={{mt:3}} icon={<CheckCircleOutline fontSize="inherit" />} severity="success">
+                  Documento subido con exito nombre del archivo:{" " +formValues.documentoPDF.name}
+                </Alert>
+                }
               </Grid>
             )}
 
