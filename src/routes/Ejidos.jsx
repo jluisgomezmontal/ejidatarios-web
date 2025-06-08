@@ -61,7 +61,7 @@ export const Ejidos = () => {
         });
         return;
       } 
-      if (identificar === false) {
+      if (identificar === true) {
         Swal.fire({
           icon: "error",
           title: "Identifique la Parcela",

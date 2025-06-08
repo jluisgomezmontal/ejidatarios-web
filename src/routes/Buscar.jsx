@@ -48,7 +48,7 @@ export const Buscar = () => {
   return (
     <div className="">
       <h2 className="text-center my-4 fs-1 text-info ">
-        Agregar Sujeto Agrario
+        Buscar en el Ejido 
       </h2>
 
       <Box

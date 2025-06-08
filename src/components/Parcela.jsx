@@ -14,6 +14,7 @@ export const Parcela = () => {
   let { ID } = useParams();
   const [loading, setLoading] = useState(true);
   const [terreno, setTerreno] = useState({});
+  console.log(terreno)
   const [posesionario, setPosesionario] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
