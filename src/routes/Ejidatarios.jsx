@@ -18,8 +18,10 @@ import { VisuallyHiddenInput } from "../styles/index.js";
 import { EJIDATARIO } from "../utils/const.js";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { CheckCircleOutline } from "@mui/icons-material";
+import { useState } from "react";
 
 export const Ejidatarios = () => {
+  const [loading, setLoading] = useState(false)
   const initialForm = {
     calidadAgraria: "",
     iD_Ejidatario: "",
@@ -31,11 +33,11 @@ export const Ejidatarios = () => {
     documentoPDF: "",
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-console.log(formValues.documentoPDF.name)
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
+      setLoading(!loading)
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
       const formData = new FormData();
@@ -57,6 +59,8 @@ console.log(formValues.documentoPDF.name)
       reset();
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
+    } finally{
+      setLoading(!loading)
     }
   };
 
@@ -151,7 +155,9 @@ console.log(formValues.documentoPDF.name)
               }
             </Grid>
             <Grid size={12}>
-              <Button variant="contained" endIcon={<SendIcon />} type="submit">
+              <Button disabled={loading}           loading={loading}     
+          loadingPosition="start"
+ variant="contained" endIcon={<SendIcon />} type="submit">
                 Crear Ejidatario
               </Button>
             </Grid>

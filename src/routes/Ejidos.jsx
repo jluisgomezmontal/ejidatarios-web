@@ -29,6 +29,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { CheckCircleOutline } from "@mui/icons-material";
 export const Ejidos = () => {
+  const [loading, setLoading] = useState(false)
   const [formValues, handleInputChange, reset, agregarPropietario] =
     useForm(initialForm);
   const [ejidatario, setEjidatario] = useState({});
@@ -39,6 +40,7 @@ export const Ejidos = () => {
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
+      setLoading(!loading)
       setSujeto(true)
       const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
@@ -48,6 +50,8 @@ export const Ejidos = () => {
     } catch (error) {
       setSujeto(false)
       console.error("Error al enviar los datos:", error.message);
+    } finally{
+      setLoading(!loading)
     }
   };
 
@@ -110,7 +114,6 @@ export const Ejidos = () => {
       setIdentificar(false)
     }
   };
-  console.log(identificar)
   return (
     <div style={{ padding: "2rem" }}>
       <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
@@ -307,7 +310,8 @@ export const Ejidos = () => {
             )}
 
             <Grid xs={12}>
-              <Button type="submit" variant="contained">
+              <Button disabled={loading}           loading={loading}     
+          loadingPosition="start" type="submit" variant="contained">
                 Guardar
               </Button>
             </Grid>
