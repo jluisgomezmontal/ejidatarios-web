@@ -55,7 +55,7 @@ export const Ejidos = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(!loading)
+      setLoading(true)
       if (sujeto === false) {
         Swal.fire({
           icon: "error",
@@ -96,7 +96,7 @@ export const Ejidos = () => {
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
     }finally{
-      setLoading(!loading)
+      setLoading(false)
     }
   };
   const handleOrigen = async (e) => {

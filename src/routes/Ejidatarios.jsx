@@ -37,7 +37,7 @@ export const Ejidatarios = () => {
     e.preventDefault();
     
     try {
-      setLoading(!loading)
+      setLoading(true)
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
       const formData = new FormData();
@@ -60,7 +60,7 @@ export const Ejidatarios = () => {
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
     } finally{
-      setLoading(!loading)
+      setLoading(false)
     }
   };
 
