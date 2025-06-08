@@ -40,7 +40,6 @@ export const Ejidos = () => {
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
-      setLoading(!loading)
       setSujeto(true)
       const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
@@ -50,14 +49,13 @@ export const Ejidos = () => {
     } catch (error) {
       setSujeto(false)
       console.error("Error al enviar los datos:", error.message);
-    } finally{
-      setLoading(!loading)
-    }
+    } 
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setLoading(!loading)
       if (sujeto === false) {
         Swal.fire({
           icon: "error",
@@ -97,6 +95,8 @@ export const Ejidos = () => {
       setOrigen({});
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
+    }finally{
+      setLoading(!loading)
     }
   };
   const handleOrigen = async (e) => {
