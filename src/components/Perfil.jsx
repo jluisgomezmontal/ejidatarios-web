@@ -318,11 +318,20 @@ export const Perfil = () => {
                     </td>
                     <td>
                       {terreno.documentoPDF !== "" && (
-                        <Link
-                          to={`https://ejidatarios-api.onrender.com/api/terrenos/files/${terreno.documentoPDF}`}
+                        <Button
+                          component="label"
+                          color="success"
+                          tabIndex={-1}
+                          startIcon={<CloudDownloadIcon />}
+                          onClick={() => {
+                            window.open(
+                              `https://ejidatarios-api.onrender.com/api/terrenos/files/${terreno.documentoPDF}`,
+                              "_blank"
+                            );
+                          }}
                         >
                           Descargar
-                        </Link>
+                        </Button>
                       )}
                     </td>
                   </tr>

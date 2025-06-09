@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "../hooks/useForm.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { TERRENO } from "../utils/const.js";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
@@ -28,34 +28,37 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { VisuallyHiddenInput } from "../styles/index.js";
 import { CheckCircleOutline } from "@mui/icons-material";
+
 export const Ejidos = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [formValues, handleInputChange, reset, agregarPropietario] =
     useForm(initialForm);
   const [ejidatario, setEjidatario] = useState({});
   const [origen, setOrigen] = useState({});
   const [identificar, setIdentificar] = useState(false);
   const [sujeto, setSujeto] = useState(false);
-
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
-      setSujeto(true)
+      setSujeto(true);
       const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
       const data = await response.json();
+      if (data.error) {
+        setSujeto(false);
+      }
       setEjidatario(data);
       agregarPropietario(data._id);
     } catch (error) {
-      setSujeto(false)
+      setSujeto(false);
       console.error("Error al enviar los datos:", error.message);
-    } 
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       if (sujeto === false) {
         Swal.fire({
           icon: "error",
@@ -64,7 +67,7 @@ export const Ejidos = () => {
           timer: 1800,
         });
         return;
-      } 
+      }
       if (identificar === false) {
         Swal.fire({
           icon: "error",
@@ -73,7 +76,7 @@ export const Ejidos = () => {
           timer: 1800,
         });
         return;
-      } 
+      }
       const url = `https://ejidatarios-api.onrender.com/api/terrenos`;
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
@@ -95,14 +98,17 @@ export const Ejidos = () => {
       setOrigen({});
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
+      setSujeto(false);
+      setIdentificar(false);
     }
   };
+
   const handleOrigen = async (e) => {
     try {
       e.preventDefault();
-      setIdentificar(true)
+      setIdentificar(true);
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
@@ -111,9 +117,18 @@ export const Ejidos = () => {
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
       setOrigen({ error: "error" });
-      setIdentificar(false)
+      setIdentificar(false);
     }
   };
+
+  useEffect(() => {
+    if (formValues.tipoCertificado !== "POSESION") {
+      setIdentificar(true);
+    } else {
+      setIdentificar(false);
+    }
+  }, [formValues.tipoCertificado]);
+
   return (
     <div style={{ padding: "2rem" }}>
       <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
@@ -216,7 +231,6 @@ export const Ejidos = () => {
                     value={formValues.parcelaOrigen}
                     onChange={handleInputChange}
                   />
-
                 </Grid>
                 <Grid xs={12} md={2} sx={{ alignContent: "center" }}>
                   <Button variant="contained" onClick={handleOrigen}>
@@ -300,18 +314,27 @@ export const Ejidos = () => {
                     name="documentoPDF"
                   />
                 </Button>
-                {
-                  formValues.documentoPDF.name !== undefined &&
-                  <Alert sx={{mt:3}} icon={<CheckCircleOutline fontSize="inherit" />} severity="success">
-                  Documento subido con exito nombre del archivo:{" " +formValues.documentoPDF.name}
-                </Alert>
-                }
+                {formValues.documentoPDF.name !== undefined && (
+                  <Alert
+                    sx={{ mt: 3 }}
+                    icon={<CheckCircleOutline fontSize="inherit" />}
+                    severity="success"
+                  >
+                    Documento subido con exito nombre del archivo:
+                    {" " + formValues.documentoPDF.name}
+                  </Alert>
+                )}
               </Grid>
             )}
 
             <Grid xs={12}>
-              <Button disabled={loading}           loading={loading}     
-          loadingPosition="start" type="submit" variant="contained">
+              <Button
+                disabled={loading}
+                loading={loading}
+                loadingPosition="start"
+                type="submit"
+                variant="contained"
+              >
                 Guardar
               </Button>
             </Grid>
