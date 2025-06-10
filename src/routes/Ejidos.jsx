@@ -14,6 +14,11 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { TERRENO } from "../utils/const.js";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { VisuallyHiddenInput } from "../styles/index.js";
+import { CheckCircleOutline } from "@mui/icons-material";
+
 const initialForm = {
   iD_Ejidatario: "",
   tipoCertificado: "",
@@ -24,10 +29,6 @@ const initialForm = {
   parcelaOrigen: "",
   porcentaje: "",
 };
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { VisuallyHiddenInput } from "../styles/index.js";
-import { CheckCircleOutline } from "@mui/icons-material";
 
 export const Ejidos = () => {
   const [loading, setLoading] = useState(false);
@@ -37,67 +38,59 @@ export const Ejidos = () => {
   const [origen, setOrigen] = useState({});
   const [identificar, setIdentificar] = useState(false);
   const [sujeto, setSujeto] = useState(false);
-  const handleIdentificar = async (event) => {
-    event.preventDefault();
+
+  const handleIdentificar = async (e) => {
+    e.preventDefault();
+    setSujeto(true);
     try {
-      setSujeto(true);
-      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
-      const response = await fetch(url);
-      const data = await response.json();
+      const res = await fetch(
+        `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`
+      );
+      const data = await res.json();
       if (data.error) {
         setSujeto(false);
+        setEjidatario({ error: data.error });
+        return;
       }
       setEjidatario(data);
       agregarPropietario(data._id);
-    } catch (error) {
+    } catch (err) {
+      console.error("Error al identificar sujeto:", err.message);
       setSujeto(false);
-      console.error("Error al enviar los datos:", error.message);
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validarFormulario()) return;
+
+    setLoading(true);
     try {
-      setLoading(true);
-      if (sujeto === false) {
-        Swal.fire({
-          icon: "error",
-          title: "Identifique el Sujeto",
-          showConfirmButton: false,
-          timer: 1800,
-        });
-        return;
-      }
-      if (identificar === false) {
-        Swal.fire({
-          icon: "error",
-          title: "Identifique la Parcela",
-          showConfirmButton: false,
-          timer: 1800,
-        });
-        return;
-      }
-      const url = `https://ejidatarios-api.onrender.com/api/terrenos`;
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
       });
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
+
+      const res = await fetch(
+        `https://ejidatarios-api.onrender.com/api/terrenos`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
       Swal.fire({
         icon: data.msg ? "success" : "error",
         title: data.msg || "Error en el formulario",
-        showConfirmButton: false,
         timer: 1800,
       });
+
       reset();
       setEjidatario({});
       setOrigen({});
-    } catch (error) {
-      console.error("Error al enviar los datos:", error.message);
+    } catch (err) {
+      console.error("Error al guardar terreno:", err.message);
     } finally {
       setLoading(false);
       setSujeto(false);
@@ -106,27 +99,44 @@ export const Ejidos = () => {
   };
 
   const handleOrigen = async (e) => {
+    e.preventDefault();
+    setIdentificar(true);
     try {
-      e.preventDefault();
-      setIdentificar(true);
-      const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      agregarPropietario(data[data.length - 1].propietario._id, true);
-      setOrigen(data[data.length - 1]);
-    } catch (error) {
-      console.error("Error al enviar los datos:", error.message);
-      setOrigen({ error: "error" });
+      const res = await fetch(
+        `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`
+      );
+      const data = await res.json();
+
+      const propietario = data.at(-1)?.propietario;
+      if (!propietario) throw new Error("Propietario no encontrado");
+
+      agregarPropietario(propietario._id, true);
+      setOrigen(data.at(-1));
+    } catch (err) {
+      console.error("Error al identificar parcela:", err.message);
+      setOrigen({ error: "Propietario no encontrado" });
       setIdentificar(false);
     }
   };
 
-  useEffect(() => {
-    if (formValues.tipoCertificado !== "POSESION") {
-      setIdentificar(true);
-    } else {
-      setIdentificar(false);
+  const validarFormulario = () => {
+    if (!sujeto) {
+      Swal.fire({ icon: "error", title: "Identifique el Sujeto", timer: 1800 });
+      return false;
     }
+    if (!identificar) {
+      Swal.fire({
+        icon: "error",
+        title: "Identifique la Parcela",
+        timer: 1800,
+      });
+      return false;
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    setIdentificar(formValues.tipoCertificado !== "POSESION");
   }, [formValues.tipoCertificado]);
 
   return (

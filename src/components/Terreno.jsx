@@ -21,7 +21,6 @@ export const Terreno = () => {
 
       const data = await response.json();
       setTerreno(data);
-      console.log(data);
       setLoading(!loading);
     };
     fetchData();

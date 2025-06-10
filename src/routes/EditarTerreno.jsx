@@ -82,8 +82,13 @@ export const EditarTerrenos = () => {
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
-      agregarPropietario(data.propietario._id, true);
-      setOrigen(data);
+      if (data.propietario === undefined) {
+        agregarPropietario(data[0].propietario._id, true);
+        setOrigen(data[0]);
+      } else {
+        agregarPropietario(data.propietario._id, true);
+        setOrigen(data);
+      }
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
       setOrigen({ error: "error" });
@@ -259,22 +264,22 @@ export const EditarTerrenos = () => {
               />
             </Grid>
             <Grid size={12}>
-                <Button
-                  component="label"
-                  role={undefined}
-                  color="secondary"
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Subir Documentos
-                  <VisuallyHiddenInput
-                    type="file"
-                    onChange={handleInputChange}
-                    name="documentoPDF"
-                  />
-                </Button>
-              </Grid>
+              <Button
+                component="label"
+                role={undefined}
+                color="secondary"
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Subir Documentos
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={handleInputChange}
+                  name="documentoPDF"
+                />
+              </Button>
+            </Grid>
             <Grid xs={12}>
               <div className="d-flex gap-2 my-4">
                 <Button
