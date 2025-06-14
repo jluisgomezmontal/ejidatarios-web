@@ -15,6 +15,38 @@ function NavbarComponent() {
   // Tiempo de inactividad en milisegundos (10 minutos)
   const inactivityTime = 10 * 1000 * 60;
 
+  const handleRespaldos = async () => {
+    const url1 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/ejidatarios`;
+    const url2 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/terrenos`;
+
+    try {
+      const [res1, res2] = await Promise.all([fetch(url1), fetch(url2)]);
+
+      if (!res1.ok || !res2.ok) {
+        throw new Error("Uno de los respaldos falló");
+      }
+
+      const blob1 = await res1.blob();
+      const blob2 = await res2.blob();
+
+      // Descargar el primer respaldo
+      const link1 = document.createElement("a");
+      link1.href = URL.createObjectURL(blob1);
+      link1.download = "ejidatarios.json";
+      link1.click();
+
+      // Descargar el segundo respaldo
+      const link2 = document.createElement("a");
+      link2.href = URL.createObjectURL(blob2);
+      link2.download = "terrenos.json";
+      link2.click();
+
+      console.log("Respaldos descargados correctamente");
+    } catch (error) {
+      console.error("Error al hacer respaldo:", error.message);
+    }
+  };
+
   useEffect(() => {
     let timeoutId;
 
@@ -55,7 +87,12 @@ function NavbarComponent() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
             <Nav>
-              <Nav.Link eventKey="3" disabled className="me-5">
+              <Nav.Link
+                eventKey="3"
+                disabled={user.name !== "Jose Luis Gomez"}
+                className="me-5"
+                onClick={handleRespaldos}
+              >
                 {user.name}
               </Nav.Link>
               <Link
