@@ -15,37 +15,37 @@ function NavbarComponent() {
   // Tiempo de inactividad en milisegundos (10 minutos)
   const inactivityTime = 10 * 1000 * 60;
 
-  const handleRespaldos = async () => {
-    const url1 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/ejidatarios`;
-    const url2 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/terrenos`;
+  // const handleRespaldos = async () => {
+  //   const url1 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/ejidatarios`;
+  //   const url2 = `https://ejidatarios-api.onrender.com/api/ejidatarios/export/terrenos`;
 
-    try {
-      const [res1, res2] = await Promise.all([fetch(url1), fetch(url2)]);
+  //   try {
+  //     const [res1, res2] = await Promise.all([fetch(url1), fetch(url2)]);
 
-      if (!res1.ok || !res2.ok) {
-        throw new Error("Uno de los respaldos falló");
-      }
+  //     if (!res1.ok || !res2.ok) {
+  //       throw new Error("Uno de los respaldos falló");
+  //     }
 
-      const blob1 = await res1.blob();
-      const blob2 = await res2.blob();
+  //     const blob1 = await res1.blob();
+  //     const blob2 = await res2.blob();
 
-      // Descargar el primer respaldo
-      const link1 = document.createElement("a");
-      link1.href = URL.createObjectURL(blob1);
-      link1.download = "ejidatarios.json";
-      link1.click();
+  //     // Descargar el primer respaldo
+  //     const link1 = document.createElement("a");
+  //     link1.href = URL.createObjectURL(blob1);
+  //     link1.download = "ejidatarios.json";
+  //     link1.click();
 
-      // Descargar el segundo respaldo
-      const link2 = document.createElement("a");
-      link2.href = URL.createObjectURL(blob2);
-      link2.download = "terrenos.json";
-      link2.click();
+  //     // Descargar el segundo respaldo
+  //     const link2 = document.createElement("a");
+  //     link2.href = URL.createObjectURL(blob2);
+  //     link2.download = "terrenos.json";
+  //     link2.click();
 
-      console.log("Respaldos descargados correctamente");
-    } catch (error) {
-      console.error("Error al hacer respaldo:", error.message);
-    }
-  };
+  //     console.log("Respaldos descargados correctamente");
+  //   } catch (error) {
+  //     console.error("Error al hacer respaldo:", error.message);
+  //   }
+  // };
 
   useEffect(() => {
     let timeoutId;
@@ -70,7 +70,7 @@ function NavbarComponent() {
       window.removeEventListener("click", resetTimer);
     };
   }, []);
-
+  console.log(user.isAdmin);
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar
@@ -87,14 +87,21 @@ function NavbarComponent() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
             <Nav>
-              <Nav.Link
+              <Link
                 eventKey="3"
-                disabled={user.name !== "Jose Luis Gomez"}
-                className="me-5"
-                onClick={handleRespaldos}
+                to="/admin/dashboard"
+                className={`text-decoration-none me-3 nav-link ${
+                  !user.isAdmin ? "disabled-link" : ""
+                }`}
+                tabIndex={user.isAdmin ? 0 : -1}
+                style={{
+                  pointerEvents: user.isAdmin ? "auto" : "none",
+                  color: user.isAdmin ? "inherit" : "#888",
+                }}
               >
                 {user.name}
-              </Nav.Link>
+              </Link>
+
               <Link
                 className="text-decoration-none me-3 nav-link"
                 to={RUTAS.agregarSujeto}

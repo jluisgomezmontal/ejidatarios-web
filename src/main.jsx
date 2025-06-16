@@ -25,6 +25,10 @@ import { EditarEjidatarios } from "./routes/EditarEjidatario.jsx";
 import { EditarTerrenos } from "./routes/EditarTerreno.jsx";
 import { RUTAS } from "./utils/const.js";
 import { Parcela } from "./components/Parcela.jsx";
+import { Admin } from "./routes/Admin.jsx";
+import { Users } from "./routes/Users.jsx";
+import { Dashboard } from "./routes/Dashboard.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -52,6 +56,32 @@ const router = createBrowserRouter(
         {
           path: "",
           element: <Home />,
+        },
+        {
+          path: RUTAS.admin,
+          element: (
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          ),
+          children: [
+            {
+              path: "dashboard",
+              element: <Dashboard />,
+            },
+            {
+              path: "usuarios",
+              element: <Users />,
+            },
+            {
+              path: "ejidatarios",
+              element: <Users />,
+            },
+            {
+              path: "configuracion",
+              element: <Users />,
+            },
+          ],
         },
         {
           path: RUTAS.agregarSujeto,

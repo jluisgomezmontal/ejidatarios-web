@@ -33,6 +33,7 @@ export const RUTAS = {
   buscar: "/buscar",
   perfil: "/perfil/",
   login: "login",
+  admin: "/admin",
   perfilID: "perfil/:ID",
   parcela: "/parcela/",
   parcelaID: "parcela/:ID",
