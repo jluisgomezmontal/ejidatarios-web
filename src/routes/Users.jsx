@@ -160,6 +160,9 @@ export const Users = () => {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Typography variant="h5" sx={{ mb: 5 }} gutterBottom textAlign="right">
+        Usuarios
+      </Typography>
       {/* Icono para agregar */}
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <IconButton

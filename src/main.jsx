@@ -29,6 +29,8 @@ import { Admin } from "./routes/Admin.jsx";
 import { Users } from "./routes/Users.jsx";
 import { Dashboard } from "./routes/Dashboard.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
+import { AdminEjidatarios } from "./routes/AdminEjidatarios.jsx";
+import { AdminParcelas } from "./routes/AdminParcelas.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -75,11 +77,15 @@ const router = createBrowserRouter(
             },
             {
               path: "ejidatarios",
-              element: <Users />,
+              element: <AdminEjidatarios />,
             },
             {
               path: "configuracion",
               element: <Users />,
+            },
+            {
+              path: "parcelas",
+              element: <AdminParcelas />,
             },
           ],
         },

@@ -47,9 +47,7 @@ export const Buscar = () => {
   };
   return (
     <div className="">
-      <h2 className="text-center my-4 fs-1 text-info ">
-        Buscar en el Ejido
-      </h2>
+      <h2 className="text-center my-4 fs-1 text-info ">Buscar en el Ejido</h2>
 
       <Box
         component="form"
@@ -79,7 +77,6 @@ export const Buscar = () => {
                 <MenuItem value="NUMEROCERTIFICADO">
                   4.-Numero de Certificado
                 </MenuItem>
-                <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
                 <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
               </Select>
             </FormControl>

@@ -24,6 +24,8 @@ import {
 } from "@mui/icons-material";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import MapIcon from "@mui/icons-material/Map";
 
 const drawerWidth = 240;
 
@@ -70,16 +72,16 @@ export const Admin = () => {
         <List>
           {[
             { text: "Dashboard", url: "dashboard", icon: <DashboardIcon /> },
-            { text: "Usuarios", url: "usuarios", icon: <DashboardIcon /> },
+            { text: "Usuarios", url: "usuarios", icon: <AccountCircleIcon /> },
             {
               text: "Los Ejidatarios",
               url: "ejidatarios",
               icon: <PeopleIcon />,
             },
             {
-              text: "Configuración",
-              url: "configuracion",
-              icon: <SettingsIcon />,
+              text: "Las Parcelas",
+              url: "parcelas",
+              icon: <MapIcon />,
             },
           ].map((item, index) => (
             <ListItem
@@ -92,15 +94,6 @@ export const Admin = () => {
             </ListItem>
           ))}
         </List>
-        <Divider />
-        <List>
-          <ListItem button>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Cerrar sesión" />
-          </ListItem>
-        </List>
       </Drawer>
 
       <Box
@@ -112,13 +105,10 @@ export const Admin = () => {
           transition: "margin-left 0.3s",
         }}
       >
-        <Toolbar />
         <Typography variant="h4" gutterBottom textAlign="center">
           Administrador
         </Typography>
-        <Container id="detail" className="pt-3">
-          <Outlet />
-        </Container>
+        <Outlet />
       </Box>
     </Box>
   );

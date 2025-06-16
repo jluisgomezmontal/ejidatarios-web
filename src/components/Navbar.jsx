@@ -76,7 +76,8 @@ function NavbarComponent() {
       <Navbar
         collapseOnSelect
         expand="lg"
-        className="bg-dark border-bottom border-info"
+        className="bg-dark border-bottom border-info "
+        style={{ zIndex: 9999 }}
         variant="dark"
       >
         <Container>
