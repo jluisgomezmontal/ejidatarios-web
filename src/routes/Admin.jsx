@@ -87,6 +87,7 @@ export const Admin = () => {
             <ListItem
               button
               key={index}
+              sx={{ cursor: "pointer" }}
               onClick={() => navigate(`/admin/${item.url}`)}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
