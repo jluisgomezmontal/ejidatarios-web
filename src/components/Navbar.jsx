@@ -70,7 +70,6 @@ function NavbarComponent() {
       window.removeEventListener("click", resetTimer);
     };
   }, []);
-  console.log(user.isAdmin);
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar
