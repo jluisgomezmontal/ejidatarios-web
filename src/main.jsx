@@ -31,6 +31,7 @@ import { Dashboard } from "./routes/Dashboard.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import { AdminEjidatarios } from "./routes/AdminEjidatarios.jsx";
 import { AdminParcelas } from "./routes/AdminParcelas.jsx";
+import { Respaldo } from "./routes/Respaldo.jsx";
 
 const darkTheme = createTheme({
   palette: {
@@ -86,6 +87,10 @@ const router = createBrowserRouter(
             {
               path: "parcelas",
               element: <AdminParcelas />,
+            },
+            {
+              path: "respaldar",
+              element: <Respaldo />,
             },
           ],
         },
