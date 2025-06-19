@@ -35,6 +35,7 @@ export const Dashboard = () => {
           "https://ejidatarios-api.onrender.com/api/terrenos"
         );
         const terrenos = await resTerrenos.json();
+        console.log(terrenos)
         setTerrenosData(terrenos);
         setTerrenosCount(terrenos.length);
       } catch (error) {
@@ -105,7 +106,7 @@ export const Dashboard = () => {
       <Grid container spacing={2}>
         {/* Tarjeta de Total */}
         <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <SummarizeIcon
               sx={{ fontSize: 40, color: "warning.main", mr: 2 }}
             />
@@ -120,11 +121,11 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         {/* Tarjeta de Usuarios */}
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
+        <Grid item xl={12} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
-              <Typography variant="h6">Ejidatarios</Typography>
+              <Typography variant="h6">Total de sujetos</Typography>
               {usuariosCount === null ? (
                 <CircularProgress size={24} />
               ) : (
@@ -133,17 +134,95 @@ export const Dashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">Ejidatarios</Typography>
+              {usuariosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="EJIDATARIO").length}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">AVECINDADOS</Typography>
+              {usuariosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="AVECINDADO").length}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">Posesionario de derecho</Typography>
+              {usuariosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="POSESIONARIO DE DERECHO").length}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">Posesionario de hecho</Typography>
+              {usuariosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="POSESIONARIO DE HECHO").length}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
 
         {/* Tarjeta de Terrenos */}
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
+        <Grid item xl={12} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
             <CardContent>
-              <Typography variant="h6">Terrenos</Typography>
+              <Typography variant="h6">Total terrenos</Typography>
               {terrenosCount === null ? (
                 <CircularProgress size={24} />
               ) : (
                 <Typography variant="h4">{terrenosCount}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">Posesiones</Typography>
+              {terrenosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{terrenosData.filter(u=> u.tipoCertificado ==="POSESION").length}</Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xl={6} xs={12} sm={4}>
+          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+            <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
+            <CardContent>
+              <Typography variant="h6">Parcelas</Typography>
+              {terrenosCount === null ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Typography variant="h4">{terrenosData.filter(u=> u.tipoCertificado ==="PARCELARIO").length}</Typography>
               )}
             </CardContent>
           </Card>

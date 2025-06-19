@@ -111,9 +111,7 @@ export const Admin = () => {
           transition: "margin-left 0.3s",
         }}
       >
-        <Typography variant="h4" gutterBottom textAlign="center">
-          Administrador
-        </Typography>
+      <Typography variant="h4" color="primary" textAlign="left" gutterBottom>Administrador</Typography>
         <Outlet />
       </Box>
     </Box>

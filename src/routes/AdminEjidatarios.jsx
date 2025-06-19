@@ -37,7 +37,7 @@ export const AdminEjidatarios = () => {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
+      <Typography color="primary" variant="h5" gutterBottom>
         Lista de Ejidatarios
       </Typography>
       <TableContainer component={Paper}>

@@ -7,6 +7,7 @@ import {
   InputLabel,
   Box,
   Alert,
+  Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "../hooks/useForm.jsx";
@@ -141,7 +142,7 @@ export const Ejidos = () => {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2 className="text-center my-4 fs-1 text-info ">Agregar Parcela</h2>
+      <Typography variant="h3" color="primary" textAlign="center"  sx={{mb:5}}>Agregar Parcela</Typography>
 
       <form onSubmit={handleIdentificar}>
         <Box sx={{ flexGrow: 1 }}>
@@ -337,15 +338,16 @@ export const Ejidos = () => {
               </Grid>
             )}
 
-            <Grid xs={12}>
+            <Grid xs={12} sx={{mt:3}}>
               <Button
                 disabled={loading}
                 loading={loading}
                 loadingPosition="start"
                 type="submit"
                 variant="contained"
+                color="success"
               >
-                Guardar
+                Crear Terreno
               </Button>
             </Grid>
           </Grid>

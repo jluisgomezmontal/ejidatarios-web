@@ -37,7 +37,7 @@ export const AdminParcelas = () => {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom>
+      <Typography color="primary" variant="h5" gutterBottom>
         Lista de Parcelas
       </Typography>
       <TableContainer component={Paper}>

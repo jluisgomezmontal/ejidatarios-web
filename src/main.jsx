@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./normalize.css";
@@ -32,18 +33,8 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import { AdminEjidatarios } from "./routes/AdminEjidatarios.jsx";
 import { AdminParcelas } from "./routes/AdminParcelas.jsx";
 import { Respaldo } from "./routes/Respaldo.jsx";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#0D6EFD",
-    },
-    secondary: {
-      main: "#9c27b0",
-    },
-  },
-});
+import { useSelector as useReduxSelector } from "react-redux";
+import { useMemo } from "react";
 
 const router = createBrowserRouter(
   [
@@ -140,11 +131,47 @@ const router = createBrowserRouter(
   }
 );
 
+function ThemeWrapper({ children }) {
+  const mode = useReduxSelector((state) => state.theme.mode);
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+          primary: {
+            main: "#03658C",
+          },
+          secondary: {
+            main: "#023059",
+          },
+          success: {
+            main: "#789342",
+          },
+          warning: {
+            main: "#F29F05",
+          },
+          background: {
+            default: mode === "light" ? "#F0F1EC" : "#121212",
+            paper: mode === "light" ? "#F0F1EC" : "#1e1e1e",
+          },
+        },
+      }),
+    [mode]
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+}
+
 createRoot(document.getElementById("root")).render(
-  <ThemeProvider theme={darkTheme}>
-    <CssBaseline />
-    <Provider store={store}>
+  <Provider store={store}>
+    <ThemeWrapper>
       <RouterProvider router={router} />
-    </Provider>
-  </ThemeProvider>
+    </ThemeWrapper>
+  </Provider>
 );

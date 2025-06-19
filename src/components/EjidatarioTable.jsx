@@ -1,52 +1,44 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { EJIDATARIO } from "../utils/const";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  useTheme,
+} from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { StyledTableCell, StyledTableRow } from "../styles";
-// eslint-disable-next-line react/prop-types
 
 export const EjidatarioTable = ({ resultado }) => {
-  if (Array.isArray(resultado)) {
-    function createData(
-      nombre,
-      apellidoPaterno,
-      apellidoMaterno,
-      calidadAgraria,
-      telefono,
-      curp,
-      iD_Ejidatario
-    ) {
-      return {
-        nombre,
-        apellidoPaterno,
-        apellidoMaterno,
-        calidadAgraria,
-        telefono,
-        curp,
-        iD_Ejidatario,
-      };
-    }
+  const theme = useTheme();
 
-    const rows = resultado.map((ejidatario) =>
-      createData(
-        ejidatario.nombre ?? ejidatario.propietario.nombre,
-        ejidatario.apellidoPaterno ?? ejidatario.propietario.apellidoPaterno,
-        ejidatario.apellidoMaterno ?? ejidatario.propietario.apellidoMaterno,
-        ejidatario.calidadAgraria ?? ejidatario.propietario.calidadAgraria,
-        ejidatario.telefono ?? ejidatario.propietario.telefono,
-        ejidatario.curp ?? ejidatario.propietario.curp,
-        ejidatario.iD_Ejidatario ?? ejidatario.propietario.iD_Ejidatario
-      )
-    );
+  if (Array.isArray(resultado)) {
+    const rows = resultado.map((ejidatario) => ({
+      nombre: ejidatario.nombre ?? ejidatario.propietario?.nombre,
+      apellidoPaterno:
+        ejidatario.apellidoPaterno ?? ejidatario.propietario?.apellidoPaterno,
+      apellidoMaterno:
+        ejidatario.apellidoMaterno ?? ejidatario.propietario?.apellidoMaterno,
+      calidadAgraria:
+        ejidatario.calidadAgraria ?? ejidatario.propietario?.calidadAgraria,
+      telefono: ejidatario.telefono ?? ejidatario.propietario?.telefono,
+      curp: ejidatario.curp ?? ejidatario.propietario?.curp,
+      iD_Ejidatario:
+        ejidatario.iD_Ejidatario ?? ejidatario.propietario?.iD_Ejidatario,
+    }));
+
     return (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <TableContainer
+        component={Paper}
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Table sx={{ minWidth: 700 }} aria-label="tabla ejidatarios">
           <TableHead>
             <TableRow>
               <StyledTableCell>No.</StyledTableCell>
@@ -64,25 +56,16 @@ export const EjidatarioTable = ({ resultado }) => {
           <TableBody>
             {rows.map((row, index) => (
               <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
-                  {index + 1}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  {row.iD_Ejidatario}
-                </StyledTableCell>
+                <StyledTableCell>{index + 1}</StyledTableCell>
+                <StyledTableCell>{row.iD_Ejidatario}</StyledTableCell>
                 <StyledTableCell align="left">
-                  {`${row.nombre ?? "row.propietario.nombre"} ${
-                    row.apellidoPaterno ?? "row.propietario.apellidoPaterno"
-                  } ${
-                    row.apellidoMaterno ?? "row.propietario.apellidoMaterno"
-                  }`}
+                  {`${row.nombre} ${row.apellidoPaterno} ${row.apellidoMaterno}`}
                 </StyledTableCell>
                 <StyledTableCell align="left">{row.curp}</StyledTableCell>
                 <StyledTableCell align="left">{row.telefono}</StyledTableCell>
                 <StyledTableCell align="left">
                   <Link className="link" to={`/perfil/${row.iD_Ejidatario}`}>
-                    Visitar
-                    <LaunchIcon />
+                    Visitar <LaunchIcon fontSize="small" />
                   </Link>
                 </StyledTableCell>
               </StyledTableRow>
@@ -92,9 +75,16 @@ export const EjidatarioTable = ({ resultado }) => {
       </TableContainer>
     );
   } else {
+    const ej = resultado.propietario ?? resultado;
+
     return (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <TableContainer
+        component={Paper}
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Table sx={{ minWidth: 700 }} aria-label="tabla ejidatario">
           <TableHead>
             <TableRow>
               <StyledTableCell>{EJIDATARIO.id}</StyledTableCell>
@@ -109,36 +99,16 @@ export const EjidatarioTable = ({ resultado }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow key={resultado.propietario?.nombre}>
-              <StyledTableCell component="th" scope="row">
-                {resultado.propietario?.iD_Ejidatario ??
-                  resultado.iD_Ejidatario}
-              </StyledTableCell>
+            <StyledTableRow key={ej?.iD_Ejidatario}>
+              <StyledTableCell>{ej?.iD_Ejidatario}</StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.propietario?.nombre ??
-                  resultado.nombre ??
-                  resultado?.apellidoPaterno}{" "}
-                {resultado.propietario?.apellidoPaterno ??
-                  resultado?.apellidoPaterno}{" "}
-                {resultado.propietario?.apellidoMaterno ??
-                  resultado?.apellidoMaterno}
+                {`${ej?.nombre} ${ej?.apellidoPaterno} ${ej?.apellidoMaterno}`}
               </StyledTableCell>
+              <StyledTableCell align="left">{ej?.curp}</StyledTableCell>
+              <StyledTableCell align="left">{ej?.telefono}</StyledTableCell>
               <StyledTableCell align="left">
-                {resultado.propietario?.curp ?? resultado?.curp}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {resultado.propietario?.telefono ?? resultado?.telefono}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                <Link
-                  className="link"
-                  to={`/perfil/${
-                    resultado.propietario?.iD_Ejidatario ??
-                    resultado?.iD_Ejidatario
-                  }`}
-                >
-                  Visitar
-                  <LaunchIcon />
+                <Link className="link" to={`/perfil/${ej?.iD_Ejidatario}`}>
+                  Visitar <LaunchIcon fontSize="small" />
                 </Link>
               </StyledTableCell>
             </StyledTableRow>

@@ -11,6 +11,7 @@ import {
   Select,
   FormHelperText,
   Alert,
+  Typography,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
@@ -21,7 +22,7 @@ import { CheckCircleOutline } from "@mui/icons-material";
 import { useState } from "react";
 
 export const Ejidatarios = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const initialForm = {
     calidadAgraria: "",
     iD_Ejidatario: "",
@@ -35,9 +36,9 @@ export const Ejidatarios = () => {
   const [formValues, handleInputChange, reset] = useForm(initialForm);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      setLoading(true)
+      setLoading(true);
       const apiEjidatarios =
         "https://ejidatarios-api.onrender.com/api/ejidatarios/";
       const formData = new FormData();
@@ -59,16 +60,14 @@ export const Ejidatarios = () => {
       reset();
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2 className="text-center my-4 fs-1 text-info ">
-        Agregar Sujeto Agrario
-      </h2>
+    <div style={{ padding: "2rem" }}>
+      <Typography variant="h3" color="primary" textAlign="center"  sx={{mb:5}}>Agregar Sujeto Agrario</Typography>
       <form onSubmit={handleSubmit}>
         <Box autoComplete="off">
           <Grid
@@ -147,17 +146,27 @@ export const Ejidatarios = () => {
                   name="documentoPDF"
                 />
               </Button>
-              {
-                formValues.documentoPDF.name !== undefined &&
-                <Alert sx={{mt:3}} icon={<CheckCircleOutline fontSize="inherit" />} severity="success">
-                Documento subido con exito nombre del archivo:{" " +formValues.documentoPDF.name}
-              </Alert>
-              }
+              {formValues.documentoPDF.name !== undefined && (
+                <Alert
+                  sx={{ mt: 3 }}
+                  icon={<CheckCircleOutline fontSize="inherit" />}
+                  severity="success"
+                >
+                  Documento subido con exito nombre del archivo:
+                  {" " + formValues.documentoPDF.name}
+                </Alert>
+              )}
             </Grid>
             <Grid size={12}>
-              <Button disabled={loading}           loading={loading}     
-          loadingPosition="start"
- variant="contained" endIcon={<SendIcon />} type="submit">
+              <Button
+                disabled={loading}
+                loading={loading}
+                loadingPosition="start"
+                variant="contained"
+                endIcon={<SendIcon />}
+                type="submit"
+                color="success"
+              >
                 Crear Ejidatario
               </Button>
             </Grid>

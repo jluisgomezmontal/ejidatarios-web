@@ -16,19 +16,22 @@ export const VisuallyHiddenInput = styled("input")({
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#22A5C3",
+    backgroundColor:
+      theme.palette.mode === "light" ? "#03658C" : "#03658C", // rojo para light, azul para dark
     color: theme.palette.common.white,
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    color: theme.palette.text.primary,
   },
 }));
 
-export const StyledTableRow = styled(TableRow)(() => ({
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
   "&:nth-of-type(odd)": {
-    backgroundColor: "#303030",
+    backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
