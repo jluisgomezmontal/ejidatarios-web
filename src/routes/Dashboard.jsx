@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Button,
   Stack,
+  useTheme,
 } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import MapIcon from "@mui/icons-material/Map";
@@ -20,7 +21,10 @@ export const Dashboard = () => {
   const [terrenosData, setTerrenosData] = useState([]);
   const [usuariosCount, setUsuariosCount] = useState(null);
   const [terrenosCount, setTerrenosCount] = useState(null);
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === "dark";
 
+console.log({isDarkMode})
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -106,7 +110,7 @@ export const Dashboard = () => {
       <Grid container spacing={2}>
         {/* Tarjeta de Total */}
         <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{  backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <SummarizeIcon
               sx={{ fontSize: 40, color: "warning.main", mr: 2 }}
             />
@@ -122,7 +126,7 @@ export const Dashboard = () => {
         </Grid>
         {/* Tarjeta de Usuarios */}
         <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Total de sujetos</Typography>
@@ -135,7 +139,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Ejidatarios</Typography>
@@ -148,7 +152,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">AVECINDADOS</Typography>
@@ -161,7 +165,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Posesionario de derecho</Typography>
@@ -174,7 +178,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Posesionario de hecho</Typography>
@@ -189,7 +193,7 @@ export const Dashboard = () => {
 
         {/* Tarjeta de Terrenos */}
         <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Total terrenos</Typography>
@@ -202,7 +206,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Posesiones</Typography>
@@ -215,7 +219,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
+          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
             <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
             <CardContent>
               <Typography variant="h6">Parcelas</Typography>

@@ -27,6 +27,7 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MapIcon from "@mui/icons-material/Map";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+
 const drawerWidth = 240;
 
 export const Admin = () => {
@@ -36,21 +37,12 @@ export const Admin = () => {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        p: 3,
-        overflowX: "hidden",
-        overflowY: "auto", // si quieres scroll vertical
-        marginLeft: isDesktop ? `${drawerWidth}px` : 0,
-        transition: "margin-left 0.3s",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
       <Drawer
@@ -64,6 +56,10 @@ export const Admin = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            bgcolor:
+              theme.palette.mode === "light"
+                ? "#e5eafc"
+                : theme.palette.background.default,
           },
         }}
       >
@@ -107,11 +103,21 @@ export const Admin = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          marginLeft: open ? `${drawerWidth}px` : 0,
+          overflowX: "hidden",
+          overflowY: "auto",
+          marginLeft: isDesktop ? `${drawerWidth}px` : 0,
           transition: "margin-left 0.3s",
         }}
       >
-      <Typography variant="h4" color="primary" textAlign="left" gutterBottom>Administrador</Typography>
+        <Toolbar />
+        <Typography
+          variant="h4"
+          color="primary"
+          textAlign="left"
+          gutterBottom
+        >
+          Administrador
+        </Typography>
         <Outlet />
       </Box>
     </Box>

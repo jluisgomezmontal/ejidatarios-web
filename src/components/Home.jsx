@@ -1,5 +1,5 @@
 import Image from "react-bootstrap/Image";
-import comisaria from "../assets/comisaria.jpg";
+import comisaria from "../assets/comisaria.webp";
 
 export const Home = () => {
   return (
