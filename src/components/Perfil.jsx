@@ -185,7 +185,7 @@ export const Perfil = () => {
                       startIcon={<CloudDownloadIcon />}
                       onClick={() => {
                         window.open(
-                          `https://ejidatarios-api.onrender.com/uploads/${ejidatario.documentoPDF}`,
+                          `https://ejidatarios-api.onrender.com/uploads/ejidatarios/${ejidatario.documentoPDF}`,
                           "_blank"
                         );
                       }}
@@ -318,7 +318,8 @@ export const Perfil = () => {
                     </td>
                     <td>
                       {terreno.documentoPDF !== "" && (
-                        <Button
+                        <>
+                        {/* <Button
                           component="label"
                           color="success"
                           tabIndex={-1}
@@ -329,9 +330,24 @@ export const Perfil = () => {
                               "_blank"
                             );
                           }}
-                        >
+                          >
                           Descargar
+                        </Button> */}
+                        <Button
+                          component="label"
+                          color="success"
+                          tabIndex={-1}
+                          startIcon={<CloudDownloadIcon />}
+                          onClick={() => {
+                            window.open(
+                              `https://ejidatarios-api.onrender.com/uploads/terrenos/${terreno.documentoPDF}`,
+                              "_blank"
+                            );
+                          }}
+                          >
+                          Ver
                         </Button>
+                      </>
                       )}
                     </td>
                   </tr>
