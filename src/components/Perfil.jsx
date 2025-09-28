@@ -73,7 +73,7 @@ export const Perfil = () => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     label="Age"
-                    value={ejidatario.calidadAgraria}
+                    value={ejidatario?.calidadAgraria}
                     name="calidadAgraria"
                   >
                     <MenuItem value={""}>Seleccione una opcion</MenuItem>
@@ -93,7 +93,7 @@ export const Perfil = () => {
                   disabled
                   autoComplete="off"
                   placeholder={EJIDATARIO.id}
-                  value={ejidatario.iD_Ejidatario}
+                  value={ejidatario?.iD_Ejidatario}
                   name="iD_Ejidatario"
                   label="ID Ejidatario"
                   variant="outlined"
@@ -105,7 +105,7 @@ export const Perfil = () => {
                   disabled
                   sx={{ width: "100%" }}
                   placeholder={EJIDATARIO.nombre}
-                  value={ejidatario.nombre}
+                  value={ejidatario?.nombre}
                   name="nombre"
                   label={EJIDATARIO.nombre}
                   variant="outlined"
@@ -118,7 +118,7 @@ export const Perfil = () => {
                   sx={{ width: "100%" }}
                   autoComplete="nope"
                   placeholder={EJIDATARIO.apellidoPaterno}
-                  value={ejidatario.apellidoPaterno}
+                  value={ejidatario?.apellidoPaterno}
                   label={EJIDATARIO.apellidoPaterno}
                   name="apellidoPaterno"
                   variant="outlined"
@@ -130,7 +130,7 @@ export const Perfil = () => {
                   autoComplete="nope"
                   placeholder={EJIDATARIO.apellidoMaterno}
                   label={EJIDATARIO.apellidoMaterno}
-                  value={ejidatario.apellidoMaterno}
+                  value={ejidatario?.apellidoMaterno}
                   name={"apellidoMaterno"}
                   sx={{ width: "100%" }}
                   variant="outlined"
@@ -142,7 +142,7 @@ export const Perfil = () => {
                   autoComplete="off"
                   placeholder={EJIDATARIO.telefono}
                   label={EJIDATARIO.telefono}
-                  value={ejidatario.telefono}
+                  value={ejidatario?.telefono}
                   sx={{ width: "100%" }}
                   name="telefono"
                 />
@@ -154,11 +154,11 @@ export const Perfil = () => {
                   placeholder={EJIDATARIO.curp}
                   label={EJIDATARIO.curp}
                   sx={{ width: "100%" }}
-                  value={ejidatario.curp}
+                  value={ejidatario?.curp}
                   name="curp"
                 />
               </Grid>
-              {ejidatario.documentoPDF !== "" && (
+              {ejidatario?.documentoPDF !== "" && (
                 <Grid size={12} className="mb-4">
                   <ButtonGroup
                     aria-label="Disabled button group"
@@ -171,7 +171,7 @@ export const Perfil = () => {
                       startIcon={<CloudDownloadIcon />}
                       onClick={() => {
                         window.open(
-                          `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario.documentoPDF}`,
+                          `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario?.documentoPDF}`,
                           "_blank"
                         );
                       }}
@@ -185,7 +185,7 @@ export const Perfil = () => {
                       startIcon={<CloudDownloadIcon />}
                       onClick={() => {
                         window.open(
-                          `https://ejidatarios-api.onrender.com/uploads/ejidatarios/${ejidatario.documentoPDF}`,
+                          `https://ejidatarios-api.onrender.com/uploads/ejidatarios/${ejidatario?.documentoPDF}`,
                           "_blank"
                         );
                       }}
@@ -202,7 +202,7 @@ export const Perfil = () => {
               variant="contained"
               endIcon={<EditIcon />}
               onClick={() =>
-                navigate(`/editar/ejidatario/${ejidatario.iD_Ejidatario}`, {
+                navigate(`/editar/ejidatario/${ejidatario?.iD_Ejidatario}`, {
                   state: ejidatario,
                 })
               }
@@ -226,7 +226,7 @@ export const Perfil = () => {
                   }).then(async (result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (!result.isConfirmed) {
-                      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario._id}`;
+                      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario?._id}`;
                       const response = await fetch(url, {
                         method: "DELETE",
                       });

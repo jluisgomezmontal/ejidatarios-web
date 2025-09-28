@@ -38,13 +38,17 @@ export const Buscar = () => {
       url = `https://ejidatarios-api.onrender.com/api/terrenos/certificado/${formValues.valor}`;
     } else if (formValues.metodoDeBusqueda === "PARCELAORIGEN") {
       url = `https://ejidatarios-api.onrender.com/api/terrenos/origen/${formValues.valor}`;
-    } else {
+    } else if (formValues.metodoDeBusqueda === "NOMBRE") {
+      url = `https://ejidatarios-api.onrender.com/api/ejidatarios/search?q=${formValues.valor}`;
+    }else {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
     }
     const response = await fetch(url);
     const data = await response.json();
     setResultado(data);
   };
+
+  console.log(formValues)
   return (
     <div style={{ padding: "2rem" }}>
       <Typography variant="h3" color="primary" textAlign="center"  sx={{mb:5}}>Buscar en el Ejido</Typography>
@@ -71,13 +75,14 @@ export const Buscar = () => {
                 onChange={handleInputChange}
                 name="metodoDeBusqueda"
               >
-                <MenuItem value="ID">1.-ID</MenuItem>
-                <MenuItem value="CURP">2.-CURP</MenuItem>
+                <MenuItem value="NOMBRE">1.-Nombre o Apellido</MenuItem>
+                <MenuItem value="ID">2.-ID</MenuItem>
                 <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
+                <MenuItem value="CURP">4.-CURP</MenuItem>
                 <MenuItem value="NUMEROCERTIFICADO">
-                  4.-Numero de Certificado
+                  5.-Numero de Certificado
                 </MenuItem>
-                <MenuItem value="PARCELAORIGEN">5.-Parcela de Origen</MenuItem>
+                <MenuItem value="PARCELAORIGEN">6.-Parcela de Origen</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -88,7 +93,7 @@ export const Buscar = () => {
               value={formValues.valor}
               onChange={handleInputChange}
               name="valor"
-              label="ID Ejidatario"
+              label="Valor de busqueda"
               variant="outlined"
               sx={{ width: "100%" }}
             />

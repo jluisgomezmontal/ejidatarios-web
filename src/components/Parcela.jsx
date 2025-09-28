@@ -171,16 +171,16 @@ export const Parcela = () => {
                             to={`${RUTAS.perfil}${pos.iD_Ejidatario}`}
                             className="link"
                           >
-                            {pos.propietario.nombre}{" "}
-                            {pos.propietario.apellidoPaterno}{" "}
-                            {pos.propietario.apellidoMaterno}
-                            {pos.propietario.nombre && <LaunchIcon />}
+                            {pos.propietario?.nombre === undefined ? "undefined":pos.propietario?.nombre}{" "}
+                            {pos.propietario?.apellidoPaterno}{" "}
+                            {pos.propietario?.apellidoMaterno}
+                            {pos.propietario?.nombre && <LaunchIcon />}
                           </Link>
                         </td>
                         <td>
-                          {pos.propietarioOrigen.nombre}{" "}
-                          {pos.propietarioOrigen.apellidoPaterno}{" "}
-                          {pos.propietarioOrigen.apellidoMaterno}
+                          {pos.propietarioOrigen?.nombre === undefined ? "undefined": pos.propietarioOrigen?.nombre }{" "}
+                          {pos.propietarioOrigen?.apellidoPaterno}{" "}
+                          {pos.propietarioOrigen?.apellidoMaterno}
                         </td>
                       </tr>
                     ))}
