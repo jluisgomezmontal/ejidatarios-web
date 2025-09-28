@@ -2,13 +2,21 @@ import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
-import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import {
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { useState } from "react";
 import { Alert } from "react-bootstrap";
 import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
-
+import { useSelector } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 export const Buscar = () => {
   const initialForm = {
     metodoDeBusqueda: "",
@@ -16,7 +24,7 @@ export const Buscar = () => {
   };
   const [formValues, handleInputChange] = useForm(initialForm);
   const [resultado, setResultado] = useState({});
-
+  const { recientes } = useSelector((state) => state.login);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -40,7 +48,7 @@ export const Buscar = () => {
       url = `https://ejidatarios-api.onrender.com/api/terrenos/origen/${formValues.valor}`;
     } else if (formValues.metodoDeBusqueda === "NOMBRE") {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios/search?q=${formValues.valor}`;
-    }else {
+    } else {
       url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
     }
     const response = await fetch(url);
@@ -48,10 +56,49 @@ export const Buscar = () => {
     setResultado(data);
   };
 
-  console.log(formValues)
+  console.log(formValues);
   return (
     <div style={{ padding: "2rem" }}>
-      <Typography variant="h3" color="primary" textAlign="center"  sx={{mb:5}}>Buscar en el Ejido</Typography>
+      <Typography
+        variant="h3"
+        color="primary"
+        textAlign="center"
+        sx={{ mb: 5 }}
+      >
+        Buscar en el Ejido
+      </Typography>
+{recientes.length !== 0 &&
+ <><Typography
+        variant="overline"
+        color="primary"
+        textAlign="center"
+        sx={{ display: "block", width: "100%" }}
+      >
+        Busquedas recientes
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          "& > *": {
+            mb: 3,
+          },
+        }}
+      >
+        <ButtonGroup color="secondary" aria-label="Medium-sized button group">
+          {recientes?.map((r) => (
+            <Button
+              key={r.ejidatario}
+              component={RouterLink} // 👈 usa el Link de react-router-dom
+              to={`/perfil/${r.ejidatario}`} // 👈 ruta
+            >
+              {r.nombre}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Box></>
+}
 
       <Box
         component="form"
@@ -110,7 +157,9 @@ export const Buscar = () => {
           </Grid>
         </Grid>
       </Box>
-      <Typography variant="h4" color="primary" textAlign="left"  sx={{my:5}}>Resultados</Typography>
+      <Typography variant="h4" color="primary" textAlign="left" sx={{ my: 5 }}>
+        Resultados
+      </Typography>
 
       {(resultado?.iD_Ejidatario || Array.isArray(resultado)) && (
         <EjidatarioTable resultado={resultado} />

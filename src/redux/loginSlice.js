@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loggedIn: JSON.parse(localStorage.getItem("loggedIn")) || false,
   user: JSON.parse(localStorage.getItem("user")) || {},
+  recientes: JSON.parse(localStorage.getItem("recientes")) || [],
 };
 
 export const loginSlice = createSlice({
@@ -15,6 +16,20 @@ export const loginSlice = createSlice({
       localStorage.setItem("loggedIn", true);
       localStorage.setItem("user", action.payload);
     },
+    setRecientes: (state, action) => {
+      const nuevo = action.payload;
+
+      // elimina cualquier duplicado (ajusta la clave única)
+      const sinDuplicado = state.recientes.filter(
+        (item) => item.ejidatario !== nuevo.ejidatario
+      );
+
+      // agrega nuevo al principio y corta a máximo 5
+      const nuevos = [nuevo, ...sinDuplicado].slice(0, 5);
+
+      state.recientes = nuevos;
+      localStorage.setItem("recientes", JSON.stringify(nuevos));
+    },
     setLoggedOut: (state) => {
       state.loggedIn = false;
       localStorage.removeItem("loggedIn");
@@ -25,6 +40,6 @@ export const loginSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setLoggedIn, setLoggedOut } = loginSlice.actions;
+export const { setLoggedIn, setLoggedOut, setRecientes } = loginSlice.actions;
 
 export default loginSlice.reducer;

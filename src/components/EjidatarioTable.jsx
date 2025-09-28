@@ -12,10 +12,15 @@ import {
 } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { StyledTableCell, StyledTableRow } from "../styles";
+import { useDispatch } from "react-redux";
+import { setRecientes } from "../redux/loginSlice";
 
 export const EjidatarioTable = ({ resultado }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
-
+  const handleRecientes = (e)=>{
+    dispatch(setRecientes(e));
+  }
   if (Array.isArray(resultado)) {
     const rows = resultado.map((ejidatario) => ({
       nombre: ejidatario.nombre ?? ejidatario.propietario?.nombre,
@@ -64,7 +69,7 @@ export const EjidatarioTable = ({ resultado }) => {
                 <StyledTableCell align="left">{row.curp}</StyledTableCell>
                 <StyledTableCell align="left">{row.telefono}</StyledTableCell>
                 <StyledTableCell align="left">
-                  <Link className="link" to={`/perfil/${row.iD_Ejidatario}`}>
+                  <Link onClick={()=>handleRecientes({nombre:`${row.nombre} ${row.apellidoPaterno[0]}. ${row.apellidoMaterno[0]}.`, ejidatario:row.iD_Ejidatario})} className="link" to={`/perfil/${row.iD_Ejidatario}`}>
                     Visitar <LaunchIcon fontSize="small" />
                   </Link>
                 </StyledTableCell>
