@@ -42,7 +42,7 @@ export const Admin = () => {
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", }}>
       <CssBaseline />
 
       <Drawer
@@ -63,7 +63,7 @@ export const Admin = () => {
           },
         }}
       >
-        <Toolbar />
+        <Toolbar/>
         <Divider />
         <List>
           {[
@@ -101,11 +101,8 @@ export const Admin = () => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           p: 3,
           overflowX: "hidden",
-          overflowY: "auto",
-          marginLeft: isDesktop ? `${drawerWidth}px` : 0,
           transition: "margin-left 0.3s",
         }}
       >

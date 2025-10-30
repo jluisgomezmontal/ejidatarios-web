@@ -25,7 +25,7 @@ export const loginSlice = createSlice({
       );
 
       // agrega nuevo al principio y corta a máximo 5
-      const nuevos = [nuevo, ...sinDuplicado].slice(0, 5);
+      const nuevos = [nuevo, ...sinDuplicado].slice(0, 10);
 
       state.recientes = nuevos;
       localStorage.setItem("recientes", JSON.stringify(nuevos));

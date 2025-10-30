@@ -17,9 +17,10 @@ import { Alert } from "react-bootstrap";
 import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
 import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+import { Recientes } from "../components/Recientes.jsx";
 export const Buscar = () => {
   const initialForm = {
-    metodoDeBusqueda: "",
+    metodoDeBusqueda: "NOMBRE",
     valor: "",
   };
   const [formValues, handleInputChange] = useForm(initialForm);
@@ -56,9 +57,8 @@ export const Buscar = () => {
     setResultado(data);
   };
 
-  console.log(formValues);
   return (
-    <div style={{ padding: "2rem" }}>
+    <div style={{ paddingTop: "2rem" }}>
       <Typography
         variant="h3"
         color="primary"
@@ -67,108 +67,88 @@ export const Buscar = () => {
       >
         Buscar en el Ejido
       </Typography>
-{recientes.length !== 0 &&
- <><Typography
-        variant="overline"
-        color="primary"
-        textAlign="center"
-        sx={{ display: "block", width: "100%" }}
-      >
-        Busquedas recientes
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          "& > *": {
-            mb: 3,
-          },
-        }}
-      >
-        <ButtonGroup color="secondary" aria-label="Medium-sized button group">
-          {recientes?.map((r) => (
-            <Button
-              key={r.ejidatario}
-              component={RouterLink} // 👈 usa el Link de react-router-dom
-              to={`/perfil/${r.ejidatario}`} // 👈 ruta
-            >
-              {r.nombre}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </Box></>
-}
-
-      <Box
-        component="form"
-        sx={{ flexGrow: 1 }}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
-        <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid size={6}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="demo-simple-select-label">
-                ¿Metodo de busqueda?
-              </InputLabel>
-              <Select
-                autoWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="¿Metodo de busqueda?"
-                value={formValues.metodoDeBusqueda}
-                onChange={handleInputChange}
-                name="metodoDeBusqueda"
-              >
-                <MenuItem value="NOMBRE">1.-Nombre o Apellido</MenuItem>
-                <MenuItem value="ID">2.-ID</MenuItem>
-                <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
-                <MenuItem value="CURP">4.-CURP</MenuItem>
-                <MenuItem value="NUMEROCERTIFICADO">
-                  5.-Numero de Certificado
-                </MenuItem>
-                <MenuItem value="PARCELAORIGEN">6.-Parcela de Origen</MenuItem>
-              </Select>
-            </FormControl>
+      <Grid container columnSpacing={{ xs: 0, md: 3 }} rowSpacing={{ xs: 3, md: 0 }} >
+        {recientes.length !== 0 && (
+          <Grid size={{ xs: 12, md: 3 }} sx={{ display: "flex" }}>
+            <Box sx={{ flex: 1, display: "flex", alignItems: "left" }}>
+              <Recientes />
+            </Box>
           </Grid>
-          <Grid size={6}>
-            <TextField
-              autoComplete="off"
-              placeholder="Buscar"
-              value={formValues.valor}
-              onChange={handleInputChange}
-              name="valor"
-              label="Valor de busqueda"
-              variant="outlined"
-              sx={{ width: "100%" }}
-            />
-          </Grid>
-          <Grid size={12}>
-            <Button
-              variant="contained"
-              endIcon={<SearchIcon />}
-              onClick={handleSubmit}
-              type="submit"
-            >
-              Buscar
-            </Button>
-          </Grid>
+        )}
+        <Grid size={{ xs: 12, md: recientes.length !== 0 ? 9 : 12 }}>
+          <Box
+            component="form"
+            sx={{ flexGrow: 1 }}
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
+          >
+            <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid size={6}>
+                <FormControl sx={{ width: "100%" }}>
+                  <InputLabel id="demo-simple-select-label">
+                    ¿Metodo de busqueda?
+                  </InputLabel>
+                  <Select
+                    autoWidth
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="¿Metodo de busqueda?"
+                    value={formValues.metodoDeBusqueda}
+                    onChange={handleInputChange}
+                    name="metodoDeBusqueda"
+                  >
+                    <MenuItem value="NOMBRE">1.-Nombre o Apellido</MenuItem>
+                    <MenuItem value="ID">2.-ID</MenuItem>
+                    <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
+                    <MenuItem value="CURP">4.-CURP</MenuItem>
+                    <MenuItem value="NUMEROCERTIFICADO">
+                      5.-Numero de Certificado
+                    </MenuItem>
+                    <MenuItem value="PARCELAORIGEN">6.-Parcela de Origen</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={6}>
+                <TextField
+                  autoComplete="off"
+                  placeholder="Buscar"
+                  value={formValues.valor}
+                  onChange={handleInputChange}
+                  name="valor"
+                  label="Valor de busqueda"
+                  variant="outlined"
+                  sx={{ width: "100%" }}
+                />
+              </Grid>
+              <Grid size={12}>
+                <Button
+                  variant="contained"
+                  endIcon={<SearchIcon />}
+                  onClick={handleSubmit}
+                  type="submit"
+                >
+                  Buscar
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
-      </Box>
-      <Typography variant="h4" color="primary" textAlign="left" sx={{ my: 5 }}>
-        Resultados
-      </Typography>
+        <Grid size={12}>
+          <Typography variant="h4" color="primary" textAlign="left" sx={{ my: 5 }}>
+            Resultados
+          </Typography>
 
-      {(resultado?.iD_Ejidatario || Array.isArray(resultado)) && (
-        <EjidatarioTable resultado={resultado} />
-      )}
-      {(resultado?.error || resultado === null) && (
-        <Alert variant="danger" text={"dark"}>
-          No se encontraron datos
-        </Alert>
-      )}
+          {(resultado?.iD_Ejidatario || Array.isArray(resultado)) && (
+            <EjidatarioTable resultado={resultado} />
+          )}
+          {(resultado?.error || resultado === null) && (
+            <Alert sx={{ display: "block", width: "100%" }} variant="danger" text={"dark"}>
+              No se encontraron datos
+            </Alert>
+          )}
+        </Grid>
+      </Grid>
     </div>
   );
 };

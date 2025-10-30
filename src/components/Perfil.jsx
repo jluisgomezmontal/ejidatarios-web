@@ -20,9 +20,11 @@ import {
   Select,
 } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import { useRecientes } from "../hooks/useRecientes";
 
 export const Perfil = () => {
   let navigate = useNavigate();
+  let {handleRecientes} = useRecientes();
   let { ID } = useParams();
   const [loading, setLoading] = useState(true);
   const [ejidatario, setEjidatario] = useState({});
@@ -38,8 +40,10 @@ export const Perfil = () => {
           const response = await fetch(url);
           const data = await response.json();
           setEjidatario(data);
+          handleRecientes({nombre:`${data.nombre} ${data.apellidoPaterno[0]}. ${data.apellidoMaterno[0]}.`, ejidatario:data.iD_Ejidatario})
         } else {
           setEjidatario(data[0].propietario);
+          handleRecientes({nombre:`${data[0].propietario.nombre} ${data[0].propietario.apellidoPaterno[0]}. ${data[0].propietario.apellidoMaterno[0]}.`, ejidatario:data[0].propietario.iD_Ejidatario})
         }
         setTerrenos(data);
         setLoading(!loading);
