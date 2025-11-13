@@ -139,21 +139,193 @@ function ThemeWrapper({ children }) {
       createTheme({
         palette: {
           mode,
+          // Modo Light: Colores vibrantes y modernos
+          // Modo Dark: Tonos negros y grises con acentos azules
           primary: {
-            main: "#03658C",
+            main: mode === "light" ? "#1976d2" : "#64b5f6",
+            light: mode === "light" ? "#42a5f5" : "#90caf9",
+            dark: mode === "light" ? "#1565c0" : "#42a5f5",
+            contrastText: mode === "light" ? "#ffffff" : "#000000",
           },
           secondary: {
-            main: "#023059",
+            main: mode === "light" ? "#9c27b0" : "#81c784",
+            light: mode === "light" ? "#ba68c8" : "#a5d6a7",
+            dark: mode === "light" ? "#7b1fa2" : "#66bb6a",
           },
           success: {
-            main: "#789342",
+            main: mode === "light" ? "#2e7d32" : "#66bb6a",
+            light: mode === "light" ? "#4caf50" : "#81c784",
+            dark: mode === "light" ? "#1b5e20" : "#388e3c",
           },
           warning: {
-            main: "#F29F05",
+            main: mode === "light" ? "#ed6c02" : "#ffa726",
+            light: mode === "light" ? "#ff9800" : "#ffb74d",
+            dark: mode === "light" ? "#e65100" : "#f57c00",
+          },
+          error: {
+            main: mode === "light" ? "#d32f2f" : "#f44336",
+            light: mode === "light" ? "#ef5350" : "#e57373",
+            dark: mode === "light" ? "#c62828" : "#d32f2f",
+          },
+          info: {
+            main: mode === "light" ? "#0288d1" : "#64b5f6",
+            light: mode === "light" ? "#03a9f4" : "#90caf9",
+            dark: mode === "light" ? "#01579b" : "#42a5f5",
           },
           background: {
-            default: mode === "light" ? "#F0F1EC" : "#121212",
-            paper: mode === "light" ? "#F0F1EC" : "#1e1e1e",
+            default: mode === "light" ? "#f5f5f5" : "#121212",
+            paper: mode === "light" ? "#ffffff" : "#1e1e1e",
+          },
+          text: {
+            primary: mode === "light" ? "rgba(0, 0, 0, 0.87)" : "#ffffff",
+            secondary: mode === "light" ? "rgba(0, 0, 0, 0.6)" : "#90caf9",
+            disabled: mode === "light" ? "rgba(0, 0, 0, 0.38)" : "rgba(255, 255, 255, 0.5)",
+          },
+          divider: mode === "light" ? "rgba(0, 0, 0, 0.12)" : "rgba(100, 181, 246, 0.2)",
+          action: {
+            hover: mode === "light" ? "rgba(0, 0, 0, 0.04)" : "rgba(100, 181, 246, 0.08)",
+            selected: mode === "light" ? "rgba(0, 0, 0, 0.08)" : "rgba(100, 181, 246, 0.16)",
+            disabled: mode === "light" ? "rgba(0, 0, 0, 0.26)" : "rgba(255, 255, 255, 0.3)",
+            disabledBackground: mode === "light" ? "rgba(0, 0, 0, 0.12)" : "rgba(255, 255, 255, 0.12)",
+          },
+        },
+        typography: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h1: {
+            fontWeight: 700,
+          },
+          h2: {
+            fontWeight: 700,
+          },
+          h3: {
+            fontWeight: 600,
+          },
+          h4: {
+            fontWeight: 600,
+          },
+          h5: {
+            fontWeight: 600,
+          },
+          h6: {
+            fontWeight: 600,
+          },
+          button: {
+            textTransform: "none",
+            fontWeight: 500,
+          },
+        },
+        shape: {
+          borderRadius: 8,
+        },
+        shadows: mode === "light"
+          ? [
+              "none",
+              "0px 2px 4px rgba(0,0,0,0.05)",
+              "0px 4px 8px rgba(0,0,0,0.08)",
+              "0px 8px 16px rgba(0,0,0,0.1)",
+              "0px 12px 24px rgba(0,0,0,0.12)",
+              "0px 16px 32px rgba(0,0,0,0.14)",
+              "0px 20px 40px rgba(0,0,0,0.16)",
+              "0px 24px 48px rgba(0,0,0,0.18)",
+              "0px 2px 4px rgba(0,0,0,0.05)",
+              "0px 4px 8px rgba(0,0,0,0.08)",
+              "0px 8px 16px rgba(0,0,0,0.1)",
+              "0px 12px 24px rgba(0,0,0,0.12)",
+              "0px 16px 32px rgba(0,0,0,0.14)",
+              "0px 20px 40px rgba(0,0,0,0.16)",
+              "0px 24px 48px rgba(0,0,0,0.18)",
+              "0px 2px 4px rgba(0,0,0,0.05)",
+              "0px 4px 8px rgba(0,0,0,0.08)",
+              "0px 8px 16px rgba(0,0,0,0.1)",
+              "0px 12px 24px rgba(0,0,0,0.12)",
+              "0px 16px 32px rgba(0,0,0,0.14)",
+              "0px 20px 40px rgba(0,0,0,0.16)",
+              "0px 24px 48px rgba(0,0,0,0.18)",
+              "0px 2px 4px rgba(0,0,0,0.05)",
+              "0px 4px 8px rgba(0,0,0,0.08)",
+              "0px 8px 16px rgba(0,0,0,0.1)",
+            ]
+          : [
+              "none",
+              "0px 2px 4px rgba(0,0,0,0.3)",
+              "0px 4px 8px rgba(0,0,0,0.35)",
+              "0px 8px 16px rgba(0,0,0,0.4)",
+              "0px 12px 24px rgba(0,0,0,0.45)",
+              "0px 16px 32px rgba(0,0,0,0.5)",
+              "0px 20px 40px rgba(0,0,0,0.55)",
+              "0px 24px 48px rgba(0,0,0,0.6)",
+              "0px 2px 4px rgba(0,0,0,0.3)",
+              "0px 4px 8px rgba(0,0,0,0.35)",
+              "0px 8px 16px rgba(0,0,0,0.4)",
+              "0px 12px 24px rgba(0,0,0,0.45)",
+              "0px 16px 32px rgba(0,0,0,0.5)",
+              "0px 20px 40px rgba(0,0,0,0.55)",
+              "0px 24px 48px rgba(0,0,0,0.6)",
+              "0px 2px 4px rgba(0,0,0,0.3)",
+              "0px 4px 8px rgba(0,0,0,0.35)",
+              "0px 8px 16px rgba(0,0,0,0.4)",
+              "0px 12px 24px rgba(0,0,0,0.45)",
+              "0px 16px 32px rgba(0,0,0,0.5)",
+              "0px 20px 40px rgba(0,0,0,0.55)",
+              "0px 24px 48px rgba(0,0,0,0.6)",
+              "0px 2px 4px rgba(0,0,0,0.3)",
+              "0px 4px 8px rgba(0,0,0,0.35)",
+              "0px 8px 16px rgba(0,0,0,0.4)",
+            ],
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                borderRadius: 8,
+                textTransform: "none",
+                fontWeight: 500,
+                padding: "8px 16px",
+              },
+              contained: {
+                boxShadow: mode === "light" 
+                  ? "0px 2px 4px rgba(0,0,0,0.1)" 
+                  : "0px 2px 4px rgba(0,0,0,0.3)",
+                "&:hover": {
+                  boxShadow: mode === "light"
+                    ? "0px 4px 8px rgba(0,0,0,0.15)"
+                    : "0px 4px 8px rgba(0,0,0,0.4)",
+                },
+              },
+            },
+          },
+          MuiCard: {
+            styleOverrides: {
+              root: {
+                borderRadius: 12,
+                boxShadow: mode === "light"
+                  ? "0px 2px 8px rgba(0,0,0,0.08)"
+                  : "0px 2px 8px rgba(0,0,0,0.4)",
+              },
+            },
+          },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                backgroundImage: "none",
+              },
+              elevation1: {
+                boxShadow: mode === "light"
+                  ? "0px 2px 4px rgba(0,0,0,0.05)"
+                  : "0px 2px 4px rgba(0,0,0,0.3)",
+              },
+              elevation2: {
+                boxShadow: mode === "light"
+                  ? "0px 4px 8px rgba(0,0,0,0.08)"
+                  : "0px 4px 8px rgba(0,0,0,0.35)",
+              },
+            },
+          },
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                backgroundImage: "none",
+              },
+            },
           },
         },
       }),

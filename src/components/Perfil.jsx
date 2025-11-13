@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useRecientes } from "../hooks/useRecientes";
+import { Recientes } from "./Recientes.jsx";
+import { useSelector } from "react-redux";
 
 export const Perfil = () => {
   let navigate = useNavigate();
@@ -29,6 +31,7 @@ export const Perfil = () => {
   const [loading, setLoading] = useState(true);
   const [ejidatario, setEjidatario] = useState({});
   const [terrenos, setTerrenos] = useState([]);
+  const { recientes } = useSelector((state) => state.login);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,6 +65,13 @@ export const Perfil = () => {
       ) : (
         <div className="mt-5">
           <h2 className="text-center my-4 fs-1 text-info ">Sujeto</h2>
+          <Grid container spacing={3} sx={{ mb: 3 }}>
+            {recientes?.length > 0 && (
+              <Grid size={{ xs: 12, md: 3 }}>
+                <Recientes />
+              </Grid>
+            )}
+            <Grid size={{ xs: 12, md: recientes?.length > 0 ? 9 : 12 }}>
           <Box component="form" noValidate autoComplete="off">
             <Grid
               container
@@ -201,6 +211,8 @@ export const Perfil = () => {
               )}
             </Grid>
           </Box>
+          </Grid>
+          </Grid>
           <div className="d-flex gap-2 my-4">
             <Button
               variant="contained"

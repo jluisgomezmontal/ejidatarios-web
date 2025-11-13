@@ -8,12 +8,16 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
+import Grid from "@mui/material/Grid2";
+import { Recientes } from "./Recientes.jsx";
+import { useSelector } from "react-redux";
 
 export const Terreno = () => {
   let navigate = useNavigate();
   let { ID } = useParams();
   const [loading, setLoading] = useState(true);
   const [terreno, setTerreno] = useState({});
+  const { recientes } = useSelector((state) => state.login);
   useEffect(() => {
     const fetchData = async () => {
       const url = `https://ejidatarios-api.onrender.com/api/terrenos/certificado/${ID}`;
@@ -36,6 +40,13 @@ export const Terreno = () => {
         <>
           <div className="mt-5">
             <h2 className="text-center my-4 fs-1 text-info ">Terreno</h2>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              {recientes?.length > 0 && (
+                <Grid size={{ xs: 12, md: 3 }}>
+                  <Recientes />
+                </Grid>
+              )}
+              <Grid size={{ xs: 12, md: recientes?.length > 0 ? 9 : 12 }}>
             <Table striped bordered hover variant="dark" className="mb-5">
               <thead>
                 <tr>
@@ -69,6 +80,8 @@ export const Terreno = () => {
                 </tr>
               </tbody>
             </Table>
+            </Grid>
+            </Grid>
             <div className="d-flex gap-2">
               <Button
                 variant="contained"

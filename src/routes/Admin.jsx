@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import {
   Box,
@@ -13,17 +12,16 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  Container,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
-  Settings as SettingsIcon,
-  Logout as LogoutIcon,
+  Home as HomeIcon,
+  ExitToApp as ExitToAppIcon,
 } from "@mui/icons-material";
 import { useTheme, useMediaQuery } from "@mui/material";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MapIcon from "@mui/icons-material/Map";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
@@ -42,9 +40,40 @@ export const Admin = () => {
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Box sx={{ display: "flex", }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
+      {/* AppBar */}
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={toggleDrawer}
+            sx={{ mr: 2, display: { md: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Panel de Administración
+          </Typography>
+          <IconButton
+            color="inherit"
+            onClick={() => navigate("/")}
+            title="Volver al inicio"
+          >
+            <HomeIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Drawer */}
       <Drawer
         variant={isDesktop ? "permanent" : "temporary"}
         anchor="left"
@@ -63,7 +92,7 @@ export const Admin = () => {
           },
         }}
       >
-        <Toolbar/>
+        <Toolbar />
         <Divider />
         <List>
           {[
@@ -89,32 +118,46 @@ export const Admin = () => {
               button
               key={index}
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/admin/${item.url}`)}
+              onClick={() => {
+                navigate(`/admin/${item.url}`);
+                if (!isDesktop) toggleDrawer();
+              }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>
           ))}
         </List>
+        <Divider />
+        <List>
+          <ListItem
+            button
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              navigate("/");
+              if (!isDesktop) toggleDrawer();
+            }}
+          >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Salir del Admin" />
+          </ListItem>
+        </List>
       </Drawer>
 
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
+          flexGrow: 1,
           p: 3,
+          width: "100%",
+          minHeight: "100vh",
           overflowX: "hidden",
-          transition: "margin-left 0.3s",
         }}
       >
         <Toolbar />
-        <Typography
-          variant="h4"
-          color="primary"
-          textAlign="left"
-          gutterBottom
-        >
-          Administrador
-        </Typography>
         <Outlet />
       </Box>
     </Box>

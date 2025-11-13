@@ -3,58 +3,82 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
 import {
-  ButtonGroup,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Typography,
+  Button,
+  Alert,
+  CircularProgress,
+  Paper,
 } from "@mui/material";
-import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { useState } from "react";
-import { Alert } from "react-bootstrap";
 import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
 import { useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
 import { Recientes } from "../components/Recientes.jsx";
+
+const API_BASE_URL = "https://ejidatarios-api.onrender.com/api";
+
+const SEARCH_METHODS = {
+  NOMBRE: { label: "Nombre o Apellido", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/search?q=${valor}` },
+  ID: { label: "ID", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/id/${valor}` },
+  CURP: { label: "CURP", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/curp/${valor}` },
+  TELEFONO: { label: "Teléfono", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/telefono/${valor}` },
+  NUMEROPARCELA: { label: "Número de Parcela", endpoint: (valor) => `${API_BASE_URL}/terrenos/parcela/${valor}` },
+  NUMEROCERTIFICADO: { label: "Número de Certificado", endpoint: (valor) => `${API_BASE_URL}/terrenos/certificado/${valor}` },
+  PARCELAORIGEN: { label: "Parcela de Origen", endpoint: (valor) => `${API_BASE_URL}/terrenos/origen/${valor}` },
+};
+
 export const Buscar = () => {
   const initialForm = {
     metodoDeBusqueda: "NOMBRE",
     valor: "",
   };
   const [formValues, handleInputChange] = useForm(initialForm);
-  const [resultado, setResultado] = useState({});
+  const [resultado, setResultado] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { recientes } = useSelector((state) => state.login);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+
+    // Validar que haya un valor de búsqueda
+    if (!formValues.valor.trim()) {
+      setError("Por favor ingresa un valor de búsqueda");
+      return;
     }
 
-    let url;
-    if (formValues.metodoDeBusqueda === "ID") {
-      url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "CURP") {
-      url = `https://ejidatarios-api.onrender.com/api/ejidatarios/curp/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "TELEFONO") {
-      url = `https://ejidatarios-api.onrender.com/api/ejidatarios/telefono/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "NUMEROPARCELA") {
-      url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "NUMEROCERTIFICADO") {
-      url = `https://ejidatarios-api.onrender.com/api/terrenos/certificado/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "PARCELAORIGEN") {
-      url = `https://ejidatarios-api.onrender.com/api/terrenos/origen/${formValues.valor}`;
-    } else if (formValues.metodoDeBusqueda === "NOMBRE") {
-      url = `https://ejidatarios-api.onrender.com/api/ejidatarios/search?q=${formValues.valor}`;
-    } else {
-      url = `https://ejidatarios-api.onrender.com/api/ejidatarios`;
+    setLoading(true);
+    setError(null);
+    setResultado(null);
+
+    try {
+      const searchMethod = SEARCH_METHODS[formValues.metodoDeBusqueda];
+      const url = searchMethod.endpoint(formValues.valor.trim());
+      
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data?.error || data === null || (Array.isArray(data) && data.length === 0)) {
+        setError("No se encontraron resultados para tu búsqueda");
+        setResultado(null);
+      } else {
+        setResultado(data);
+      }
+    } catch (err) {
+      console.error("Error en la búsqueda:", err);
+      setError("Ocurrió un error al realizar la búsqueda. Por favor intenta de nuevo.");
+      setResultado(null);
+    } finally {
+      setLoading(false);
     }
-    const response = await fetch(url);
-    const data = await response.json();
-    setResultado(data);
   };
 
   return (
@@ -63,91 +87,101 @@ export const Buscar = () => {
         variant="h3"
         color="primary"
         textAlign="center"
-        sx={{ mb: 5 }}
+        sx={{ mb: 4 }}
+        fontWeight="bold"
       >
         Buscar en el Ejido
       </Typography>
-      <Grid container columnSpacing={{ xs: 0, md: 3 }} rowSpacing={{ xs: 3, md: 0 }} >
-        {recientes.length !== 0 && (
-          <Grid size={{ xs: 12, md: 3 }} sx={{ display: "flex" }}>
-            <Box sx={{ flex: 1, display: "flex", alignItems: "left" }}>
-              <Recientes />
-            </Box>
+      <Grid container spacing={3}>
+        {recientes?.length > 0 && (
+          <Grid size={{ xs: 12, md: 3 }}>
+            <Recientes />
           </Grid>
         )}
-        <Grid size={{ xs: 12, md: recientes.length !== 0 ? 9 : 12 }}>
-          <Box
-            component="form"
-            sx={{ flexGrow: 1 }}
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
-            <Grid container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid size={6}>
-                <FormControl sx={{ width: "100%" }}>
-                  <InputLabel id="demo-simple-select-label">
-                    ¿Metodo de busqueda?
-                  </InputLabel>
-                  <Select
-                    autoWidth
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="¿Metodo de busqueda?"
-                    value={formValues.metodoDeBusqueda}
+        <Grid size={{ xs: 12, md: recientes?.length > 0 ? 9 : 12 }}>
+          <Paper elevation={2} sx={{ p: 3 }}>
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSubmit}
+            >
+              <Grid container spacing={3}>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="search-method-label">
+                      Método de búsqueda
+                    </InputLabel>
+                    <Select
+                      labelId="search-method-label"
+                      id="search-method"
+                      label="Método de búsqueda"
+                      value={formValues.metodoDeBusqueda}
+                      onChange={handleInputChange}
+                      name="metodoDeBusqueda"
+                      disabled={loading}
+                    >
+                      {Object.entries(SEARCH_METHODS).map(([key, { label }]) => (
+                        <MenuItem key={key} value={key}>
+                          {label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField
+                    fullWidth
+                    autoComplete="off"
+                    placeholder="Ingresa el valor a buscar"
+                    value={formValues.valor}
                     onChange={handleInputChange}
-                    name="metodoDeBusqueda"
+                    name="valor"
+                    label="Valor de búsqueda"
+                    variant="outlined"
+                    disabled={loading}
+                    required
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SearchIcon />}
+                    type="submit"
+                    disabled={loading || !formValues.valor.trim()}
+                    fullWidth
                   >
-                    <MenuItem value="NOMBRE">1.-Nombre o Apellido</MenuItem>
-                    <MenuItem value="ID">2.-ID</MenuItem>
-                    <MenuItem value="NUMEROPARCELA">3.-Numero de Parcela</MenuItem>
-                    <MenuItem value="CURP">4.-CURP</MenuItem>
-                    <MenuItem value="NUMEROCERTIFICADO">
-                      5.-Numero de Certificado
-                    </MenuItem>
-                    <MenuItem value="PARCELAORIGEN">6.-Parcela de Origen</MenuItem>
-                  </Select>
-                </FormControl>
+                    {loading ? "Buscando..." : "Buscar"}
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid size={6}>
-                <TextField
-                  autoComplete="off"
-                  placeholder="Buscar"
-                  value={formValues.valor}
-                  onChange={handleInputChange}
-                  name="valor"
-                  label="Valor de busqueda"
-                  variant="outlined"
-                  sx={{ width: "100%" }}
-                />
-              </Grid>
-              <Grid size={12}>
-                <Button
-                  variant="contained"
-                  endIcon={<SearchIcon />}
-                  onClick={handleSubmit}
-                  type="submit"
-                >
-                  Buscar
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </Paper>
         </Grid>
-        <Grid size={12}>
-          <Typography variant="h4" color="primary" textAlign="left" sx={{ my: 5 }}>
-            Resultados
-          </Typography>
+        {(resultado || error || loading) && (
+          <Grid size={12}>
+            <Typography variant="h5" color="primary" fontWeight="bold" sx={{ mb: 3 }}>
+              Resultados
+            </Typography>
 
-          {(resultado?.iD_Ejidatario || Array.isArray(resultado)) && (
-            <EjidatarioTable resultado={resultado} />
-          )}
-          {(resultado?.error || resultado === null) && (
-            <Alert sx={{ display: "block", width: "100%" }} variant="danger" text={"dark"}>
-              No se encontraron datos
-            </Alert>
-          )}
-        </Grid>
+            {loading && (
+              <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+                <CircularProgress />
+              </Box>
+            )}
+
+            {error && !loading && (
+              <Alert severity="warning" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
+
+            {resultado && !loading && !error && (
+              <EjidatarioTable resultado={resultado} />
+            )}
+          </Grid>
+        )}
       </Grid>
     </div>
   );

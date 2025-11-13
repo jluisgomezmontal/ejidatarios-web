@@ -24,7 +24,6 @@ export const Dashboard = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
-console.log({isDarkMode})
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,7 +38,6 @@ console.log({isDarkMode})
           "https://ejidatarios-api.onrender.com/api/terrenos"
         );
         const terrenos = await resTerrenos.json();
-        console.log(terrenos)
         setTerrenosData(terrenos);
         setTerrenosCount(terrenos.length);
       } catch (error) {
@@ -101,135 +99,155 @@ console.log({isDarkMode})
 
   const total = (usuariosCount ?? 0) + (terrenosCount ?? 0);
 
+  const StatCard = ({ icon, title, value, color = "primary.main", loading }) => (
+    <Card
+      sx={{
+        backgroundColor: isDarkMode ? "#292929" : "#e5eafc",
+        minHeight: "180px",
+        display: "flex",
+        alignItems: "center",
+        p: 2,
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: 4,
+        },
+      }}
+    >
+      {icon && <Box sx={{ fontSize: 40, color, mr: 2 }}>{icon}</Box>}
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          {title}
+        </Typography>
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <Typography variant="h4">{value}</Typography>
+        )}
+      </CardContent>
+    </Card>
+  );
+
   return (
-    <Box sx={{ flexGrow: 1, p: 2 }}>
-      {" "}
-      <Typography variant="h5" sx={{ mb: 5 }} gutterBottom textAlign="right">
+    <Box sx={{ flexGrow: 1 }}>
+      <Typography variant="h4" sx={{ mb: 4 }} fontWeight="bold">
         Dashboard
       </Typography>
-      <Grid container spacing={2}>
-        {/* Tarjeta de Total */}
-        <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{  backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <SummarizeIcon
-              sx={{ fontSize: 40, color: "warning.main", mr: 2 }}
-            />
-            <CardContent>
-              <Typography variant="h6">Total de registros</Typography>
-              {usuariosCount === null || terrenosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{total}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        {/* Tarjeta de Usuarios */}
-        <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Total de sujetos</Typography>
-              {usuariosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{usuariosCount}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Ejidatarios</Typography>
-              {usuariosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="EJIDATARIO").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">AVECINDADOS</Typography>
-              {usuariosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="AVECINDADO").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Posesionario de derecho</Typography>
-              {usuariosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="POSESIONARIO DE DERECHO").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <PeopleIcon sx={{ fontSize: 40, color: "primary.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Posesionario de hecho</Typography>
-              {usuariosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{usuariosData.filter(u=> u.calidadAgraria ==="POSESIONARIO DE HECHO").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
 
-        {/* Tarjeta de Terrenos */}
-        <Grid item xl={12} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Total terrenos</Typography>
-              {terrenosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{terrenosCount}</Typography>
-              )}
-            </CardContent>
-          </Card>
+      {/* Resumen General */}
+      <Typography variant="h6" sx={{ mb: 2 }} color="text.secondary">
+        Resumen General
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={4}>
+          <StatCard
+            icon={<SummarizeIcon />}
+            title="Total de registros"
+            value={total}
+            color="warning.main"
+            loading={usuariosCount === null || terrenosCount === null}
+          />
         </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Posesiones</Typography>
-              {terrenosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{terrenosData.filter(u=> u.tipoCertificado ==="POSESION").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
+        <Grid item xs={12} sm={6} md={4}>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Total de sujetos"
+            value={usuariosCount}
+            loading={usuariosCount === null}
+          />
         </Grid>
-        <Grid item xl={6} xs={12} sm={4}>
-          <Card sx={{ backgroundColor: isDarkMode ? "#292929" : "#e5eafc", minHeight:"180px", display: "flex", alignItems: "center", p: 2 }}>
-            <MapIcon sx={{ fontSize: 40, color: "success.main", mr: 2 }} />
-            <CardContent>
-              <Typography variant="h6">Parcelas</Typography>
-              {terrenosCount === null ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Typography variant="h4">{terrenosData.filter(u=> u.tipoCertificado ==="PARCELARIO").length}</Typography>
-              )}
-            </CardContent>
-          </Card>
+        <Grid item xs={12} sm={6} md={4}>
+          <StatCard
+            icon={<MapIcon />}
+            title="Total terrenos"
+            value={terrenosCount}
+            color="success.main"
+            loading={terrenosCount === null}
+          />
+        </Grid>
+      </Grid>
+
+      {/* Sujetos por Calidad Agraria */}
+      <Typography variant="h6" sx={{ mb: 2 }} color="text.secondary">
+        Sujetos por Calidad Agraria
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Ejidatarios"
+            value={
+              usuariosData.filter((u) => u.calidadAgraria === "EJIDATARIO")
+                .length
+            }
+            loading={usuariosCount === null}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Avecindados"
+            value={
+              usuariosData.filter((u) => u.calidadAgraria === "AVECINDADO")
+                .length
+            }
+            loading={usuariosCount === null}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Posesionario de derecho"
+            value={
+              usuariosData.filter(
+                (u) => u.calidadAgraria === "POSESIONARIO DE DERECHO"
+              ).length
+            }
+            loading={usuariosCount === null}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Posesionario de hecho"
+            value={
+              usuariosData.filter(
+                (u) => u.calidadAgraria === "POSESIONARIO DE HECHO"
+              ).length
+            }
+            loading={usuariosCount === null}
+          />
+        </Grid>
+      </Grid>
+
+      {/* Terrenos por Tipo */}
+      <Typography variant="h6" sx={{ mb: 2 }} color="text.secondary">
+        Terrenos por Tipo de Certificado
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6}>
+          <StatCard
+            icon={<MapIcon />}
+            title="Posesiones"
+            value={
+              terrenosData.filter((t) => t.tipoCertificado === "POSESION")
+                .length
+            }
+            color="success.main"
+            loading={terrenosCount === null}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <StatCard
+            icon={<MapIcon />}
+            title="Parcelas"
+            value={
+              terrenosData.filter((t) => t.tipoCertificado === "PARCELARIO")
+                .length
+            }
+            color="success.main"
+            loading={terrenosCount === null}
+          />
         </Grid>
       </Grid>
       {/* Botones de Exportación */}
