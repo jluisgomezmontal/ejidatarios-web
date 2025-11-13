@@ -50,7 +50,14 @@ export const Home = () => {
       <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
+            <Paper 
+              elevation={2} 
+              sx={{ 
+                p: 3, 
+                height: "100%",
+                bgcolor: (theme) => theme.palette.mode === 'light' ? 'grey.50' : 'background.paper'
+              }}
+            >
               <Stack spacing={1.5}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <InfoOutlinedIcon color="primary" />
@@ -67,7 +74,14 @@ export const Home = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
+            <Paper 
+              elevation={2} 
+              sx={{ 
+                p: 3, 
+                height: "100%",
+                bgcolor: (theme) => theme.palette.mode === 'light' ? 'grey.50' : 'background.paper'
+              }}
+            >
               <Stack spacing={1.5}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <AccessTimeOutlinedIcon color="primary" />
@@ -82,7 +96,14 @@ export const Home = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 3, height: "100%" }}>
+            <Paper 
+              elevation={2} 
+              sx={{ 
+                p: 3, 
+                height: "100%",
+                bgcolor: (theme) => theme.palette.mode === 'light' ? 'grey.50' : 'background.paper'
+              }}
+            >
               <Stack spacing={1.5}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <LocationOnOutlinedIcon color="primary" />
