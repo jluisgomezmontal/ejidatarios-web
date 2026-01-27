@@ -26,6 +26,11 @@ import {
   ListItemIcon,
   Avatar,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
 } from "@mui/material";
 
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -37,6 +42,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import HomeIcon from "@mui/icons-material/Home";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 function NavbarComponent() {
   const dispatch = useDispatch();
@@ -47,38 +53,84 @@ function NavbarComponent() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showInactivityModal, setShowInactivityModal] = useState(false);
+  const [countdown, setCountdown] = useState(60);
 
   // Ocultar navbar en rutas de admin
   const isAdminRoute = location.pathname.startsWith("/admin");
 
-  const inactivityTime = 10 * 1000 * 60;
+  const truncateName = (name) => {
+    if (!name) return "";
+    const words = name.trim().split(" ");
+    return words.slice(0, 3).join(" ");
+  };
+
+  const inactivityTime = 10 * 60 * 1000;
+  const warningTime = 60 * 1000;
 
   useEffect(() => {
-    let timeoutId;
+    let inactivityTimeout;
+    let warningTimeout;
+    let countdownInterval;
 
     const resetTimer = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
+      clearTimeout(inactivityTimeout);
+      clearTimeout(warningTimeout);
+      clearInterval(countdownInterval);
+      setShowInactivityModal(false);
+      setCountdown(60);
+
+      warningTimeout = setTimeout(() => {
+        setShowInactivityModal(true);
+        setCountdown(60);
+
+        countdownInterval = setInterval(() => {
+          setCountdown((prev) => {
+            if (prev <= 1) {
+              clearInterval(countdownInterval);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }, inactivityTime - warningTime);
+
+      inactivityTimeout = setTimeout(() => {
         dispatch(setLoggedOut());
       }, inactivityTime);
     };
 
-    window.addEventListener("mousemove", resetTimer);
-    window.addEventListener("keydown", resetTimer);
-    window.addEventListener("click", resetTimer);
+    const handleActivity = () => {
+      if (showInactivityModal) {
+        resetTimer();
+      }
+    };
+
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("keydown", handleActivity);
+    window.addEventListener("click", handleActivity);
+    window.addEventListener("scroll", handleActivity);
 
     resetTimer();
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("mousemove", resetTimer);
-      window.removeEventListener("keydown", resetTimer);
-      window.removeEventListener("click", resetTimer);
+      clearTimeout(inactivityTimeout);
+      clearTimeout(warningTimeout);
+      clearInterval(countdownInterval);
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("keydown", handleActivity);
+      window.removeEventListener("click", handleActivity);
+      window.removeEventListener("scroll", handleActivity);
     };
-  }, []);
+  }, [showInactivityModal]);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  const handleStayActive = () => {
+    setShowInactivityModal(false);
+    setCountdown(60);
   };
 
   const menuItems = [
@@ -94,10 +146,10 @@ function NavbarComponent() {
         <Typography variant="h6" noWrap>
           Ejido de San Marcos
         </Typography>
-        {user?.isAdmin && (
+        {user?.name && (
           <Chip
-            icon={<AdminPanelSettingsIcon />}
-            label={user.name}
+            icon={user.isAdmin ? <AdminPanelSettingsIcon /> : undefined}
+            label={truncateName(user.name)}
             size="small"
             sx={{ mt: 1, bgcolor: "rgba(255,255,255,0.2)", color: "white" }}
           />
@@ -219,25 +271,39 @@ function NavbarComponent() {
                   </Box>
                 ) : (
                   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                    {user?.isAdmin && (
-                      <Tooltip title="Panel de Administración">
-                        <Button
-                          component={RouterLink}
-                          to="/admin/dashboard"
-                          color="inherit"
-                          startIcon={<AdminPanelSettingsIcon />}
+                    {user?.name && (
+                      user.isAdmin ? (
+                        <Tooltip title="Panel de Administración">
+                          <Button
+                            component={RouterLink}
+                            to="/admin/dashboard"
+                            color="inherit"
+                            startIcon={<AdminPanelSettingsIcon />}
+                            sx={{
+                              bgcolor: location.pathname.startsWith("/admin")
+                                ? "rgba(255,255,255,0.15)"
+                                : "transparent",
+                              "&:hover": {
+                                bgcolor: "rgba(255,255,255,0.2)",
+                              },
+                            }}
+                          >
+                            {truncateName(user.name)}
+                          </Button>
+                        </Tooltip>
+                      ) : (
+                        <Chip
+                          label={truncateName(user.name)}
+                          color="default"
                           sx={{
-                            bgcolor: location.pathname.startsWith("/admin")
-                              ? "rgba(255,255,255,0.15)"
-                              : "transparent",
-                            "&:hover": {
-                              bgcolor: "rgba(255,255,255,0.2)",
+                            bgcolor: "rgba(255,255,255,0.15)",
+                            color: "inherit",
+                            "& .MuiChip-label": {
+                              px: 1.5,
                             },
                           }}
-                        >
-                          {user.name}
-                        </Button>
-                      </Tooltip>
+                        />
+                      )
                     )}
                     <Box sx={{ display: "flex", gap: 0.5 }}>
                       {menuItems.slice(1).map((item) => (
@@ -325,6 +391,95 @@ function NavbarComponent() {
       </Container>
 
       {!isAdminRoute && <Footer />}
+
+      <Dialog
+        open={showInactivityModal}
+        onClose={(event, reason) => {
+          if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+            handleStayActive();
+          }
+        }}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: 24,
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            bgcolor: "warning.main",
+            color: "warning.contrastText",
+          }}
+        >
+          <WarningAmberIcon />
+          Advertencia de Inactividad
+        </DialogTitle>
+        <DialogContent sx={{ mt: 2 }}>
+          <DialogContentText
+            sx={{
+              fontSize: "1.1rem",
+              textAlign: "center",
+              mb: 2,
+            }}
+          >
+            Tu sesión se cerrará por inactividad en:
+          </DialogContentText>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              my: 3,
+            }}
+          >
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: "bold",
+                color: countdown <= 10 ? "error.main" : "warning.main",
+                fontSize: { xs: "3rem", sm: "4rem" },
+                transition: "color 0.3s ease",
+              }}
+            >
+              {countdown}
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                ml: 1,
+                color: "text.secondary",
+              }}
+            >
+              seg
+            </Typography>
+          </Box>
+          <DialogContentText sx={{ textAlign: "center", color: "text.secondary" }}>
+            Mueve el mouse o presiona cualquier tecla para continuar tu sesión.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button
+            onClick={handleStayActive}
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+            sx={{
+              py: 1.5,
+              fontWeight: "bold",
+              fontSize: "1rem",
+            }}
+          >
+            Continuar Activo
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
