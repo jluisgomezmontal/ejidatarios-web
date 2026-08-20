@@ -16,7 +16,7 @@ import {
 import Button from "@mui/material/Button";
 import { useForm } from "../hooks/useForm.jsx";
 import { VisuallyHiddenInput } from "../styles/index.js";
-import { EJIDATARIO } from "../utils/const.js";
+import { API_URL, EJIDATARIO } from "../utils/const.js";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { CheckCircleOutline } from "@mui/icons-material";
 import { useState } from "react";
@@ -39,8 +39,7 @@ export const Ejidatarios = () => {
 
     try {
       setLoading(true);
-      const apiEjidatarios =
-        "https://ejidatarios-api.onrender.com/api/ejidatarios/";
+      const apiEjidatarios = `${API_URL}/api/ejidatarios/`;
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../utils/const.js";
 import {
   Table,
   TableBody,
@@ -19,7 +20,7 @@ export const AdminParcelas = () => {
     const fetchParcelas = async () => {
       try {
         const res = await fetch(
-          "https://ejidatarios-api.onrender.com/api/terrenos"
+          `${API_URL}/api/terrenos`
         );
         const data = await res.json();
         setParcelas(data);

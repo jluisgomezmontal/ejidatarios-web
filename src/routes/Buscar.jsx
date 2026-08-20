@@ -18,8 +18,9 @@ import { useState } from "react";
 import { EjidatarioTable } from "../components/EjidatarioTable.jsx";
 import { useSelector } from "react-redux";
 import { Recientes } from "../components/Recientes.jsx";
+import { API_URL } from "../utils/const.js";
 
-const API_BASE_URL = "https://ejidatarios-api.onrender.com/api";
+const API_BASE_URL = `${API_URL}/api`;
 
 const SEARCH_METHODS = {
   NOMBRE: { label: "Nombre o Apellido", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/search?q=${valor}` },

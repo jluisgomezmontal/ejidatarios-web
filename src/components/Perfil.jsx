@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { Alert } from "react-bootstrap";
 import Button from "@mui/material/Button";
-import { BOTONES, EJIDATARIO, RUTAS, TERRENO } from "../utils/const";
+import { API_URL, BOTONES, EJIDATARIO, RUTAS, TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -35,11 +35,11 @@ export const Perfil = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `https://ejidatarios-api.onrender.com/api/terrenos/sujeto/${ID}`;
+        const url = `${API_URL}/api/terrenos/sujeto/${ID}`;
         const response = await fetch(url);
         const data = await response.json();
         if (data.length === 0) {
-          const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${ID}`;
+          const url = `${API_URL}/api/ejidatarios/id/${ID}`;
           const response = await fetch(url);
           const data = await response.json();
           setEjidatario(data);
@@ -185,7 +185,7 @@ export const Perfil = () => {
                       startIcon={<CloudDownloadIcon />}
                       onClick={() => {
                         window.open(
-                          `https://ejidatarios-api.onrender.com/api/ejidatarios/files/${ejidatario?.documentoPDF}`,
+                          `${API_URL}/api/ejidatarios/files/${ejidatario?.documentoPDF}`,
                           "_blank"
                         );
                       }}
@@ -199,7 +199,7 @@ export const Perfil = () => {
                       startIcon={<CloudDownloadIcon />}
                       onClick={() => {
                         window.open(
-                          `https://ejidatarios-api.onrender.com/uploads/ejidatarios/${ejidatario?.documentoPDF}`,
+                          `${API_URL}/uploads/ejidatarios/${ejidatario?.documentoPDF}`,
                           "_blank"
                         );
                       }}
@@ -242,7 +242,7 @@ export const Perfil = () => {
                   }).then(async (result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (!result.isConfirmed) {
-                      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario?._id}`;
+                      const url = `${API_URL}/api/ejidatarios/${ejidatario?._id}`;
                       const response = await fetch(url, {
                         method: "DELETE",
                       });
@@ -342,7 +342,7 @@ export const Perfil = () => {
                           startIcon={<CloudDownloadIcon />}
                           onClick={() => {
                             window.open(
-                              `https://ejidatarios-api.onrender.com/api/terrenos/files/${terreno.documentoPDF}`,
+                              `${API_URL}/api/terrenos/files/${terreno.documentoPDF}`,
                               "_blank"
                             );
                           }}
@@ -356,7 +356,7 @@ export const Perfil = () => {
                           startIcon={<CloudDownloadIcon />}
                           onClick={() => {
                             window.open(
-                              `https://ejidatarios-api.onrender.com/uploads/terrenos/${terreno.documentoPDF}`,
+                              `${API_URL}/uploads/terrenos/${terreno.documentoPDF}`,
                               "_blank"
                             );
                           }}

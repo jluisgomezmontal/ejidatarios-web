@@ -15,6 +15,7 @@ import MapIcon from "@mui/icons-material/Map";
 import SummarizeIcon from "@mui/icons-material/Summarize"; // Icono para total
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { API_URL } from "../utils/const.js";
 
 export const Dashboard = () => {
   const [usuariosData, setUsuariosData] = useState([]);
@@ -28,14 +29,14 @@ export const Dashboard = () => {
     const fetchData = async () => {
       try {
         const resUsuarios = await fetch(
-          "https://ejidatarios-api.onrender.com/api/ejidatarios"
+          `${API_URL}/api/ejidatarios`
         );
         const usuarios = await resUsuarios.json();
         setUsuariosData(usuarios);
         setUsuariosCount(usuarios.length);
 
         const resTerrenos = await fetch(
-          "https://ejidatarios-api.onrender.com/api/terrenos"
+          `${API_URL}/api/terrenos`
         );
         const terrenos = await resTerrenos.json();
         setTerrenosData(terrenos);

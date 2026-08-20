@@ -13,7 +13,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm } from "../hooks/useForm.jsx";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { TERRENO } from "../utils/const.js";
+import { API_URL, TERRENO } from "../utils/const.js";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
@@ -45,7 +45,7 @@ export const Ejidos = () => {
     setSujeto(true);
     try {
       const res = await fetch(
-        `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`
+        `${API_URL}/api/ejidatarios/id/${formValues.iD_Ejidatario}`
       );
       const data = await res.json();
       if (data.error) {
@@ -73,7 +73,7 @@ export const Ejidos = () => {
       });
 
       const res = await fetch(
-        `https://ejidatarios-api.onrender.com/api/terrenos`,
+        `${API_URL}/api/terrenos`,
         {
           method: "POST",
           body: formData,
@@ -104,7 +104,7 @@ export const Ejidos = () => {
     setIdentificar(true);
     try {
       const res = await fetch(
-        `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`
+        `${API_URL}/api/terrenos/parcela/${formValues.parcelaOrigen}`
       );
       const data = await res.json();
 

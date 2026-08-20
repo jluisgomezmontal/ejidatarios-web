@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { VisuallyHiddenInput } from "../styles/index.js";
+import { API_URL } from "../utils/const.js";
 
 import {
   Button,
@@ -34,7 +35,7 @@ export const EditarTerrenos = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiEjidatarios = `https://ejidatarios-api.onrender.com/api/terrenos/${terreno._id}`;
+      const apiEjidatarios = `${API_URL}/api/terrenos/${terreno._id}`;
 
       // Crear FormData correctamente
       const formData = new FormData();
@@ -67,7 +68,7 @@ export const EditarTerrenos = () => {
   const handleIdentificar = async (event) => {
     event.preventDefault();
     try {
-      const url = `https://ejidatarios-api.onrender.com/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
+      const url = `${API_URL}/api/ejidatarios/id/${formValues.iD_Ejidatario}`;
       const response = await fetch(url);
       const data = await response.json();
       setTerreno(data);
@@ -79,7 +80,7 @@ export const EditarTerrenos = () => {
   const handleOrigen = async (e) => {
     try {
       e.preventDefault();
-      const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${formValues.parcelaOrigen}`;
+      const url = `${API_URL}/api/terrenos/parcela/${formValues.parcelaOrigen}`;
       const response = await fetch(url);
       const data = await response.json();
       if (data.propietario === undefined) {

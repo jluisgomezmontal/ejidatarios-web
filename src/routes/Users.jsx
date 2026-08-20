@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_URL } from "../utils/const.js";
 import {
   List,
   ListItem,
@@ -41,7 +42,7 @@ export const Users = () => {
   const fetchUsuarios = async () => {
     try {
       const res = await fetch(
-        "https://ejidatarios-api.onrender.com/api/usuarios"
+        `${API_URL}/api/usuarios`
       );
       const data = await res.json();
       setUsuarios(data);
@@ -70,7 +71,7 @@ export const Users = () => {
     setLoadingDelete(id);
     try {
       const res = await fetch(
-        `https://ejidatarios-api.onrender.com/api/usuarios/${id}`,
+        `${API_URL}/api/usuarios/${id}`,
         {
           method: "DELETE",
         }
@@ -121,7 +122,7 @@ export const Users = () => {
     setLoadingSave(true);
     try {
       const res = await fetch(
-        "https://ejidatarios-api.onrender.com/api/usuarios",
+        `${API_URL}/api/usuarios`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

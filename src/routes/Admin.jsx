@@ -25,6 +25,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MapIcon from "@mui/icons-material/Map";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 const drawerWidth = 240;
 
@@ -112,6 +113,11 @@ export const Admin = () => {
               text: "Respaldar",
               url: "respaldar",
               icon: <CloudDownloadIcon />,
+            },
+            {
+              text: "Documentos",
+              url: "documentos",
+              icon: <DescriptionIcon />,
             },
           ].map((item, index) => (
             <ListItem

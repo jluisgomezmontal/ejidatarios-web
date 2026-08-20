@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
-import { RUTAS, TERRENO } from "../utils/const";
+import { API_URL, RUTAS, TERRENO } from "../utils/const";
 import Spinner from "react-bootstrap/Spinner";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { Button } from "@mui/material";
@@ -21,8 +21,8 @@ export const Parcela = () => {
   const { recientes } = useSelector((state) => state.login);
   useEffect(() => {
     const fetchData = async () => {
-      const url = `https://ejidatarios-api.onrender.com/api/terrenos/parcela/${ID}`;
-      const url2 = `https://ejidatarios-api.onrender.com/api/terrenos/origen/${ID}`;
+      const url = `${API_URL}/api/terrenos/parcela/${ID}`;
+      const url2 = `${API_URL}/api/terrenos/origen/${ID}`;
       const [response, response2] = await Promise.all([
         fetch(url),
         fetch(url2),
@@ -126,7 +126,7 @@ export const Parcela = () => {
                     }).then(async (result) => {
                       /* Read more about isConfirmed, isDenied below */
                       if (!result.isConfirmed) {
-                        const url = `https://ejidatarios-api.onrender.com/api/terrenos/${terreno._id}`;
+                        const url = `${API_URL}/api/terrenos/${terreno._id}`;
                         const response = await fetch(url, {
                           method: "DELETE",
                         });

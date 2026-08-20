@@ -33,6 +33,7 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import { AdminEjidatarios } from "./routes/AdminEjidatarios.jsx";
 import { AdminParcelas } from "./routes/AdminParcelas.jsx";
 import { Respaldo } from "./routes/Respaldo.jsx";
+import { Documentos } from "./routes/Documentos.jsx";
 import { useSelector as useReduxSelector } from "react-redux";
 import { useMemo } from "react";
 
@@ -82,6 +83,10 @@ const router = createBrowserRouter(
             {
               path: "respaldar",
               element: <Respaldo />,
+            },
+            {
+              path: "documentos",
+              element: <Documentos />,
             },
           ],
         },

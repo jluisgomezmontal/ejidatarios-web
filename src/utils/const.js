@@ -1,3 +1,5 @@
+export const API_URL = import.meta.env.VITE_API_URL || "https://ejidatarios-api.onrender.com";
+
 export const EJIDATARIO = {
   calidadAgraria: "Calidad Agraria",
   id: "ID Ejidatario",

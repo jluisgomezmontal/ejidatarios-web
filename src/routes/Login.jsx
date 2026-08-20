@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setLoggedIn } from "../redux/loginSlice.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { API_URL } from "../utils/const.js";
 
 function Login() {
   const initialForm = {
@@ -18,7 +19,7 @@ function Login() {
   const dispatch = useDispatch();
   const handleClick = async (e) => {
     e.preventDefault();
-    const url = "https://ejidatarios-api.onrender.com/api/usuarios";
+    const url = `${API_URL}/api/usuarios`;
     const response = await fetch(url);
     const data = await response.json();
     const usuario = data.find((user) => user.telefono === formValues.telefono);

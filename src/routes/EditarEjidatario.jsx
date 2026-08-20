@@ -1,7 +1,7 @@
 import { useForm } from "../hooks/useForm.jsx";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BOTONES, EJIDATARIO } from "../utils/const.js";
+import { API_URL, BOTONES, EJIDATARIO } from "../utils/const.js";
 import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -27,7 +27,7 @@ export const EditarEjidatarios = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiEjidatarios = `https://ejidatarios-api.onrender.com/api/ejidatarios/${ejidatario._id}`;
+      const apiEjidatarios = `${API_URL}/api/ejidatarios/${ejidatario._id}`;
 
       // Crear FormData correctamente
       const formData = new FormData();

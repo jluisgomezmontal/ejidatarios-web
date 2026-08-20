@@ -1,17 +1,18 @@
 import { Button, Stack } from "@mui/material";
+import { API_URL } from "../utils/const.js";
 
 export const Respaldo = () => {
   const endpoints = [
     {
-      url: "https://ejidatarios-api.onrender.com/api/ejidatarios/export/users",
+      url: `${API_URL}/api/ejidatarios/export/users`,
       filename: "usuarios.json",
     },
     {
-      url: "https://ejidatarios-api.onrender.com/api/ejidatarios/export/ejidatarios",
+      url: `${API_URL}/api/ejidatarios/export/ejidatarios`,
       filename: "ejidatarios.json",
     },
     {
-      url: "https://ejidatarios-api.onrender.com/api/ejidatarios/export/terrenos",
+      url: `${API_URL}/api/ejidatarios/export/terrenos`,
       filename: "terrenos.json",
     },
   ];
