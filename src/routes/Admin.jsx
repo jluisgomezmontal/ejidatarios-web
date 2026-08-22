@@ -26,15 +26,29 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MapIcon from "@mui/icons-material/Map";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import DescriptionIcon from "@mui/icons-material/Description";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import DnsIcon from "@mui/icons-material/Dns";
+
+const API_TARGET_KEY = "apiTarget";
 
 const drawerWidth = 240;
 
 export const Admin = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [apiTarget, setApiTarget] = useState(
+    localStorage.getItem(API_TARGET_KEY) || "render"
+  );
 
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleApiTargetChange = (e, value) => {
+    if (!value) return;
+    localStorage.setItem(API_TARGET_KEY, value);
+    setApiTarget(value);
+    window.location.reload();
   };
 
   const theme = useTheme();
@@ -135,6 +149,26 @@ export const Admin = () => {
           ))}
         </List>
         <Divider />
+        {import.meta.env.DEV && (
+          <>
+            <Box sx={{ px: 2, py: 1.5 }}>
+              <Typography variant="caption" color="text.secondary" sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 0.5 }}>
+                <DnsIcon fontSize="inherit" /> API
+              </Typography>
+              <ToggleButtonGroup
+                value={apiTarget}
+                exclusive
+                onChange={handleApiTargetChange}
+                size="small"
+                fullWidth
+              >
+                <ToggleButton value="local">Local</ToggleButton>
+                <ToggleButton value="render">Render</ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+            <Divider />
+          </>
+        )}
         <List>
           <ListItem
             button

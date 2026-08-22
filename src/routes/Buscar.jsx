@@ -26,6 +26,7 @@ const SEARCH_METHODS = {
   NOMBRE: { label: "Nombre o Apellido", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/search?q=${valor}` },
   ID: { label: "ID", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/id/${valor}` },
   CURP: { label: "CURP", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/curp/${valor}` },
+  CALIDAD_AGRARIA: { label: "Calidad Agraria", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/calidad/${valor}` },
   TELEFONO: { label: "Teléfono", endpoint: (valor) => `${API_BASE_URL}/ejidatarios/telefono/${valor}` },
   NUMEROPARCELA: { label: "Número de Parcela", endpoint: (valor) => `${API_BASE_URL}/terrenos/parcela/${valor}` },
   NUMEROCERTIFICADO: { label: "Número de Certificado", endpoint: (valor) => `${API_BASE_URL}/terrenos/certificado/${valor}` },
@@ -60,13 +61,20 @@ export const Buscar = () => {
       const url = searchMethod.endpoint(formValues.valor.trim());
       
       const response = await fetch(url);
-      
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
+        // El backend regresa 404 + {error: "..."} cuando simplemente no hay
+        // coincidencias — eso no es una falla real, es "sin resultados".
+        if (response.status === 404 || data?.error) {
+          setError("No se encontraron resultados para tu búsqueda");
+        } else {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        setResultado(null);
+        return;
       }
-      
-      const data = await response.json();
-      
+
       if (data?.error || data === null || (Array.isArray(data) && data.length === 0)) {
         setError("No se encontraron resultados para tu búsqueda");
         setResultado(null);

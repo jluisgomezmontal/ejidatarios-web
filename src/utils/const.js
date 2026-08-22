@@ -1,4 +1,18 @@
-export const API_URL = import.meta.env.VITE_API_URL || "https://ejidatarios-api.onrender.com";
+export const LOCAL_API_URL = "http://localhost:3000";
+export const PROD_API_URL = "https://ejidatarios-api.onrender.com";
+const DEFAULT_API_URL = import.meta.env.VITE_API_URL || PROD_API_URL;
+
+const apiOverride =
+  typeof window !== "undefined"
+    ? window.localStorage.getItem("apiTarget")
+    : null;
+
+export const API_URL =
+  apiOverride === "local"
+    ? LOCAL_API_URL
+    : apiOverride === "render"
+    ? PROD_API_URL
+    : DEFAULT_API_URL;
 
 export const EJIDATARIO = {
   calidadAgraria: "Calidad Agraria",
