@@ -16,6 +16,12 @@ import { useDispatch } from "react-redux";
 import { setRecientes } from "../redux/loginSlice";
 import { useRecientes } from "../hooks/useRecientes";
 
+// Algunos Terreno reconstruidos traen el texto literal "undefined" en
+// iD_Ejidatario (el dato original se perdió) — `??` no lo detecta porque no
+// es null/undefined real, así que hay que tratarlo explícitamente como roto
+// para caer al dato de `propietario` ya enlazado.
+const valorRoto = (v) => v === undefined || v === null || v === "undefined" || v === "";
+
 export const EjidatarioTable = ({ resultado }) => {
   const theme = useTheme();
   const {handleRecientes} = useRecientes();
@@ -30,8 +36,9 @@ export const EjidatarioTable = ({ resultado }) => {
         ejidatario.calidadAgraria ?? ejidatario.propietario?.calidadAgraria,
       telefono: ejidatario.telefono ?? ejidatario.propietario?.telefono,
       curp: ejidatario.curp ?? ejidatario.propietario?.curp,
-      iD_Ejidatario:
-        ejidatario.iD_Ejidatario ?? ejidatario.propietario?.iD_Ejidatario,
+      iD_Ejidatario: valorRoto(ejidatario.iD_Ejidatario)
+        ? ejidatario.propietario?.iD_Ejidatario
+        : ejidatario.iD_Ejidatario,
     }));
 
     return (
