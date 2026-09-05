@@ -23,7 +23,10 @@ function Login() {
     const response = await fetch(url);
     const data = await response.json();
     const usuario = data.find((user) => user.telefono === formValues.telefono);
-    if (!usuario) setError(true);
+    if (!usuario) {
+      setError(true);
+      return;
+    }
     if (
       usuario.telefono === formValues.telefono &&
       usuario.password === formValues.contraseña
@@ -43,8 +46,8 @@ function Login() {
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Numero de Celular</Form.Label>
             <Form.Control
-              type="email"
-              autoComplete="false"
+              type="tel"
+              autoComplete="off"
               placeholder="Introduce Celular"
               onChange={handleInputChange}
               name="telefono"
